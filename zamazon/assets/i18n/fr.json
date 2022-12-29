@@ -1,0 +1,94 @@
+{
+  "SignInForm": {
+    "greeting": "Content de te revoir!",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "sign_in": "S'identifier",
+    "no_account": "Créer un Compte",
+    "snackbar_greeting": "Content de te revoir",
+    "snackbar_incorrect": "E-mail ou mot de passe incorrect!"
+  },
+  "SignUpForm": {
+    "greeting": "Ravi de vous rencontrer!",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "sign_up": "S'inscrire",
+    "yes_account": "Vous avez déjà un compte?",
+    "snackbar_greeting": "Enregistré avec succès! Accueillir!"
+  },
+  "RegexValidation": {
+    "email_empty": "Veuillez saisir un e-mail",
+    "email_hint": "Exemple d'e-mail: abc@gmail.com",
+    "password_empty": "Veuillez entrer un mot de passe",
+    "password_hint": "Au moins 6 lettres, 1 majuscule, 1 minuscule et 1 chiffre",
+    "name_empty": "Veuillez entrer un nom",
+    "name_hint": "Merci d'entrer un nom valide"
+  },
+  "UserProfilePage": {
+    "name": "Nom",
+    "save": "Sauver"
+  },
+  "ShoppingCartPage": {
+    "empty": "Votre panier est vide"
+  },
+  "BuildCartItem": {
+    "size": "Taille: "
+  },
+  "BuildCheckOutItem": {
+    "size": "Taille: "
+  },
+  "ProceedToCheckOut": {
+    "total": "Total:",
+    "proceed": "Passer à la caisse"
+  },
+  "CheckoutPage": {
+    "appbar": "Vérifier"
+  },
+  "ConfirmPurchase": {
+    "name": "Nom:",
+    "address": "Adresse:",
+    "postal_code": "Code Postal:",
+    "total": "Total",
+    "confirm": "Confirmer",
+    "deliver": "Commandez pour la livraison!"
+  },
+  "WishListPage": {
+    "empty": "Votre liste de voeux est vide",
+    "add_to_cart": "Ajouter au chariot",
+    "added_to_cart": "Ajouté au panier"
+  },
+  "ProductPage": {
+    "add_to_cart": "Ajouter au chariot",
+    "added_to_cart": "Ajouté au panier",
+    "added_to_wishlist": "Ajouté à la liste de souhaits",
+    "detail": "Détails",
+    "description": "La description",
+    "feature": "Fonctionnalités",
+    "back_to_top": "Retour au sommet"
+  },
+  "SizePickerDialog":{
+    "size_picker": "Choisissez une taille",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
+  },
+  "Appbar": {
+    "profile": "Profil",
+    "shopping_cart": "Panier",
+    "wish_list": "Liste de souhaits",
+    "settings": "Paramètre"
+  },
+  "Bottom_NavBar": {
+    "home_page": "Page d'accueil",
+    "profile_page": "Page de profil",
+    "shopping_cart": "Panier",
+    "wish_list": "Liste de souhaits",
+    "settings": "Paramètre"
+  },
+  "SettingPage": {
+    "theme": "Mode sombre",
+    "legality": "Accord de l'utilisateur",
+    "notification": "Notification",
+    "language": "Langue",
+    "logout": "Au revoir!"
+  }
+}

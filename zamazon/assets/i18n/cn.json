@@ -1,0 +1,95 @@
+{
+  "SignInForm": {
+    "greeting": "欢迎回来！",
+    "email": "电子邮件",
+    "password": "密码",
+    "sign_in": "登入",
+    "no_account": "创建一个帐户",
+    "snackbar_greeting": "欢迎回来",
+    "snackbar_incorrect": "错误的邮箱帐号或密码！"
+  },
+  "SignUpForm": {
+    "greeting": "很高兴见到你！",
+    "email": "电子邮件",
+    "password": "密码",
+    "sign_up": "报名",
+    "yes_account": "已有帐户？",
+    "snackbar_greeting": "注册成功！欢迎！"
+  },
+  "RegexValidation": {
+    "email_empty": "请输入电子邮件",
+    "email_hint": "电子邮件示例: abc@gmail.com",
+    "password_empty": "请输入密码",
+    "password_hint": "至少6个字母,1个大写字母,1个小写字母和1个数字",
+    "name_empty": "请输入姓名",
+    "name_hint": "请输入有效的名字"
+  },
+  "UserProfilePage": {
+    "name": "姓名",
+    "save": "保存"
+  },
+  "ShoppingCartPage": {
+    "empty": "你的购物车是空的"
+  },
+  "BuildCartItem": {
+    "size": "尺寸: "
+  },
+  "BuildCheckOutItem": {
+    "size": "尺寸: "
+  },
+  "ProceedToCheckOut": {
+    "total": "总额:",
+    "proceed": "进行结算"
+  },
+  "CheckoutPage": {
+    "appbar": "完成销售"
+  },
+  "ConfirmPurchase": {
+    "name": "姓名:",
+    "address": "地址:",
+    "postal_code": "邮政编码:",
+    "total": "总额",
+    "confirm": "确认",
+    "deliver": "下单发货！"
+  },
+  "WishListPage": {
+    "empty": "你的愿望清单是空的",
+    "add_to_cart": "添加到购物车",
+    "added_to_cart": "加入购物车"
+  },
+  "ProductPage": {
+    "brand": "Brand:",
+    "add_to_cart": "添加到购物车",
+    "added_to_cart": "加入购物车",
+    "added_to_wishlist": "添加到愿望清单",
+    "detail": "细节",
+    "description": "描述",
+    "feature": "特征",
+    "back_to_top": "回到顶部"
+  },
+  "SizePickerDialog":{
+    "size_picker": "选择尺码",
+    "cancel": "取消",
+    "confirm": "确认"
+  },
+  "Appbar": {
+    "profile": "轮廓",
+    "shopping_cart": "购物车",
+    "wish_list": "愿望清单",
+    "settings": "设置"
+  },
+  "Bottom_NavBar": {
+    "home_page": "主页",
+    "profile_page": "个人资料页",
+    "shopping_cart": "购物车",
+    "wish_list": "愿望清单",
+    "settings": "设置"
+  },
+  "SettingPage": {
+    "theme": "深色模式",
+    "legality": "用户协议",
+    "notification": "通知",
+    "language": "语",
+    "logout": "再见!"
+  }
+}

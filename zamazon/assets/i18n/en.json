@@ -1,0 +1,95 @@
+{
+  "SignInForm": {
+    "greeting": "Welcome Back!",
+    "email": "Email",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "no_account": "Create an Account",
+    "snackbar_greeting": "Welcome Back",
+    "snackbar_incorrect": "Incorrect Email or Password!"
+  },
+  "SignUpForm": {
+    "greeting": "Nice to meet you!",
+    "email": "Email",
+    "password": "Password",
+    "sign_up": "Sign Up",
+    "yes_account": "Already have an Account?",
+    "snackbar_greeting": "Successfully Registered! Welcome!"
+  },
+  "RegexValidation": {
+    "email_empty": "Please enter a Email",
+    "email_hint": "Email example: abc@gmail.com",
+    "password_empty": "Please enter a Password",
+    "password_hint": "At least 6 letters, 1 uppercase, 1 lowercase, and 1 number",
+    "name_empty": "Please enter a name",
+    "name_hint": "Please enter a valid name"
+  },
+  "UserProfilePage": {
+    "name": "Name",
+    "save": "Save"
+  },
+  "ShoppingCartPage": {
+    "empty": "Your Shopping Cart is empty"
+  },
+  "BuildCartItem": {
+    "size": "Size: "
+  },
+  "BuildCheckOutItem": {
+    "size": "Size: "
+  },
+  "ProceedToCheckOut": {
+    "total": "Total:",
+    "proceed": "Proceed to Checkout"
+  },
+  "CheckoutPage": {
+    "appbar": "Checkout"
+  },
+  "ConfirmPurchase": {
+    "name": "Name:",
+    "address": "Address:",
+    "postal_code": "Postal Code:",
+    "total": "Total",
+    "confirm": "Confirm",
+    "deliver": "Order out for delivery!"
+  },
+  "WishListPage": {
+    "empty": "Your Wish List is empty",
+    "add_to_cart": "Add to Cart",
+    "added_to_cart": "Added to Cart"
+  },
+  "ProductPage": {
+    "brand": "Brand:",
+    "add_to_cart": "Add to Cart",
+    "added_to_cart": "Added to Cart",
+    "added_to_wishlist": "Added to Wish List",
+    "detail": "Details",
+    "description": "Description",
+    "feature": "Features",
+    "back_to_top": "Back to Top"
+  },
+  "SizePickerDialog":{
+    "size_picker": "Pick a Size",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "Appbar": {
+    "profile": "Profile",
+    "shopping_cart": "Shopping Cart",
+    "wish_list": "Wish List",
+    "settings": "Setting"
+  },
+  "Bottom_NavBar": {
+    "home_page": "Home Page",
+    "profile_page": "Profile Page",
+    "shopping_cart": "Shopping Cart",
+    "wish_list": "Wish List",
+    "settings": "Settings"
+  },
+  "SettingPage": {
+    "theme": "Dark Mode",
+    "legality": "User Agreement",
+    "notification": "Notification",
+    "language": "Language",
+    "logout": "Bye!"
+  }
+}

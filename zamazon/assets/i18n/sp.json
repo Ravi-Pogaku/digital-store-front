@@ -1,0 +1,95 @@
+{
+  "SignInForm": {
+    "greeting": "¡Bienvenido de nuevo!",
+    "email": "Correo electrónico",
+    "password": "Clave",
+    "sign_in": "Registrarse",
+    "no_account": "Crea una cuenta",
+    "snackbar_greeting": "Bienvenido de nuevo",
+    "snackbar_incorrect": "¡Correo o contraseña incorrectos!"
+  },
+  "SignUpForm": {
+    "greeting": "Encantado de conocerte!",
+    "email": "Correo electrónico",
+    "password": "Clave",
+    "sign_up": "Inscribirse",
+    "yes_account": "¿Ya tienes una cuenta?",
+    "snackbar_greeting": "¡Registrado exitosamente! ¡Bienvenidos!"
+  },
+  "RegexValidation": {
+    "email_empty": "Por favor ingrese un correo electrónico",
+    "email_hint": "Ejemplo de correo electrónico: abc@gmail.com",
+    "password_empty": "Porfavor ingrese una contraseña",
+    "password_hint": "Al menos 6 letras, 1 mayúscula, 1 minúscula y 1 número",
+    "name_empty": "Por favor ingresa un nombre",
+    "name_hint": "Por favor ingrese un nombre valido"
+  },
+  "UserProfilePage": {
+    "name": "Nombre",
+    "save": "Ahorrar"
+  },
+  "ShoppingCartPage": {
+    "empty": "Su cesta está vacía"
+  },
+  "BuildCartItem": {
+    "size": "Tamaño: "
+  },
+  "BuildCheckOutItem": {
+    "size": "Tamaño: "
+  },
+  "ProceedToCheckOut": {
+    "total": "Total:",
+    "proceed": "Pasar por la caja"
+  },
+  "CheckoutPage": {
+    "appbar": "Verificar"
+  },
+  "ConfirmPurchase": {
+    "name": "Nombre:",
+    "address": "Dirección:",
+    "postal_code": "Código postal:",
+    "total": "Total",
+    "confirm": "Confirmar",
+    "deliver": "Ordene para la entrega!"
+  },
+  "WishListPage": {
+    "empty": "tu lista de deseos Esta vacía",
+    "add_to_cart": "Añadir al carrito",
+    "added_to_cart": "Añadido al carrito"
+  },
+  "ProductPage": {
+    "brand": "Brand:",
+    "add_to_cart": "Añadir al carrito",
+    "added_to_cart": "Añadido al carrito",
+    "added_to_wishlist": "Añadido a la lista de deseos",
+    "detail": "Detalles",
+    "description": "Descripción",
+    "feature": "Características",
+    "back_to_top": "Volver arriba"
+  },
+  "SizePickerDialog":{
+    "size_picker": "Elija un tamaño",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  },
+  "Appbar": {
+    "profile": "Perfil",
+    "shopping_cart": "Carrito de compras",
+    "wish_list": "Lista de deseos",
+    "settings": "Ajuste"
+  },
+  "Bottom_NavBar": {
+    "home_page": "Página de inicio",
+    "profile_page": "Página de perfil",
+    "shopping_cart": "Carrito de compras",
+    "wish_list": "Lista de deseos",
+    "settings": "Ajuste"
+  },
+  "SettingPage": {
+    "theme": "Modo oscuro",
+    "legality": "Acuerdo del Usuario",
+    "notification": "Notificación",
+    "language": "Idioma",
+    "logout": "¡Adiós!"
+  }
+}
