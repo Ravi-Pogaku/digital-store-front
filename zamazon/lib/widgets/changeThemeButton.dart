@@ -15,19 +15,19 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeBLoC>(context);
 
-    bool isDarkMode = themeProvider.isDarkMode;
+    // bool isDarkMode = themeProvider.isDarkMode;
 
     return Switch.adaptive(
-      value: isDarkMode,
+      value: themeProvider.isDarkMode,
       onChanged: (value) {
         final themeProvider = Provider.of<ThemeBLoC>(context, listen: false);
 
         themeProvider.toggleTheme(value);
 
-        isDarkMode = themeProvider.isDarkMode;
-        // the settings page sometimes gets stuck on the previous theme
-        // setstateing in the settings class seems to fix this.
+        // isDarkMode = themeProvider.isDarkMode;
 
+        // the settings page sometimes gets stuck on the previous theme
+        // setstateing in the settings page seems to fix this.
         refreshParent();
       },
     );

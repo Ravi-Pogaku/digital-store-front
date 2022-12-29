@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
-import 'package:zamazon/controllers/SignInForm.dart';
+import 'package:zamazon/controllers/SignIn-SignUpForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
@@ -15,13 +15,12 @@ import 'package:zamazon/views/viewAllCategoryProducts.dart';
 import 'package:zamazon/webscraping/scrapeProducts.dart';
 import 'package:zamazon/views/newUserInfoPage.dart';
 import 'package:zamazon/views/orderTrackMap.dart';
-import 'controllers/SignUpForm.dart';
 import 'models/Product.dart';
 import 'models/productModel.dart';
 
 // main file of app. firebase and streamprovider for products are initialized here.
 // Streambuilder listens to authentification state changes, and displays either the
-// signin page or homepage accordingly.
+// signin-signup page or homepage accordingly.
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +38,8 @@ Future main() async {
           create: (context) => ProductModel().getProducts(),
           initialData: const [],
         ),
+
+        // PROVIDES CURRENT THEME (LIGHT OR DARK MODE)
         ChangeNotifierProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
       ],
       child: const MyApp(),
@@ -52,14 +53,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeBLoC>(context);
-    print('MAIN THEME: ${themeProvider.getCurrentTheme().toString()}');
+    ThemeMode currentTheme = themeProvider.getCurrentTheme();
+    print('main: ${currentTheme.toString()}');
 
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         return MaterialApp(
           title: 'Zamazon Demo',
-          themeMode: themeProvider.getCurrentTheme(),
+          themeMode: currentTheme,
           theme: MyThemes.lightTheme,
           darkTheme: MyThemes.darkTheme,
           home: (snapshot.hasData)

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/globals.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +18,9 @@ class FeaturedItemWidget extends StatelessWidget {
         Provider.of<ThemeBLoC>(context).themeMode != ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     Random random = Random();
     if (productList.isNotEmpty) {
@@ -74,13 +75,21 @@ class FeaturedItemWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              width: 250,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(product.imageUrl!),
-              ),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Container(
+                  height: height * 0.4,
+                  width: width,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
+                Image.network(
+                  height: height * 0.3,
+                  product.imageUrl!,
+                ),
+              ],
             ),
           ],
         ),

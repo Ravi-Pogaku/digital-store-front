@@ -3,6 +3,11 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:zamazon/models/themes.dart';
 
+// Model that interacts with sqflite db for storing the current theme
+// either light or dark mode (0 or 1)
+
+//TODO Save chosen language so it doesn't reset to english everytime the app
+// is opened
 class ThemeModel {
   Future insertTheme(Themes theme) async {
     final db = await DBUtils.init();

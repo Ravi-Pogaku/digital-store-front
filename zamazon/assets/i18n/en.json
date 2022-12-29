@@ -1,6 +1,6 @@
 {
   "SignInForm": {
-    "greeting": "Welcome Back!",
+    "greeting": "Welcome back!",
     "email": "Email",
     "password": "Password",
     "sign_in": "Sign In",
@@ -12,6 +12,7 @@
     "greeting": "Nice to meet you!",
     "email": "Email",
     "password": "Password",
+    "confirmPassword": "Confirm Password",
     "sign_up": "Sign Up",
     "yes_account": "Already have an Account?",
     "snackbar_greeting": "Successfully Registered! Welcome!"

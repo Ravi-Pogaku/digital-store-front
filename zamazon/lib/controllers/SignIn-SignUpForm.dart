@@ -34,6 +34,20 @@ class _SignInWidgetState extends State<SignInWidget> {
   String? _email;
   String? _password;
 
+  // used for obscuring and revealing passwords
+  // final TextEditingController _passwordController = TextEditingController();
+  // final TextEditingController _confirmPasswordController =
+  //     TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    // I've heard that undisposed controllers may cause memory leaks
+    // _passwordController.dispose();
+    // _confirmPasswordController.dispose();
+  }
+
   // callback? (idk if this is the correct term)
   // used in languageDropDownMenu.dart
   void changeLanguage(String selectedLanguage) {
@@ -49,8 +63,34 @@ class _SignInWidgetState extends State<SignInWidget> {
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
+        // suffixIcon: ,
         labelText: FlutterI18n.translate(context, label),
       );
+
+  void trySignIn(BuildContext context) async {
+    try {
+      await _auth.signIn(_email, _password);
+      if (!mounted) return;
+      showSnackBar(context,
+          FlutterI18n.translate(context, "SignInForm.snackbar_greeting"));
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context,
+          FlutterI18n.translate(context, "SignInForm.snackbar_incorrect"));
+      print(e);
+    }
+  }
+
+  void trySignUp(BuildContext context) async {
+    try {
+      await _auth.signUp(_email, _password);
+      if (!mounted) return;
+      // if signup is successful, ask them for their name and address.
+      Navigator.pushNamed(context, "/NewUserInfoPage");
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +115,10 @@ class _SignInWidgetState extends State<SignInWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: height * 0.15),
+                // keeps the spacing consistent between the sign in and sign up
+                // pages
+                SizedBox(height: height * 0.1),
+
                 // LOGO IMAGE
                 Image.network(zamazonLogo),
 
@@ -117,30 +160,54 @@ class _SignInWidgetState extends State<SignInWidget> {
                       const Icon(Icons.key),
                       "SignInForm.password",
                     ),
-                    onSaved: (password) {
-                      _password = password!.trim();
+                    onChanged: (password) {
+                      _password = password;
                     },
                     validator: (value) {
                       return RegexValidation().validatePassword(value);
                     },
                   ),
                 ),
+
+                // CONFRIM PASSWORD FIELD FOR SIGN UP PAGE
+                (!isSigningIn)
+                    ? Container(
+                        margin: const EdgeInsets.all(10),
+                        child: TextFormField(
+                          // controller: _passwordController,
+                          obscureText: true,
+                          decoration: buildInputDecor(
+                            const Icon(Icons.key),
+                            "SignUpForm.confirmPassword",
+                          ),
+                          validator: (value) {
+                            if (value != null && value.isEmpty) {
+                              return 'Please re-enter your password';
+                            } else if (value != _password) {
+                              return 'Passwords must match';
+                            }
+                            return null;
+                          },
+                        ),
+                      )
+                    : Container(), // NO NEED TO CONFIRM PASSWORD DURING SIGN IN
+
                 const SizedBox(
                   height: 20,
                 ),
 
-                // SIGN IN BUTTON
+                // SIGN IN/SIGN UP BUTTON
                 Container(
                   width: width * 0.85,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.deepOrangeAccent),
                   child: TextButton(
-                      //Confirmed sign up and return to home page as logged in user
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
+                          // used firebaseauth for authentication
                           if (isSigningIn) {
                             trySignIn(context);
                           } else {
@@ -166,7 +233,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     FocusScope.of(context).unfocus();
                     _formKey.currentState!.reset();
                     setState(() {
-                      // change between sign in and sign up
+                      // change between sign in and sign up pages
                       isSigningIn = !isSigningIn;
                     });
                   },
@@ -198,30 +265,5 @@ class _SignInWidgetState extends State<SignInWidget> {
         ),
       ),
     );
-  }
-
-  void trySignIn(BuildContext context) async {
-    try {
-      await _auth.signIn(_email, _password);
-      if (!mounted) return;
-      showSnackBar(context,
-          FlutterI18n.translate(context, "SignInForm.snackbar_greeting"));
-    } on FirebaseAuthException catch (e) {
-      showSnackBar(context,
-          FlutterI18n.translate(context, "SignInForm.snackbar_incorrect"));
-      print(e);
-    }
-  }
-
-  void trySignUp(BuildContext context) async {
-    try {
-      await _auth.signUp(_email, _password);
-      if (!mounted) return;
-      // if signup is successful, ask them for their name and address.
-      Navigator.pushNamed(context, "/NewUserInfoPage");
-    } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message!);
-      print(e);
-    }
   }
 }

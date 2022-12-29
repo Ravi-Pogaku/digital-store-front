@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/globals.dart';
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
@@ -39,10 +38,11 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme =
-        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
-            ? Colors.grey[900]
-            : Colors.white;
+    final containerTheme = Provider.of<ThemeBLoC>(context).isDarkMode
+        ? Colors.grey[900]
+        : Colors.white;
+
+    currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
     return SingleChildScrollView(
       child: Container(
