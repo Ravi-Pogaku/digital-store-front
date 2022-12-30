@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/controllers/SignIn-SignUpForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
@@ -17,6 +17,7 @@ import 'package:zamazon/views/newUserInfoPage.dart';
 import 'package:zamazon/views/orderTrackMap.dart';
 import 'models/Product.dart';
 import 'models/productModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // main file of app. firebase and streamprovider for products are initialized here.
 // Streambuilder listens to authentification state changes, and displays either the
@@ -25,10 +26,13 @@ import 'models/productModel.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  //await FirebaseAuth.instance.signOut();
 
-  // USED TO POPULATE FIRESTORE. NOT NEEDED AGAIN AFTER THE FIRST TIME.
+  // USED TO POPULATE FIRESTORE. NOT NEEDED AGAIN AFTER THE FIRST TIME UNLESS
+  // MORE PRODUCTS ARE REQUIRED.
   //WebScraper().scrapeProducts();
+
+  // used to retrieve user settings, i.e. light/darkmode and selected language.
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
   runApp(
     MultiProvider(
@@ -39,8 +43,13 @@ Future main() async {
           initialData: const [],
         ),
 
-        // PROVIDES CURRENT THEME (LIGHT OR DARK MODE)
-        ChangeNotifierProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
+        // PROVIDES CURRENT THEME (LIGHT OR DARK MODE) AND LANGUAGE
+        ChangeNotifierProvider<SettingsBLoC>(
+            create: (context) => SettingsBLoC(
+                  // initialize provider with saved values.
+                  isDarkMode: prefs.getBool('isDarkMode'),
+                  languageCode: prefs.getString('languageCode'),
+                )),
       ],
       child: const MyApp(),
     ),
@@ -52,18 +61,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<ThemeBLoC>(context);
-    ThemeMode currentTheme = themeProvider.getCurrentTheme();
-    print('main: ${currentTheme.toString()}');
+    var settingsProvider = Provider.of<SettingsBLoC>(context);
 
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Zamazon Demo',
-          themeMode: currentTheme,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
+          locale: Locale(settingsProvider.languageCode ?? 'en'),
+          themeMode: settingsProvider.themeMode,
+          theme: CustomThemes.lightTheme,
+          darkTheme: CustomThemes.darkTheme,
           home: (snapshot.hasData)
               ? const HomePage()
               : const SignInWidget(
@@ -108,7 +117,6 @@ class MyApp extends StatelessWidget {
                 const SettingsPageWidget(title: 'Settings'),
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
-            '/SignUp': (context) => const SignInWidget(title: 'Sign Up'),
             '/OrderTrackMap': (context) => const OrderTrackMap(),
           },
           localizationsDelegates: [
@@ -122,15 +130,15 @@ class MyApp extends StatelessWidget {
                   fallbackFile: 'fr',
                   basePath: 'assets/i18n'),
             ),
-            GlobalMaterialLocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates,
             GlobalWidgetsLocalizations.delegate,
           ],
           supportedLocales: const [
             Locale('en'),
             Locale('fr'),
-            Locale('cn'),
-            Locale('sp'),
-            Locale('jp'),
+            Locale('zh'),
+            Locale('es'),
+            Locale('ja'),
           ],
         );
       },

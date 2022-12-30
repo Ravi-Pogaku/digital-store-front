@@ -12,6 +12,7 @@
     "greeting": "お会いできて嬉しいです！",
     "email": "Eメール",
     "password": "パスワード",
+    "confirmPassword": "Confirm Password",
     "sign_up": "サインアップ",
     "yes_account": "すでにアカウントをお持ちですか？",
     "snackbar_greeting": "正常に登録されました!いらっしゃいませ！"

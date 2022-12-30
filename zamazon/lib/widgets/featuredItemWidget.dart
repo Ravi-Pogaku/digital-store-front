@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:provider/provider.dart';
 
 // helper function, to create a big banner for a randomly featured item.
@@ -15,7 +15,7 @@ class FeaturedItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final containerTheme =
-        Provider.of<ThemeBLoC>(context).themeMode != ThemeMode.dark
+        Provider.of<SettingsBLoC>(context).themeMode != ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
 class NewUserInfoPage extends StatefulWidget {
   const NewUserInfoPage({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
   @override
   Widget build(BuildContext context) {
     final containerTheme =
-        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+        Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
 

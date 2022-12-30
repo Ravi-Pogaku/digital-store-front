@@ -5,7 +5,7 @@ import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildQuantityWidget.dart';
 
-import '../models/themeBLoC.dart';
+import '../models/settings_BLoC.dart';
 
 class BuildCartItem extends StatelessWidget {
   BuildCartItem({super.key, required this.scwlItem, required this.width});
@@ -26,9 +26,10 @@ class BuildCartItem extends StatelessWidget {
           background: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
-                  ? Colors.grey[700]
-                  : Colors.grey.shade200,
+              color:
+                  Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
+                      ? Colors.grey[700]
+                      : Colors.grey.shade200,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(

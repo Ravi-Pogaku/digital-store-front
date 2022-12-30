@@ -12,6 +12,7 @@
     "greeting": "Encantado de conocerte!",
     "email": "Correo electrónico",
     "password": "Clave",
+    "confirmPassword": "Confirm Password",
     "sign_up": "Inscribirse",
     "yes_account": "¿Ya tienes una cuenta?",
     "snackbar_greeting": "¡Registrado exitosamente! ¡Bienvenidos!"

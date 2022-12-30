@@ -12,6 +12,7 @@
     "greeting": "很高兴见到你！",
     "email": "电子邮件",
     "password": "密码",
+    "confirmPassword": "Confirm Password",
     "sign_up": "报名",
     "yes_account": "已有帐户？",
     "snackbar_greeting": "注册成功！欢迎！"

@@ -3,7 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../models/themeBLoC.dart';
+import '../models/settings_BLoC.dart';
 
 class BuildCheckOutItem extends StatelessWidget {
   const BuildCheckOutItem({
@@ -19,7 +19,7 @@ class BuildCheckOutItem extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+        color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.orange[100],
       ),
@@ -57,8 +57,9 @@ class BuildCheckOutItem extends StatelessWidget {
                 ),
                 scwlItem.size != 0
                     ? Text.rich(TextSpan(children: [
-                      TextSpan(
-                            text: FlutterI18n.translate(context, "BuildCheckOutItem.size"),
+                        TextSpan(
+                            text: FlutterI18n.translate(
+                                context, "BuildCheckOutItem.size"),
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold)),
                         TextSpan(

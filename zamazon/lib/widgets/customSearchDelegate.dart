@@ -17,7 +17,7 @@ class CustomSearchDelegate extends SearchDelegate {
     'Shoes',
   ];
 
-  // New actions built on the right of search bar
+  // New actions built on the right of the search bar
   @override
   List<Widget>? buildActions(BuildContext context) {
     // x-button for clearing the search bar
@@ -31,7 +31,7 @@ class CustomSearchDelegate extends SearchDelegate {
     ];
   }
 
-  // Builds thing before the search bar
+  // new actions built on the left of the search bar
   @override
   Widget? buildLeading(BuildContext context) {
     // back button to stop searching
@@ -99,12 +99,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   );
                 },
               )
-            : const ListTile(
-                title: Text(
-                  "No Terms/Products Found",
-                  style: TextStyle(fontSize: 20),
-                ),
-              );
+            : nothingFoundFromSearch();
       },
     );
   }
@@ -114,7 +109,9 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     List<Product> products = Provider.of<List<Product>>(context);
     List<String> matches = [];
+
     for (var term in searchTerms) {
+      // shows matched categories, i.e. Computer, Electronics, etc.
       if (term.toLowerCase().contains(query.toLowerCase())) {
         matches.add(term);
       }
@@ -122,12 +119,14 @@ class CustomSearchDelegate extends SearchDelegate {
 
     if (query.isNotEmpty) {
       for (var product in products) {
+        // shows matched products, i.e. Metroid Dread Switch Game
         if (product.title!.toLowerCase().contains(query.toLowerCase())) {
           matches.add(product.title!);
         }
       }
     }
 
+    // remove duplicate items
     matches = matches.toSet().toList();
 
     //after finding matches, build a listview of all matches
@@ -141,20 +140,21 @@ class CustomSearchDelegate extends SearchDelegate {
                   style: const TextStyle(fontSize: 20),
                 ),
                 onTap: () {
-                  // when item is tapped, close the search bar and return user's
-                  // choice which is then used to push route to the selected
-                  //product's page
                   query = matches[index];
                   showResults(context);
                 },
               )
-            : const ListTile(
-                title: Text(
-                  "No Terms/Products Found",
-                  style: TextStyle(fontSize: 20),
-                ),
-              );
+            : nothingFoundFromSearch();
       },
+    );
+  }
+
+  ListTile nothingFoundFromSearch() {
+    return const ListTile(
+      title: Text(
+        "No Terms/Products Found",
+        style: TextStyle(fontSize: 20),
+      ),
     );
   }
 }

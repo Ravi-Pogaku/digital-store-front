@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
-class ChangeThemeButtonWidget extends StatelessWidget {
-  const ChangeThemeButtonWidget({
+class ChangeThemeButton extends StatelessWidget {
+  const ChangeThemeButton({
     super.key,
     required this.refreshParent,
   });
@@ -13,23 +13,34 @@ class ChangeThemeButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeBLoC>(context);
+    final settingsProvider = Provider.of<SettingsBLoC>(context);
 
-    // bool isDarkMode = themeProvider.isDarkMode;
+    return Transform.scale(
+      scale: 1.5, // makes the switch 50% bigger
+      child: Switch.adaptive(
+        value: settingsProvider.isDarkMode,
+        onChanged: (value) {
+          // changes the current theme to other theme,
+          //i.e. light -> dark and dark -> light
+          settingsProvider.toggleTheme(value);
 
-    return Switch.adaptive(
-      value: themeProvider.isDarkMode,
-      onChanged: (value) {
-        final themeProvider = Provider.of<ThemeBLoC>(context, listen: false);
-
-        themeProvider.toggleTheme(value);
-
-        // isDarkMode = themeProvider.isDarkMode;
-
-        // the settings page sometimes gets stuck on the previous theme
-        // setstateing in the settings page seems to fix this.
-        refreshParent();
-      },
+          // the settings page sometimes gets stuck on the previous theme
+          // setstateing in the parent page seems to fix this.
+          // this seems to no longer be needed.
+          //refreshParent();
+        },
+        activeThumbImage: Image.asset(
+          'assets/icons/darkmode.png',
+        ).image,
+        // I dont like the consistent naming, should be activeThumbColor
+        activeColor: Colors.black,
+        activeTrackColor: Colors.white,
+        inactiveThumbImage: Image.asset(
+          'assets/icons/lightmode.png',
+        ).image,
+        inactiveThumbColor: Colors.white,
+        inactiveTrackColor: Colors.grey,
+      ),
     );
   }
 }

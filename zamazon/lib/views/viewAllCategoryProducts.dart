@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class ViewAllCategoryProducts extends StatelessWidget {
               );
             },
             child: Card(
-              color: Provider.of<ThemeBLoC>(context).isDarkMode
+              color: Provider.of<SettingsBLoC>(context).isDarkMode
                   ? Colors.grey[800]
                   : Colors.white,
               shape: RoundedRectangleBorder(

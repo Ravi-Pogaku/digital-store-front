@@ -12,6 +12,7 @@
     "greeting": "Ravi de vous rencontrer!",
     "email": "E-mail",
     "password": "Mot de passe",
+    "confirmPassword": "Confirm Password",
     "sign_up": "S'inscrire",
     "yes_account": "Vous avez déjà un compte?",
     "snackbar_greeting": "Enregistré avec succès! Accueillir!"

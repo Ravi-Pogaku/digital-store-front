@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/widgets/changeThemeButton.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
-import '../models/themeBLoC.dart';
+import '../models/settings_BLoC.dart';
 
 // Form for signing in/ signing up. Same form is used for both, the functionality
 // is changed with if statements and ternary operators based on the title of
@@ -35,18 +37,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   String? _password;
 
   // used for obscuring and revealing passwords
-  // final TextEditingController _passwordController = TextEditingController();
-  // final TextEditingController _confirmPasswordController =
-  //     TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    // I've heard that undisposed controllers may cause memory leaks
-    // _passwordController.dispose();
-    // _confirmPasswordController.dispose();
-  }
+  bool obscurePassword = true;
 
   // callback? (idk if this is the correct term)
   // used in languageDropDownMenu.dart
@@ -56,14 +47,32 @@ class _SignInWidgetState extends State<SignInWidget> {
     });
   }
 
+  // callback used by change theme button to fix a bug
+  void refreshParent() {
+    setState(() {});
+  }
+
   // Input decoration builder for the email and password fields
-  InputDecoration buildInputDecor(Icon icon, String label) => InputDecoration(
+  InputDecoration buildInputDecor(
+          bool isPasswordField, Icon icon, String label) =>
+      InputDecoration(
         prefixIcon: icon,
         errorMaxLines: 10,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        // suffixIcon: ,
+        // reveal password button is only for password fields
+        suffixIcon: (isPasswordField)
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    obscurePassword = !obscurePassword;
+                  });
+                },
+                icon: (!obscurePassword)
+                    ? const Icon(Icons.visibility_off)
+                    : const Icon(Icons.visibility))
+            : null,
         labelText: FlutterI18n.translate(context, label),
       );
 
@@ -95,9 +104,11 @@ class _SignInWidgetState extends State<SignInWidget> {
   @override
   Widget build(BuildContext context) {
     // either light or dark mode
-    final containerTheme = Provider.of<ThemeBLoC>(context).isDarkMode
+    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
         ? Colors.grey[900]
         : Colors.white;
+
+    currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -117,7 +128,16 @@ class _SignInWidgetState extends State<SignInWidget> {
               children: [
                 // keeps the spacing consistent between the sign in and sign up
                 // pages
+
                 SizedBox(height: height * 0.1),
+
+                // SWITCH THEME BUTTON
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ChangeThemeButton(refreshParent: refreshParent),
+                  ],
+                ),
 
                 // LOGO IMAGE
                 Image.network(zamazonLogo),
@@ -138,6 +158,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: buildInputDecor(
+                      false,
                       const Icon(Icons.email),
                       "SignInForm.email",
                     ),
@@ -154,9 +175,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
-                    //Password Validator
-                    obscureText: true,
+                    obscureText: obscurePassword,
                     decoration: buildInputDecor(
+                      true,
                       const Icon(Icons.key),
                       "SignInForm.password",
                     ),
@@ -175,8 +196,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                         margin: const EdgeInsets.all(10),
                         child: TextFormField(
                           // controller: _passwordController,
-                          obscureText: true,
+                          obscureText: obscurePassword,
                           decoration: buildInputDecor(
+                            true,
                             const Icon(Icons.key),
                             "SignUpForm.confirmPassword",
                           ),
@@ -234,6 +256,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     _formKey.currentState!.reset();
                     setState(() {
                       // change between sign in and sign up pages
+                      obscurePassword = true;
                       isSigningIn = !isSigningIn;
                     });
                   },

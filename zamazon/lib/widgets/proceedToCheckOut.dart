@@ -3,7 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../models/themeBLoC.dart';
+import '../models/settings_BLoC.dart';
 
 class ProceedToCheckOutWidget extends StatefulWidget {
   ProceedToCheckOutWidget({Key? key, required this.checkOutItems})

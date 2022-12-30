@@ -6,7 +6,7 @@ import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/sizePickerDialog.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
 // Similar to shopping cart page, except users will only be able to
 // add wishlist items to shopping cart, they will not be able to check out items
@@ -81,10 +81,10 @@ class _WishListPageState extends State<WishListPage> {
             background: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color:
-                    Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
-                        ? Colors.grey[700]
-                        : Colors.grey.shade200,
+                color: Provider.of<SettingsBLoC>(context).themeMode ==
+                        ThemeMode.dark
+                    ? Colors.grey[700]
+                    : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -146,7 +146,10 @@ class _WishListPageState extends State<WishListPage> {
                                 context, scwlItem.sizeSelection!);
                             if (value != null) {
                               if (!mounted) return;
-                              showSnackBar(context, FlutterI18n.translate(context, "WishListPage.added_to_cart"));
+                              showSnackBar(
+                                  context,
+                                  FlutterI18n.translate(
+                                      context, "WishListPage.added_to_cart"));
                               Product product = await SCWLModel()
                                   .getProduct(scwlItem.productId!);
                               _scwlModel.addToCartWishList(
@@ -155,7 +158,8 @@ class _WishListPageState extends State<WishListPage> {
                             }
                           },
                           child: Text(
-                            FlutterI18n.translate(context, "WishListPage.add_to_cart"),
+                            FlutterI18n.translate(
+                                context, "WishListPage.add_to_cart"),
                             style: TextStyle(color: Colors.black),
                           )),
                       const SizedBox(

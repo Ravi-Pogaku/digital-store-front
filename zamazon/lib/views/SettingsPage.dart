@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
 import '../widgets/changeThemeButton.dart';
@@ -38,7 +38,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme = Provider.of<ThemeBLoC>(context).isDarkMode
+    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
         ? Colors.grey[900]
         : Colors.white;
 
@@ -62,7 +62,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                       style: const TextStyle(fontSize: mainFontSize),
                       softWrap: true,
                       maxLines: 2),
-                  ChangeThemeButtonWidget(
+                  ChangeThemeButton(
                     refreshParent: refreshFromChild,
                   ),
                 ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import '../models/Product.dart';
-import '../models/themeBLoC.dart';
+import '../models/settings_BLoC.dart';
 import 'priceWidget.dart';
 import 'ratingWidget.dart';
 
@@ -108,7 +108,7 @@ class ProductViewWidget extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Provider.of<ThemeBLoC>(context).isDarkMode
+                color: Provider.of<SettingsBLoC>(context).isDarkMode
                     ? Colors.grey[800]
                     : Colors.white),
             child: Column(

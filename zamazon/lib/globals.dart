@@ -1,7 +1,15 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 const zamazonLogo = 'https://imgur.com/nhjEvGz.png';
-final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
+// english, french, espanol, chinese (mandarin), japanese
+final languages = ['en', 'fr', 'es', 'zh', 'ja'];
+final languages1 = {
+  'English': 'en',
+  'French': 'fr',
+  'Espanol': 'es',
+  'Mandarin': 'zh',
+  'Japanese': 'ja'
+};
 
 class Constants {
   static const String mapBoxAccessToken =
