@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/widgets/productImage.dart';
 
 // helper function, to create a big banner for a randomly featured item.
 
@@ -75,21 +76,11 @@ class FeaturedItemWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Container(
-                  height: height * 0.4,
-                  width: width,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
-                Image.network(
-                  height: height * 0.3,
-                  product.imageUrl!,
-                ),
-              ],
+            ProductImage(
+              backgroundHeight: height * 0.4,
+              backgroundWidth: width,
+              imageHeight: height * 0.3,
+              imageUrl: product.imageUrl!,
             ),
           ],
         ),

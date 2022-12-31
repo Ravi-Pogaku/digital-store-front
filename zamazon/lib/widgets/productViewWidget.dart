@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/widgets/productImage.dart';
 import '../models/Product.dart';
 import '../models/settings_BLoC.dart';
 import 'priceWidget.dart';
@@ -119,26 +120,10 @@ class ProductViewWidget extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            specificProducts[itemIndex].imageUrl!,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: ProductImage(
+                    margin: const EdgeInsets.all(10),
+                    border: BorderRadius.circular(20),
+                    imageUrl: specificProducts[itemIndex].imageUrl!,
                   ),
                 ),
                 Container(

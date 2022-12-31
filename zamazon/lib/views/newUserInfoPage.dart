@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 
+// newly registered user must enter their name and address
+
 class NewUserInfoPage extends StatefulWidget {
   const NewUserInfoPage({Key? key}) : super(key: key);
 
@@ -13,10 +15,9 @@ class NewUserInfoPage extends StatefulWidget {
 class _NewUserInfoPageState extends State<NewUserInfoPage> {
   @override
   Widget build(BuildContext context) {
-    final containerTheme =
-        Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
-            ? Colors.grey[900]
-            : Colors.white;
+    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
+        ? Colors.grey[900]
+        : Colors.white;
 
     return GestureDetector(
       onTap: () {
@@ -41,6 +42,8 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
                             fontWeight: FontWeight.bold, fontSize: 30),
                         textAlign: TextAlign.center,
                       ),
+
+                      // form for setting name and address
                       UserInfoForm(
                         buttonText: 'Confirm',
                         initialName: '',

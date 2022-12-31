@@ -6,10 +6,10 @@ import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import '../models/settings_BLoC.dart';
 
 class ProceedToCheckOutWidget extends StatefulWidget {
-  ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
+  const ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
       : super(key: key);
 
-  List<ShoppingCartWishListItem> checkOutItems;
+  final List<ShoppingCartWishListItem> checkOutItems;
 
   @override
   State<ProceedToCheckOutWidget> createState() =>
@@ -17,16 +17,17 @@ class ProceedToCheckOutWidget extends StatefulWidget {
 }
 
 class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
+  double cartSum = 0.0;
+  int numOfItems = 0;
+
   @override
   Widget build(BuildContext context) {
-    double cartSum = _sumOfCart(widget.checkOutItems);
-    int numOfItems = _numOfItems(widget.checkOutItems);
+    _sumAndNumOfCart(widget.checkOutItems);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
-      // height: MediaQuery.of(context).size.height/3,
       decoration: const BoxDecoration(
           color: Colors.orange,
           borderRadius: BorderRadius.only(
@@ -35,7 +36,6 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
           )),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -66,7 +66,6 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                 ),
                 fixedSize: Size(width - 100, 40),
               ),
-              // TODO : implement checkout button
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -87,23 +86,15 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
     );
   }
 
-  double _sumOfCart(List<ShoppingCartWishListItem> items) {
-    double total = 0.0;
+  void _sumAndNumOfCart(List<ShoppingCartWishListItem> items) {
+    cartSum = 0;
+    numOfItems = 0;
 
     for (var item in items) {
-      total += item.totalPrice!;
+      cartSum += item.totalPrice!;
+      numOfItems += item.quantity!;
     }
 
-    return total;
-  }
-
-  int _numOfItems(List<ShoppingCartWishListItem> items) {
-    int total = 0;
-
-    for (var item in items) {
-      total += item.quantity!;
-    }
-
-    return total;
+    print('cartSum: $cartSum, numOfItems: $numOfItems');
   }
 }

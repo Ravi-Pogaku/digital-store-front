@@ -68,6 +68,11 @@ class MyApp extends StatelessWidget {
       // listens for when user signs in and logs outs.
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('MAIN ERROR: ${snapshot.error.toString()}');
+        }
+
+        // data loaded successfully, show actual app
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Zamazon Demo',

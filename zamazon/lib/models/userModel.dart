@@ -3,10 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/CusUser.dart';
 
-//TODO
-// MAKE PROFILE PAGE WHERE USER CAN UPDATE THEIR INFORMATION
-// MAKE FUNCTIONS THAT WILL UPDATE CHANGED INFORMATION.
-
 // model class to retrieve user information: name, email, address.
 // information will be displayed and can be updated in profile page.
 

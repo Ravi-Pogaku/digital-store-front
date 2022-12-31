@@ -11,7 +11,10 @@ class PriceWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(10),
       // ${product!.savings!.substring(18,21)}
-      child: Text("\$$price", style: const TextStyle(fontSize: 25)),
+      child: Text(
+        "\$${price.toStringAsFixed(2)}",
+        style: const TextStyle(fontSize: 25),
+      ),
     );
   }
 }

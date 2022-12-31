@@ -4,59 +4,49 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildQuantityWidget.dart';
+import 'package:zamazon/widgets/dismissibleBackground.dart';
+import 'package:zamazon/widgets/productImage.dart';
 
 import '../models/settings_BLoC.dart';
 
-class BuildCartItem extends StatelessWidget {
-  BuildCartItem({super.key, required this.scwlItem, required this.width});
+class ShoppingCartItem extends StatelessWidget {
+  const ShoppingCartItem({
+    super.key,
+    required this.scwlModel,
+    required this.scwlItem,
+  });
 
-  ShoppingCartWishListItem scwlItem;
-  final double width;
+  final SCWLModel scwlModel;
+  final ShoppingCartWishListItem scwlItem;
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Dismissible(
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            SCWLModel().deleteCartWishList(scwlItem);
+            scwlModel.deleteCartWishList(scwlItem);
           },
-          background: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color:
-                  Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
-                      ? Colors.grey[700]
-                      : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: width - 110,
-                ),
-                const Icon(Icons.delete)
-              ],
-            ),
-          ),
+          background: const DismissibleBackground(),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 children: [
-                  Container(
-                    height: 125,
-                    width: width / 2.5,
+                  ProductImage(
+                    imageHeight: height * 0.2,
+                    imageWidth: width * 0.4,
+                    backgroundHeight: height * 0.21,
+                    backgroundWidth: width * 0.41,
+                    border: BorderRadius.circular(20),
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        scwlItem.imageUrl!,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    imageFit: BoxFit.contain,
+                    imageUrl: scwlItem.imageUrl!,
                   ),
                   Container(
                       height: 30,
@@ -76,14 +66,14 @@ class BuildCartItem extends StatelessWidget {
                       "${scwlItem.title}",
                       style: const TextStyle(fontSize: 17),
                       softWrap: false,
-                      maxLines: 2,
+                      maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Text(
-                      "\$${double.parse(scwlItem.totalPrice!.toStringAsFixed(2))}",
+                      "\$${scwlItem.totalPrice!.toStringAsFixed(2)}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
@@ -94,7 +84,7 @@ class BuildCartItem extends StatelessWidget {
                             TextSpan(
                                 text: FlutterI18n.translate(
                                     context, "BuildCartItem.size"),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
                             TextSpan(
                               text: "${scwlItem.size}",

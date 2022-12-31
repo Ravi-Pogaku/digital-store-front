@@ -27,31 +27,31 @@ class CheckOutPage extends StatelessWidget {
       initialData: CusUser(),
       stream: UserModel().getUserInformation(),
       builder: (context, snapshot) {
+        // if data is loading, show loading circle
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         return Scaffold(
           appBar: DefaultAppBar(
             context,
             title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
           ),
-          body: (snapshot.data!.name != 'Default')
-              ? Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ListView.builder(
-                      itemCount: checkOutItems.length,
-                      itemBuilder: (context, index) {
-                        return BuildCheckOutItem(
-                            scwlItem: checkOutItems[index]);
-                      }),
-                )
-              : const Center(child: CircularProgressIndicator()),
-          bottomNavigationBar: (snapshot.data!.name != 'Default')
-              ? ConfirmPurchaseWidget(
-                  checkedOutItems: checkOutItems,
-                  sumOfCart: sumOfCart,
-                  width: MediaQuery.of(context).size.width,
-                  user: snapshot.data as CusUser,
-                  numOfItems: numOfItems,
-                )
-              : const Center(child: CircularProgressIndicator()),
+          body: Padding(
+            padding: const EdgeInsets.all(10),
+            child: ListView.builder(
+                itemCount: checkOutItems.length,
+                itemBuilder: (context, index) {
+                  return BuildCheckOutItem(scwlItem: checkOutItems[index]);
+                }),
+          ),
+          bottomNavigationBar: ConfirmPurchaseWidget(
+            checkedOutItems: checkOutItems,
+            sumOfCart: sumOfCart,
+            width: MediaQuery.of(context).size.width,
+            user: snapshot.data as CusUser,
+            numOfItems: numOfItems,
+          ),
         );
       },
     );

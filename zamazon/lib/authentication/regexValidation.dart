@@ -31,16 +31,6 @@ class RegexValidation {
     return null;
   }
 
-  String? validatePostal(String? value) {
-    RegExp regExp = RegExp(r'^[A-Z][0-9][A-Z]\s[0-9][A-Z][0-9]$');
-    if (value == null || value.isEmpty) {
-      return 'Please enter a Postal Code';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Postal Code Example: A1A 1A1';
-    }
-    return null;
-  }
-
   String? validateAddress(String? value, bool addressChosen) {
     if (value == null || value.isEmpty || !addressChosen) {
       return 'Please enter an Address';
