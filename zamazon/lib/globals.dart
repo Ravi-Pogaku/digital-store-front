@@ -1,14 +1,13 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 const zamazonLogo = 'https://imgur.com/nhjEvGz.png';
-// english, french, espanol, chinese (mandarin), japanese
-final languages = ['en', 'fr', 'es', 'zh', 'ja'];
-final languages1 = {
-  'English': 'en',
-  'French': 'fr',
-  'Espanol': 'es',
-  'Mandarin': 'zh',
-  'Japanese': 'ja'
+
+final languages = {
+  'en': 'English',
+  'fr': 'Français',
+  'es': 'Español',
+  'zh': '普通话',
+  'ja': '日本語'
 };
 
 class Constants {

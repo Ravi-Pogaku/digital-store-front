@@ -29,6 +29,7 @@ class Product {
     this.categories,
   });
 
+  // from firestore
   Product.fromMap(var map, {required this.docRef}) {
     this.id = docRef!.id;
     this.title = map['title'];
@@ -44,6 +45,7 @@ class Product {
     this.categories = map['categories'];
   }
 
+  // from webscraper
   Product.fromScrapedMap(var map) {
     this.title = map['title'];
     this.numReviews = map['numReviews'];
@@ -71,6 +73,7 @@ class Product {
     ];
   }
 
+  // to firestore
   Map<String, Object?> toMap() {
     return {
       'title': this.title,

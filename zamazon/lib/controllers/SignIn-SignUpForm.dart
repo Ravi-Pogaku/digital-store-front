@@ -16,10 +16,7 @@ import '../models/settings_BLoC.dart';
 // the widget, either 'Sign In' or 'Sign Up'
 
 class SignInWidget extends StatefulWidget {
-  const SignInWidget({Key? key, this.title}) : super(key: key);
-
-  // used to determine which page to show, 'Sign In' or 'Sign Up'
-  final String? title;
+  const SignInWidget({Key? key}) : super(key: key);
 
   @override
   State<SignInWidget> createState() => _SignInWidgetState();
@@ -38,19 +35,6 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   // used for obscuring and revealing passwords
   bool obscurePassword = true;
-
-  // callback? (idk if this is the correct term)
-  // used in languageDropDownMenu.dart
-  void changeLanguage(String selectedLanguage) {
-    setState(() {
-      currentLanguage = selectedLanguage;
-    });
-  }
-
-  // callback used by change theme button to fix a bug
-  void refreshParent() {
-    setState(() {});
-  }
 
   // Input decoration builder for the email and password fields
   InputDecoration buildInputDecor(
@@ -126,17 +110,12 @@ class _SignInWidgetState extends State<SignInWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // keeps the spacing consistent between the sign in and sign up
-                // pages
-
                 SizedBox(height: height * 0.1),
 
                 // SWITCH THEME BUTTON
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ChangeThemeButton(refreshParent: refreshParent),
-                  ],
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: ChangeThemeButton(),
                 ),
 
                 // LOGO IMAGE
@@ -280,7 +259,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                 // CHOOSE LANGUAGE DROP DOWN MENU
                 LanguageDropDownMenu(
                   currentLanguage: currentLanguage,
-                  changeLanguage: changeLanguage,
                 ),
               ],
             ),

@@ -39,10 +39,12 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle regularTextStyle = const TextStyle(fontSize: 16);
+
     _notifications.init();
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
           color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
@@ -57,56 +59,64 @@ class ConfirmPurchaseWidget extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // NAME
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 FlutterI18n.translate(context, "ConfirmPurchase.name"),
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: regularTextStyle,
               ),
               Text(
                 '${user.name}',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+                style: regularTextStyle,
               ),
             ],
           ),
           const SizedBox(
             height: 10,
           ),
+
+          // ADDRESS
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 FlutterI18n.translate(context, "ConfirmPurchase.address"),
-                style: TextStyle(fontSize: 16),
-                softWrap: true,
-                maxLines: 5,
+                style: regularTextStyle,
               ),
-              Text(
-                '${user.address}',
-                style: const TextStyle(fontSize: 16),
+              const Spacer(),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  '${user.address}',
+                  style: regularTextStyle,
+                  softWrap: true,
+                  maxLines: 7,
+                ),
               )
             ],
           ),
+
           const SizedBox(
             height: 10,
           ),
+
+          // BLACK LINE
           const Divider(
             thickness: 2,
             color: Colors.black87,
           ),
+
+          // TOTAL
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 FlutterI18n.translate(context, "ConfirmPurchase.total"),
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
               Text(
                 sumOfCart.toStringAsFixed(2),
@@ -117,9 +127,12 @@ class ConfirmPurchaseWidget extends StatelessWidget {
               )
             ],
           ),
+
           const SizedBox(
             height: 10,
           ),
+
+          // CONFIRM BUTTON
           ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black87,
@@ -146,7 +159,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
               },
               child: Text(
                   FlutterI18n.translate(context, "ConfirmPurchase.confirm"),
-                  style: TextStyle(color: Colors.white)))
+                  style: const TextStyle(color: Colors.white)))
         ],
       ),
     );

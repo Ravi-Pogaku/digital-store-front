@@ -22,25 +22,13 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
   final _auth = Auth();
 
   static const double mainFontSize = 20;
-
-  // needed in changeThemeButton.dart to fix a problem
-  void refreshFromChild() {
-    setState(() {});
-  }
-
-  // callback? (dunno if this is the correct term)
-  // used in languageDropDownMenu.dart
-  void changeLanguage(String newLanguage) {
-    setState(() {
-      currentLanguage = newLanguage;
-    });
-  }
+  static const TextStyle mainTextStyle = TextStyle(fontSize: 20);
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
-        ? Colors.grey[900]
-        : Colors.white;
+    final settingsProvider = Provider.of<SettingsBLoC>(context);
+    final containerTheme =
+        settingsProvider.isDarkMode ? Colors.grey[900] : Colors.white;
 
     currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
@@ -53,68 +41,69 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             borderRadius: const BorderRadius.all(Radius.circular(20))),
         child: Column(
           children: [
+            // 'D
             Container(
               margin: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(FlutterI18n.translate(context, "SettingPage.theme"),
-                      style: const TextStyle(fontSize: mainFontSize),
-                      softWrap: true,
-                      maxLines: 2),
-                  ChangeThemeButton(
-                    refreshParent: refreshFromChild,
-                  ),
+                children: const [
+                  Text('Appearance:',
+                      style: mainTextStyle, softWrap: true, maxLines: 2),
+                  ChangeThemeButton(),
                 ],
               ),
             ),
+
+            // Non-functional atm
             Container(
               margin: const EdgeInsets.all(10),
               child: Text(
                   FlutterI18n.translate(context, "SettingPage.notification"),
-                  style: const TextStyle(fontSize: mainFontSize),
+                  style: mainTextStyle,
                   softWrap: true,
                   maxLines: 2),
             ),
+
+            // Non-functional atm
             Container(
               margin: const EdgeInsets.all(10),
               child: Text(
                   FlutterI18n.translate(context, "SettingPage.legality"),
-                  style: const TextStyle(fontSize: mainFontSize),
+                  style: mainTextStyle,
                   softWrap: true,
                   maxLines: 2),
             ),
+
+            // 'Language' + languageDropDownMenu
             Container(
               margin: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      FlutterI18n.translate(
-                        context,
-                        "SettingPage.language",
-                      ),
-                      style: const TextStyle(fontSize: mainFontSize),
+                      '${FlutterI18n.translate(context, "SettingPage.language")}:',
+                      style: mainTextStyle,
                       softWrap: true,
                       maxLines: 2),
                   LanguageDropDownMenu(
                     currentLanguage: currentLanguage,
-                    changeLanguage: changeLanguage,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Order History",
-                          style: TextStyle(fontSize: mainFontSize)),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const OrderHistory()));
-                          },
-                          icon: const Icon(Icons.arrow_forward)),
-                    ],
                   ),
                 ],
+              ),
+            ),
+
+            // ORDER HISTORY BUTTON
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const OrderHistory()));
+                },
+                child: const Text(
+                  'Order History',
+                  style: mainTextStyle,
+                ),
               ),
             ),
             TextButton(

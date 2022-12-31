@@ -5,7 +5,7 @@
     "password": "Password",
     "sign_in": "Sign In",
     "no_account": "Create an Account",
-    "snackbar_greeting": "Welcome Back",
+    "snackbar_greeting": "Welcome back!",
     "snackbar_incorrect": "Incorrect Email or Password!"
   },
   "SignUpForm": {
@@ -77,7 +77,7 @@
     "profile": "Profile",
     "shopping_cart": "Shopping Cart",
     "wish_list": "Wish List",
-    "settings": "Setting"
+    "settings": "Settings"
   },
   "Bottom_NavBar": {
     "home_page": "Home Page",

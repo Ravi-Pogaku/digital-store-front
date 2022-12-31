@@ -36,7 +36,12 @@ class ProductViewWidget extends StatelessWidget {
         ],
       );
     } else {
-      return const CircularProgressIndicator();
+      return SizedBox(
+        height: height * 0.15,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
   }
 

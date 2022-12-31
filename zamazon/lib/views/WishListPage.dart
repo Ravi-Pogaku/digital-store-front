@@ -39,7 +39,7 @@ class _WishListPageState extends State<WishListPage> {
                   FlutterI18n.translate(context, "WishListPage.empty"),
                   softWrap: true,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
+                  style: const TextStyle(fontSize: 25),
                 ))
               : Padding(
                   padding: const EdgeInsets.all(10),
@@ -90,7 +90,6 @@ class _WishListPageState extends State<WishListPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: const [
-                  // TODO: add real trashcan icon
                   Icon(
                     Icons.delete,
                   )
@@ -142,8 +141,11 @@ class _WishListPageState extends State<WishListPage> {
                                   borderRadius: BorderRadius.circular(20)),
                               fixedSize: Size(width / 2, 20)),
                           onPressed: () async {
-                            int? value = await showSizePickerDialog(
-                                context, scwlItem.sizeSelection!);
+                            int? value = 1;
+                            if (scwlItem.sizeSelection!.length > 1) {
+                              value = await showSizePickerDialog(
+                                  context, scwlItem.sizeSelection!);
+                            }
                             if (value != null) {
                               if (!mounted) return;
                               showSnackBar(
@@ -160,7 +162,7 @@ class _WishListPageState extends State<WishListPage> {
                           child: Text(
                             FlutterI18n.translate(
                                 context, "WishListPage.add_to_cart"),
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           )),
                       const SizedBox(
                         height: 20,

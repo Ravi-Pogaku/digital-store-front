@@ -9,11 +9,9 @@ class LanguageDropDownMenu extends StatelessWidget {
   const LanguageDropDownMenu({
     super.key,
     this.currentLanguage,
-    required this.changeLanguage,
   });
 
   final String? currentLanguage;
-  final ValueChanged<String> changeLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +21,20 @@ class LanguageDropDownMenu extends StatelessWidget {
         value: currentLanguage ?? 'en',
         iconSize: 30,
         icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
-        items: languages.map(buildLangMenuItem).toList(),
+        items: languages.entries
+            .map((e) => buildLangMenuItem(e.key, e.value))
+            .toList(),
         onChanged: (selectedLanguage) async {
           settingsProvider.changeLanguage(selectedLanguage!);
         });
   }
 
-  DropdownMenuItem<String> buildLangMenuItem(String lang) => DropdownMenuItem(
-        value: lang,
+  DropdownMenuItem<String> buildLangMenuItem(
+          String langCode, String langName) =>
+      DropdownMenuItem(
+        value: langCode, // langCodes are like 'en' and 'es'
         child: Text(
-          lang,
+          '$langName ($langCode)', // langNames are like 'English' and 'Espanol'
           style: const TextStyle(fontSize: 20),
         ),
       );

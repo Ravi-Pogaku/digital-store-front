@@ -5,11 +5,7 @@ import 'package:zamazon/models/settings_BLoC.dart';
 class ChangeThemeButton extends StatelessWidget {
   const ChangeThemeButton({
     super.key,
-    required this.refreshParent,
   });
-
-  // function that setstates in the parent of this widget.
-  final Function refreshParent;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +19,6 @@ class ChangeThemeButton extends StatelessWidget {
           // changes the current theme to other theme,
           //i.e. light -> dark and dark -> light
           settingsProvider.toggleTheme(value);
-
-          // the settings page sometimes gets stuck on the previous theme
-          // setstateing in the parent page seems to fix this.
-          // this seems to no longer be needed.
-          //refreshParent();
         },
         activeThumbImage: Image.asset(
           'assets/icons/darkmode.png',

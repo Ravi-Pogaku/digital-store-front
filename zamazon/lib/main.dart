@@ -46,7 +46,7 @@ Future main() async {
         // PROVIDES CURRENT THEME (LIGHT OR DARK MODE) AND LANGUAGE
         ChangeNotifierProvider<SettingsBLoC>(
             create: (context) => SettingsBLoC(
-                  // initialize provider with saved values.
+                  // initialize provider with saved values from previous session
                   isDarkMode: prefs.getBool('isDarkMode'),
                   languageCode: prefs.getString('languageCode'),
                 )),
@@ -61,9 +61,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // provides user's chosen theme and language
     var settingsProvider = Provider.of<SettingsBLoC>(context);
 
     return StreamBuilder<User?>(
+      // listens for when user signs in and logs outs.
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         return MaterialApp(
@@ -73,19 +75,20 @@ class MyApp extends StatelessWidget {
           themeMode: settingsProvider.themeMode,
           theme: CustomThemes.lightTheme,
           darkTheme: CustomThemes.darkTheme,
-          home: (snapshot.hasData)
-              ? const HomePage()
-              : const SignInWidget(
-                  title: 'Sign In',
-                ),
+
+          // if snapshot doesn't have data, then it means no user is signed in.
+          // so show the sign in page.
+          home: (snapshot.hasData) ? const HomePage() : const SignInWidget(),
+
+          // named routes that require parameters
           onGenerateRoute: (settings) {
             final String routeName = settings.name!;
             final Map<String, dynamic> arguments =
                 settings.arguments as Map<String, dynamic>;
+
             switch (routeName) {
               case '/ProductPage':
                 return MaterialPageRoute(builder: (context) {
-                  // Product product = arguments;
                   return ProductPage(
                     title: arguments['title'],
                     product: arguments['product'],
@@ -111,14 +114,17 @@ class MyApp extends StatelessWidget {
                     builder: (context) => const HomePage());
             }
           },
+
+          // named routes that don't require parameters
           routes: {
-            //Routes to other pages
             '/SettingsPage': (context) =>
                 const SettingsPageWidget(title: 'Settings'),
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
-            '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
+            '/SignIn': (context) => const SignInWidget(),
             '/OrderTrackMap': (context) => const OrderTrackMap(),
           },
+
+          // language delegates and supported languages
           localizationsDelegates: [
             FlutterI18nDelegate(
               missingTranslationHandler: (key, locale) {
