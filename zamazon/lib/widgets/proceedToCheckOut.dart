@@ -94,7 +94,5 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
       cartSum += item.totalPrice!;
       numOfItems += item.quantity!;
     }
-
-    print('cartSum: $cartSum, numOfItems: $numOfItems');
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/widgets/productImage.dart';
 
 import '../models/settings_BLoC.dart';
 
@@ -15,8 +16,11 @@ class BuildCheckOutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
@@ -25,18 +29,16 @@ class BuildCheckOutItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                scwlItem.imageUrl!,
-              ),
-            ),
+          ProductImage(
+            imageWidth: width * 0.4,
+            imageHeight: height * 0.2,
+            backgroundWidth: width * 0.42,
+            backgroundHeight: height * 0.22,
+            margin: const EdgeInsets.all(10),
+            border: BorderRadius.circular(20),
+            imageFit: BoxFit.contain,
+            imageUrl: scwlItem.imageUrl!,
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -48,7 +50,7 @@ class BuildCheckOutItem extends StatelessWidget {
                   "${scwlItem.title}",
                   style: const TextStyle(fontSize: 17),
                   softWrap: false,
-                  maxLines: 2,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
@@ -60,7 +62,7 @@ class BuildCheckOutItem extends StatelessWidget {
                         TextSpan(
                             text: FlutterI18n.translate(
                                 context, "BuildCheckOutItem.size"),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold)),
                         TextSpan(
                           text: "${scwlItem.size}",

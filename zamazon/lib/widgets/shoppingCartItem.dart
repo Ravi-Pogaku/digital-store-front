@@ -3,7 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-import 'package:zamazon/widgets/buildQuantityWidget.dart';
+import 'package:zamazon/widgets/quantityWidget.dart';
 import 'package:zamazon/widgets/dismissibleBackground.dart';
 import 'package:zamazon/widgets/productImage.dart';
 
@@ -51,7 +51,7 @@ class ShoppingCartItem extends StatelessWidget {
                   Container(
                       height: 30,
                       margin: const EdgeInsets.only(top: 5),
-                      child: BuildQuantityWidget(scwlItem: scwlItem))
+                      child: QuantityWidget(scwlItem: scwlItem))
                 ],
               ),
               const SizedBox(width: 20),

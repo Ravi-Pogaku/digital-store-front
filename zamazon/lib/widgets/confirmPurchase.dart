@@ -25,11 +25,10 @@ class ConfirmPurchaseWidget extends StatelessWidget {
   final int numOfItems;
 
   final _notifications = Notifications();
-  String notifBody = '';
 
   final SCWLModel _scwlModel = SCWLModel();
 
-  void _sendDeliveryNotif() async {
+  void _sendDeliveryNotif(String notifBody) async {
     _notifications.sendNotificationNow(
       'Your order has been delivered!',
       notifBody,
@@ -152,10 +151,10 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                     FlutterI18n.translate(context, "ConfirmPurchase.deliver"));
 
                 // Send order delivered notification
-                notifBody = 'Your order of $numOfItems item(s) has been '
+                String notifBody = 'Your order of $numOfItems item(s) has been '
                     'delivered to ${user.name} at ${user.address}';
 
-                _sendDeliveryNotif();
+                _sendDeliveryNotif(notifBody);
               },
               child: Text(
                   FlutterI18n.translate(context, "ConfirmPurchase.confirm"),

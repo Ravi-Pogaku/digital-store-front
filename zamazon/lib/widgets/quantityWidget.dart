@@ -5,10 +5,10 @@ import 'package:zamazon/models/shoppingCartWishListModel.dart';
 
 import '../models/settings_BLoC.dart';
 
-class BuildQuantityWidget extends StatelessWidget {
-  BuildQuantityWidget({super.key, required this.scwlItem});
+class QuantityWidget extends StatelessWidget {
+  const QuantityWidget({super.key, required this.scwlItem});
 
-  ShoppingCartWishListItem scwlItem;
+  final ShoppingCartWishListItem scwlItem;
 
   @override
   Widget build(BuildContext context) {
