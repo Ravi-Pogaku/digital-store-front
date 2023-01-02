@@ -20,28 +20,28 @@ class BuildCheckOutItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
+        color: Provider.of<SettingsBLoC>(context).isDarkMode
             ? Colors.grey[900]
             : Colors.orange[100],
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ProductImage(
             imageWidth: width * 0.4,
             imageHeight: height * 0.2,
             backgroundWidth: width * 0.42,
             backgroundHeight: height * 0.22,
-            margin: const EdgeInsets.all(10),
             border: BorderRadius.circular(20),
             imageFit: BoxFit.contain,
             imageUrl: scwlItem.imageUrl!,
           ),
-          // const SizedBox(width: 20),
+          SizedBox(
+            width: width * 0.05,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

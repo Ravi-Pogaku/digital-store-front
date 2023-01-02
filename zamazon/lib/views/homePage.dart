@@ -48,13 +48,16 @@ class _HomePageState extends State<HomePage> {
 
   // callback used from the bottom nav bar to change the page
   void navBarOnClicked(int index) {
-    setState(() {
-      navBarSelectedPage = index;
-    });
+    // prevents unnecessary rebuilds if current page is tapped again
+    if (navBarSelectedPage != index) {
+      setState(() {
+        navBarSelectedPage = index;
+      });
 
-    // jump to top of page when page changes
-    if (_controller.hasClients) {
-      _controller.jumpTo(0.0);
+      // jump to top of page when page changes
+      if (_controller.hasClients) {
+        _controller.jumpTo(0.0);
+      }
     }
   }
 
@@ -65,29 +68,29 @@ class _HomePageState extends State<HomePage> {
 
   // default body for the homepage
   Widget homePageBody(List<Product> products) {
-    return ListView(
-      // removes listview's default top padding
-      padding: const EdgeInsets.only(top: 0),
-      children: [
-        //random featured item
-        FeaturedItemWidget(
-          productList: productList,
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          //random featured item
+          FeaturedItemWidget(
+            productList: products,
+          ),
 
-        //horizontal listview of products of different categories
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory + 1],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory + 2],
-        ),
-      ],
+          //horizontal listview of products of different categories
+          ProductViewWidget(
+            productList: products,
+            category: categories[randomCategory],
+          ),
+          ProductViewWidget(
+            productList: products,
+            category: categories[randomCategory + 1],
+          ),
+          ProductViewWidget(
+            productList: products,
+            category: categories[randomCategory + 2],
+          ),
+        ],
+      ),
     );
   }
 
@@ -100,6 +103,14 @@ class _HomePageState extends State<HomePage> {
       randomCategory = Random().nextInt(8);
     }
 
+    navBarPages = [
+      homePageBody(productList),
+      const UserProfilePage(title: 'Profile'),
+      const ShoppingCartPage(title: 'Shopping Cart'),
+      const WishListPage(title: 'Wish List'),
+      const SettingsPageWidget(title: 'Settings'),
+    ];
+
     navPageTitles = [
       // app logo for homepage
       Image.network(
@@ -110,14 +121,6 @@ class _HomePageState extends State<HomePage> {
       Text(FlutterI18n.translate(context, "Appbar.shopping_cart")),
       Text(FlutterI18n.translate(context, "Appbar.wish_list")),
       Text(FlutterI18n.translate(context, "Appbar.settings")),
-    ];
-
-    navBarPages = [
-      homePageBody(productList),
-      const UserProfilePage(title: 'Profile'),
-      const ShoppingCartPage(title: 'Shopping Cart'),
-      const WishListPage(title: 'Wish List'),
-      const SettingsPageWidget(title: 'Settings'),
     ];
 
     // search button shown on homepage

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
-
-import '../models/settings_BLoC.dart';
 
 class ProceedToCheckOutWidget extends StatefulWidget {
   const ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
@@ -38,23 +35,26 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              FlutterI18n.translate(context, "ProceedToCheckOut.total"),
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.black,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                FlutterI18n.translate(context, "ProceedToCheckOut.total"),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            Text(
-              '\$${cartSum.toStringAsFixed(2)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            )
-          ]),
+              Text(
+                '\$${cartSum.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),

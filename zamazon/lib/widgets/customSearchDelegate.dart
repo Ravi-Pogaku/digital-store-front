@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/widgets/productImage.dart';
 
 // class needed for searchBar, responsible for building the searchBar and
 // showing relevant search terms/products when a user makes a query.
@@ -64,6 +66,10 @@ class CustomSearchDelegate extends SearchDelegate {
     // remove duplicate items
     matches = matches.toSet().toList();
 
+    Color textColor = Provider.of<SettingsBLoC>(context).isDarkMode
+        ? Colors.white
+        : Colors.black;
+
     //after finding matches, build a listview of all matched products
     return ListView.separated(
       // if empty, then itemCount is 1 and its just listtile "no products found"
@@ -77,14 +83,18 @@ class CustomSearchDelegate extends SearchDelegate {
         return (matches.isNotEmpty)
             ? ListTile(
                 title: SizedBox(
-                  height: 200,
-                  child: Image.network(matches[index].imageUrl!),
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: ProductImage(
+                    border: BorderRadius.circular(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    imageUrl: matches[index].imageUrl!,
+                  ),
                 ),
                 subtitle: Text(
                   matches[index].title!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: textColor,
                   ),
                 ),
                 onTap: () {
@@ -130,8 +140,13 @@ class CustomSearchDelegate extends SearchDelegate {
     matches = matches.toSet().toList();
 
     //after finding matches, build a listview of all matches
-    return ListView.builder(
+    return ListView.separated(
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
+      separatorBuilder: (context, index) {
+        return const Divider(
+          thickness: 3,
+        );
+      },
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(

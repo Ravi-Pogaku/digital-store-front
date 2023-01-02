@@ -10,9 +10,10 @@ void showOrderedItemsDialog(BuildContext context, List<dynamic> orderedItems) {
       builder: (context) {
         return AlertDialog(
           title: const Text("Items"),
+          insetPadding: EdgeInsets.zero,
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           content: SizedBox(
-            height: (orderedItems.length < 3) ? height / 4 : height,
+            height: (orderedItems.length < 3) ? height * 0.3 : height,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
                 itemCount: orderedItems.length,

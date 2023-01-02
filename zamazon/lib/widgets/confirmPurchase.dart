@@ -46,7 +46,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
-          color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
+          color: Provider.of<SettingsBLoC>(context).isDarkMode
               ? Colors.grey[500]
               : Colors.orange,
           borderRadius: const BorderRadius.only(

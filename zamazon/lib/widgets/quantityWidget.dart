@@ -14,10 +14,9 @@ class QuantityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonTheme =
-        Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
-            ? Colors.white
-            : Colors.black;
+    final buttonTheme = Provider.of<SettingsBLoC>(context).isDarkMode
+        ? Colors.white
+        : Colors.black;
 
     return Row(
       children: [
