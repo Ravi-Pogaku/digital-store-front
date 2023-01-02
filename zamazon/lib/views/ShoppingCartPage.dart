@@ -41,6 +41,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           }
 
           return Scaffold(
+            extendBody: true,
             body: (snapshot.data.isNotEmpty)
                 // data has successfully loaded and the user has items in their
                 // shopping cart.
@@ -48,8 +49,15 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     padding: const EdgeInsets.all(10),
                     child: ListView.builder(
                         padding: const EdgeInsets.only(top: 0),
-                        itemCount: snapshot.data.length,
+                        itemCount: snapshot.data.length + 1,
                         itemBuilder: (context, index) {
+                          // add whitespace at the bottom of listview
+                          if (index == snapshot.data.length) {
+                            return const SizedBox(
+                              height: 110,
+                            );
+                          }
+
                           return ShoppingCartItem(
                             scwlModel: _scwlModel,
                             scwlItem: snapshot.data[index],

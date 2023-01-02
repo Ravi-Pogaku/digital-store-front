@@ -85,7 +85,7 @@ class ViewAllCategoryProducts extends StatelessWidget {
                       ),
                     ),
                   ),
-                  RatingWidget(product: specificProducts[index]),
+                  RatingWidget(rating: specificProducts[index].rating!),
                   PriceWidget(price: specificProducts[index].price!),
                 ],
               ),

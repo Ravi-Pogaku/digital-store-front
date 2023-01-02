@@ -72,7 +72,7 @@ class _ProductPageState extends State<ProductPage> {
                   children: [
                     // creates star rating widget
                     // requires to be run with "flutter run --no-sound-null-safety"
-                    RatingWidget(product: product!),
+                    RatingWidget(rating: product!.rating!),
                     Text(
                       "(${product!.numReviews})",
                       style: largerStyle,

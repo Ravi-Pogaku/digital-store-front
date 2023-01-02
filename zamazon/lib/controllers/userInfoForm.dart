@@ -55,25 +55,22 @@ class _UserInfoFormState extends State<UserInfoForm> {
           children: [
             Card(
               child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: TextFormField(
-                    initialValue: widget.initialName,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      labelText: "Name",
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  initialValue: widget.initialName,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    onSaved: (value) {
-                      _name = value;
-                    },
-                    validator: (value) {
-                      return RegexValidation().validateName(value);
-                    },
+                    labelText: "Name",
                   ),
+                  onSaved: (value) {
+                    _name = value;
+                  },
+                  validator: (value) {
+                    return RegexValidation().validateName(value);
+                  },
                 ),
               ),
             ),

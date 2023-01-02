@@ -36,14 +36,17 @@ class _HomePageState extends State<HomePage> {
     'shoes',
   ];
 
-  int rand1 = Random().nextInt(8);
+  // used for the 3 carousel sliders on the home page. below featured item
+  int randomCategory = Random().nextInt(8);
 
-  // product list is loaded in initstate
+  // loaded in build
   List<Product> productList = [];
+  List<Widget> navBarPages = [];
+  List<Widget> navPageTitles = [];
 
   int navBarSelectedPage = 0;
 
-  // to change the page
+  // callback used from the bottom nav bar to change the page
   void navBarOnClicked(int index) {
     setState(() {
       navBarSelectedPage = index;
@@ -55,22 +58,49 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // loaded in initstate after the list of products is recieved
-  List<Widget> navBarPages = [];
-
+  // for jumping back to the top of the page on page changes
   final ScrollController _controller = ScrollController(
     keepScrollOffset: false,
   );
+
+  // default body for the homepage
+  Widget homePageBody(List<Product> products) {
+    return ListView(
+      // removes listview's default top padding
+      padding: const EdgeInsets.only(top: 0),
+      children: [
+        //random featured item
+        FeaturedItemWidget(
+          productList: productList,
+        ),
+
+        //horizontal listview of products of different categories
+        ProductViewWidget(
+          productList: productList,
+          category: categories[randomCategory],
+        ),
+        ProductViewWidget(
+          productList: productList,
+          category: categories[randomCategory + 1],
+        ),
+        ProductViewWidget(
+          productList: productList,
+          category: categories[randomCategory + 2],
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     productList = Provider.of<List<Product>>(context);
 
-    while (rand1 + 2 > 7) {
-      rand1 = Random().nextInt(8);
+    // randomly take a slice of 3 categories from the category list.
+    while (randomCategory + 2 > 7) {
+      randomCategory = Random().nextInt(8);
     }
 
-    List<Widget> navPageTitles = [
+    navPageTitles = [
       // app logo for homepage
       Image.network(
         zamazonLogo,
@@ -91,19 +121,22 @@ class _HomePageState extends State<HomePage> {
       const SettingsPageWidget(title: 'Settings'),
     ];
 
+    // search button shown on homepage
     Widget homepageSearchWidget = IconButton(
-        onPressed: () async {
-          // when a user taps a result, it will be returned here.
-          await showSearch(context: context, delegate: CustomSearchDelegate());
-        },
-        icon: const Icon(Icons.search));
+      onPressed: () async {
+        // when a user taps a result, it will be returned here.
+        await showSearch(context: context, delegate: CustomSearchDelegate());
+      },
+      icon: const Icon(Icons.search),
+    );
 
     return Container(
       decoration: const BoxDecoration(color: Colors.white),
       child: Scaffold(
-        // featured item will be a random item that is displayed very big,
-        // below that will be a horizontal list view of products.
-        // current page
+        // fixes image clipping on the wishlist page. false for other pages
+        // because true causes an issue in the shopping cart page.
+        extendBody: (navBarSelectedPage == 3) ? true : false,
+
         body: NestedScrollView(
           controller: _controller,
           floatHeaderSlivers: true,
@@ -111,12 +144,19 @@ class _HomePageState extends State<HomePage> {
             return <Widget>[
               MySliverAppBar(
                 title: navPageTitles.elementAt(navBarSelectedPage),
+
+                // search button is only shown on home page
                 actions:
                     (navBarSelectedPage == 0) ? [homepageSearchWidget] : null,
               )
             ];
           },
-          body: navBarPages.elementAt(navBarSelectedPage),
+
+          // if the product list is still being retrieved from firestore
+          // home page should be a loading circle, (0 is homepage)
+          body: (productList.isEmpty && navBarSelectedPage == 0)
+              ? const Center(child: CircularProgressIndicator.adaptive())
+              : navBarPages.elementAt(navBarSelectedPage),
         ),
         bottomNavigationBar: BottomNavBar(
           selectedId: navBarSelectedPage,
@@ -126,37 +166,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // default body for the homepage scaffold
-  Widget homePageBody(List<Product> products) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 0),
-      children: [
-        //random featured item on sale
-        FeaturedItemWidget(
-          productList: productList,
-        ),
-
-        //horizontal listview of products
-        ProductViewWidget(
-          productList: productList,
-          category: categories[rand1],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[rand1 + 1],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[rand1 + 2],
-        ),
-      ],
-    );
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    // I've heard undisposed controllers can cause memory leaks
     _controller.dispose();
   }
 }

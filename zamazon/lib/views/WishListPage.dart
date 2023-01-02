@@ -58,8 +58,15 @@ class _WishListPageState extends State<WishListPage> {
             child: ListView.builder(
                 // removes default top padding
                 padding: const EdgeInsets.only(top: 0),
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data.length + 1,
                 itemBuilder: (context, index) {
+                  // add whitespace at the bottom of listview
+                  if (index == snapshot.data.length) {
+                    return const SizedBox(
+                      height: kBottomNavigationBarHeight,
+                    );
+                  }
+
                   ShoppingCartWishListItem scwlItem = snapshot.data[index];
                   return WishListItem(
                     scwlModel: _scwlModel,

@@ -14,30 +14,32 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: const Icon(Icons.home),
-          label: FlutterI18n.translate(context, "Bottom_NavBar.home_page"),
+          icon: Icon(Icons.home),
+          label: '',
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.person),
-          label: FlutterI18n.translate(context, "Bottom_NavBar.profile_page"),
+          icon: Icon(Icons.person),
+          label: '',
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.shopping_cart),
-          label: FlutterI18n.translate(context, "Bottom_NavBar.shopping_cart"),
+          icon: Icon(Icons.shopping_cart),
+          label: '',
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.favorite),
-          label: FlutterI18n.translate(context, "Bottom_NavBar.wish_list"),
+          icon: Icon(Icons.favorite),
+          label: '',
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.settings),
-          label: FlutterI18n.translate(context, "Bottom_NavBar.settings"),
+          icon: Icon(Icons.settings),
+          label: '',
           backgroundColor: Colors.orange,
         ),
       ],

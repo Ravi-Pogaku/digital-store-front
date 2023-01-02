@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-
 import '../models/settings_BLoC.dart';
+
+// creates the + and -  buttons to modify an item's quantity in your shopping
+// cart.
 
 class QuantityWidget extends StatelessWidget {
   const QuantityWidget({super.key, required this.scwlItem});
@@ -19,6 +21,7 @@ class QuantityWidget extends StatelessWidget {
 
     return Row(
       children: [
+        // minus button
         OutlinedButton(
             onPressed: () {
               if (scwlItem.quantity! > 1) {
@@ -33,7 +36,11 @@ class QuantityWidget extends StatelessWidget {
               foregroundColor: buttonTheme,
             ),
             child: const Icon(Icons.remove)),
+
+        // current quantity of product in your cart
         Text("Qty: ${scwlItem.quantity}"),
+
+        // add button
         OutlinedButton(
             onPressed: () {
               if (scwlItem.quantity! < 99) {

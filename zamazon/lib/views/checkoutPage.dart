@@ -33,6 +33,8 @@ class CheckOutPage extends StatelessWidget {
         }
 
         return Scaffold(
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           appBar: DefaultAppBar(
             context,
             title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),

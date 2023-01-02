@@ -138,7 +138,7 @@ class ProductViewWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                RatingWidget(product: specificProducts[itemIndex]),
+                RatingWidget(rating: specificProducts[itemIndex].rating!),
                 PriceWidget(price: specificProducts[itemIndex].price!),
               ],
             ),

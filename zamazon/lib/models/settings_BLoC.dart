@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// class that provides the current theme to components that require it.
+// class used to provide current theme (light/dark mode) and language chosen
+// by the user to components that require it.
+// shared preferences is used to persist that info.
 
 class SettingsBLoC extends ChangeNotifier {
   ThemeMode? themeMode;
   String? languageCode;
 
-  // constructor to set the current theme. On a fresh download of this app
-  // isDarkMode and languageCode will be null so they are defaulted to
-  // lightmode and english respectively.
+  // Constructor used to load theme and language from previous session via
+  // shared preferences.
+  // On a fresh download of this app, isDarkMode and languageCode will be null
+  // so they are defaulted to lightmode and english respectively.
   SettingsBLoC({bool? isDarkMode, String? languageCode}) {
     if (isDarkMode == null) {
-      themeMode = ThemeMode.light; // default to lightmode
+      themeMode = ThemeMode.light;
     } else {
       themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     }
 
     if (languageCode == null) {
-      this.languageCode = 'en'; // default to english
+      this.languageCode = 'en';
     } else {
       this.languageCode = languageCode;
     }
@@ -27,8 +30,8 @@ class SettingsBLoC extends ChangeNotifier {
         'Initialized settings: language=${this.languageCode} theme=$themeMode');
   }
 
-  // used for widgets' whose colors are not determined by the theme of the
-  // parent material app. Look in SignIn-SignUpForm.dart for example.
+  // Used for custom styling based on the theme.
+  // Look in SignIn-SignUpForm.dart for example.
   bool get isDarkMode {
     return themeMode == ThemeMode.dark;
   }
