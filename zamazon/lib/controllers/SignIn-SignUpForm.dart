@@ -97,170 +97,178 @@ class _SignInWidgetState extends State<SignInWidget> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            width: width * 0.9,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: containerTheme,
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: height * 0.1),
+    return GestureDetector(
+      // hide keyboard and cursor when screen is tapped
+      onTap: () {
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              width: width * 0.9,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: containerTheme,
+                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: height * 0.1),
 
-                // SWITCH THEME BUTTON
-                const Align(
-                  alignment: Alignment.centerRight,
-                  child: ChangeThemeButton(),
-                ),
-
-                // LOGO IMAGE
-                Image.network(zamazonLogo),
-
-                // GREETING TEXT
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    (isSigningIn)
-                        ? FlutterI18n.translate(context, "SignInForm.greeting")
-                        : FlutterI18n.translate(context, "SignUpForm.greeting"),
-                    style: const TextStyle(fontSize: 30),
+                  // SWITCH THEME BUTTON
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: ChangeThemeButton(),
                   ),
-                ),
 
-                // EMAIL FIELD
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: TextFormField(
-                    decoration: buildInputDecor(
-                      false,
-                      const Icon(Icons.email),
-                      "SignInForm.email",
+                  // LOGO IMAGE
+                  Image.network(zamazonLogo),
+
+                  // GREETING TEXT
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: Text(
+                      (isSigningIn)
+                          ? FlutterI18n.translate(
+                              context, "SignInForm.greeting")
+                          : FlutterI18n.translate(
+                              context, "SignUpForm.greeting"),
+                      style: const TextStyle(fontSize: 30),
                     ),
-                    onSaved: (email) {
-                      _email = email!.trim();
-                    },
-                    validator: (value) {
-                      return RegexValidation().validateEmail(value);
-                    },
                   ),
-                ),
 
-                // PASSWORD FIELD
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: TextFormField(
-                    obscureText: obscurePassword,
-                    decoration: buildInputDecor(
-                      true,
-                      const Icon(Icons.key),
-                      "SignInForm.password",
-                    ),
-                    onChanged: (password) {
-                      _password = password;
-                    },
-                    validator: (value) {
-                      return RegexValidation().validatePassword(value);
-                    },
-                  ),
-                ),
-
-                // CONFRIM PASSWORD FIELD FOR SIGN UP PAGE
-                (!isSigningIn)
-                    ? Container(
-                        margin: const EdgeInsets.all(10),
-                        child: TextFormField(
-                          // controller: _passwordController,
-                          obscureText: obscurePassword,
-                          decoration: buildInputDecor(
-                            true,
-                            const Icon(Icons.key),
-                            "SignUpForm.confirmPassword",
-                          ),
-                          validator: (value) {
-                            if (value != null && value.isEmpty) {
-                              return 'Please re-enter your password';
-                            } else if (value != _password) {
-                              return 'Passwords must match';
-                            }
-                            return null;
-                          },
-                        ),
-                      )
-                    : Container(), // NO NEED TO CONFIRM PASSWORD DURING SIGN IN
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                // SIGN IN/SIGN UP BUTTON
-                Container(
-                  width: width * 0.85,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepOrangeAccent),
-                  child: TextButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          // used firebaseauth for authentication
-                          if (isSigningIn) {
-                            trySignIn(context);
-                          } else {
-                            trySignUp(context);
-                          }
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.black87,
+                  // EMAIL FIELD
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      decoration: buildInputDecor(
+                        false,
+                        const Icon(Icons.email),
+                        "SignInForm.email",
                       ),
-                      child: Text(
-                          (isSigningIn)
-                              ? FlutterI18n.translate(
-                                  context, "SignInForm.sign_in")
-                              : FlutterI18n.translate(
-                                  context, "SignUpForm.sign_up"),
-                          style: const TextStyle(fontSize: 30))),
-                ),
-
-                // CHANGE SIGN IN <-> SIGN UP PAGE BUTTON
-                TextButton(
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    _formKey.currentState!.reset();
-                    setState(() {
-                      // change between sign in and sign up pages
-                      obscurePassword = true;
-                      isSigningIn = !isSigningIn;
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    surfaceTintColor: Colors.blue,
-                    textStyle: const TextStyle(fontSize: 15),
-                  ),
-                  child: Text(
-                    (isSigningIn)
-                        ? FlutterI18n.translate(
-                            context, "SignInForm.no_account")
-                        : FlutterI18n.translate(
-                            context, "SignUpForm.yes_account"),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                      onSaved: (email) {
+                        _email = email!.trim();
+                      },
+                      validator: (value) {
+                        return RegexValidation().validateEmail(value);
+                      },
                     ),
                   ),
-                ),
 
-                // CHOOSE LANGUAGE DROP DOWN MENU
-                LanguageDropDownMenu(
-                  currentLanguage: currentLanguage,
-                ),
-              ],
+                  // PASSWORD FIELD
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      obscureText: obscurePassword,
+                      decoration: buildInputDecor(
+                        true,
+                        const Icon(Icons.key),
+                        "SignInForm.password",
+                      ),
+                      onChanged: (password) {
+                        _password = password;
+                      },
+                      validator: (value) {
+                        return RegexValidation().validatePassword(value);
+                      },
+                    ),
+                  ),
+
+                  // CONFRIM PASSWORD FIELD FOR SIGN UP PAGE
+                  (!isSigningIn)
+                      ? Container(
+                          margin: const EdgeInsets.all(10),
+                          child: TextFormField(
+                            // controller: _passwordController,
+                            obscureText: obscurePassword,
+                            decoration: buildInputDecor(
+                              true,
+                              const Icon(Icons.key),
+                              "SignUpForm.confirmPassword",
+                            ),
+                            validator: (value) {
+                              if (value != null && value.isEmpty) {
+                                return 'Please re-enter your password';
+                              } else if (value != _password) {
+                                return 'Passwords must match';
+                              }
+                              return null;
+                            },
+                          ),
+                        )
+                      : Container(), // NO NEED TO CONFIRM PASSWORD DURING SIGN IN
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  // SIGN IN/SIGN UP BUTTON
+                  Container(
+                    width: width * 0.85,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.deepOrangeAccent),
+                    child: TextButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+
+                            // used firebaseauth for authentication
+                            if (isSigningIn) {
+                              trySignIn(context);
+                            } else {
+                              trySignUp(context);
+                            }
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.black87,
+                        ),
+                        child: Text(
+                            (isSigningIn)
+                                ? FlutterI18n.translate(
+                                    context, "SignInForm.sign_in")
+                                : FlutterI18n.translate(
+                                    context, "SignUpForm.sign_up"),
+                            style: const TextStyle(fontSize: 30))),
+                  ),
+
+                  // CHANGE SIGN IN <-> SIGN UP PAGE BUTTON
+                  TextButton(
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      _formKey.currentState!.reset();
+                      setState(() {
+                        // change between sign in and sign up pages
+                        obscurePassword = true;
+                        isSigningIn = !isSigningIn;
+                      });
+                    },
+                    style: TextButton.styleFrom(
+                      surfaceTintColor: Colors.blue,
+                      textStyle: const TextStyle(fontSize: 15),
+                    ),
+                    child: Text(
+                      (isSigningIn)
+                          ? FlutterI18n.translate(
+                              context, "SignInForm.no_account")
+                          : FlutterI18n.translate(
+                              context, "SignUpForm.yes_account"),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+
+                  // CHOOSE LANGUAGE DROP DOWN MENU
+                  LanguageDropDownMenu(
+                    currentLanguage: currentLanguage,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

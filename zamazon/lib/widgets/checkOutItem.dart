@@ -29,6 +29,7 @@ class BuildCheckOutItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ProductImage(
             imageWidth: width * 0.4,
@@ -40,7 +41,7 @@ class BuildCheckOutItem extends StatelessWidget {
             imageFit: BoxFit.contain,
             imageUrl: scwlItem.imageUrl!,
           ),
-          const SizedBox(width: 20),
+          // const SizedBox(width: 20),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

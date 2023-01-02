@@ -113,7 +113,6 @@ class _HomePageState extends State<HomePage> {
     ];
 
     navBarPages = [
-      // default body for the homepage scaffold, method located below build
       homePageBody(productList),
       const UserProfilePage(title: 'Profile'),
       const ShoppingCartPage(title: 'Shopping Cart'),

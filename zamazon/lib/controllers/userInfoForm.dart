@@ -93,6 +93,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
                       _auth.addUserInfo(_name!, _address!);
 
+                      // if used for registration form
                       if (widget.buttonText == 'Confirm') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -104,10 +105,15 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
+
+                        // else used for profile page
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text("Information Updated!")));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                                content: Text(
+                          "Information Updated!",
+                          style: TextStyle(fontSize: 20),
+                        )));
                       }
                     }
                   },

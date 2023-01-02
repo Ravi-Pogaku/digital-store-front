@@ -42,10 +42,13 @@ class CheckOutPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(10),
             child: ListView.builder(
-                itemCount: checkOutItems.length,
-                itemBuilder: (context, index) {
-                  return BuildCheckOutItem(scwlItem: checkOutItems[index]);
-                }),
+              itemCount: checkOutItems.length,
+              itemBuilder: (context, index) {
+                return BuildCheckOutItem(
+                  scwlItem: checkOutItems[index],
+                );
+              },
+            ),
           ),
           bottomNavigationBar: ConfirmPurchaseWidget(
             checkedOutItems: checkOutItems,
