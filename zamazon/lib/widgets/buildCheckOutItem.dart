@@ -24,12 +24,13 @@ class BuildCheckOutItem extends StatelessWidget {
             : Colors.orange[100],
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 2,
+            width: MediaQuery.of(context).size.width * 0.3,
             margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),

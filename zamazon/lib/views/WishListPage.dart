@@ -90,7 +90,6 @@ class _WishListPageState extends State<WishListPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: const [
-                  // TODO: add real trashcan icon
                   Icon(
                     Icons.delete,
                   )
@@ -156,7 +155,7 @@ class _WishListPageState extends State<WishListPage> {
                           },
                           child: Text(
                             FlutterI18n.translate(context, "WishListPage.add_to_cart"),
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           )),
                       const SizedBox(
                         height: 20,

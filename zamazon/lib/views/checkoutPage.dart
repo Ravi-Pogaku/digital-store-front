@@ -28,6 +28,7 @@ class CheckOutPage extends StatelessWidget {
       stream: UserModel().getUserInformation(),
       builder: (context, snapshot) {
         return Scaffold(
+          extendBody: true,
           appBar: DefaultAppBar(
             context,
             title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
