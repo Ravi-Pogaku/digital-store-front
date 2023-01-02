@@ -50,7 +50,6 @@ class _WishListPageState extends State<WishListPage> {
               style: const TextStyle(fontSize: 25),
             ));
           }
-
           // stream has successfully loaded and there are items present in
           // the user's wishlist.
           return Padding(
