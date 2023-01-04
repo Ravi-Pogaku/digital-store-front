@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
     super.key,
+    required this.pageController,
     required this.selectedId,
-    required this.onTap,
   });
 
+  final PageController pageController;
   final int selectedId;
-  final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,13 @@ class BottomNavBar extends StatelessWidget {
         ),
       ],
       currentIndex: selectedId,
-      onTap: onTap,
+      onTap: (pageNum) {
+        pageController.animateToPage(
+          pageNum,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      },
       type: BottomNavigationBarType.shifting,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.white,

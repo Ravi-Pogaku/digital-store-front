@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/widgets/navigateToProductPage.dart';
 import 'package:zamazon/widgets/productImage.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
 
@@ -28,18 +29,8 @@ class FeaturedItemWidget extends StatelessWidget {
     // picks one random product to feature
     Product featuredProduct = productList[random.nextInt(productList.length)];
 
-    return GestureDetector(
-      onTap: () {
-        // on tap send to product's page
-        Navigator.pushNamed(
-          context,
-          "/ProductPage",
-          arguments: {
-            'title': 'Product',
-            'product': featuredProduct,
-          },
-        );
-      },
+    return NavigateToProductPage(
+      product: featuredProduct,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -77,7 +68,7 @@ class FeaturedItemWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "\$${featuredProduct.price}",
+              "\$${featuredProduct.price!.toStringAsFixed(2)}",
               style: TextStyle(
                 fontSize: 30,
                 color: containerTheme,

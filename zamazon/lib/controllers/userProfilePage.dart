@@ -22,13 +22,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         // if data still being retrieved, show loading circle
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         // if error, show loading circle and print error
         if (snapshot.hasError) {
           print('USER-PROFILE-PAGE ERROR: ${snapshot.error.toString()}');
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         // data loaded successfully, this is the actual profile page.

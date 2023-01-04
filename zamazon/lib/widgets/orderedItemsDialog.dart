@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import '../models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'checkOutItem.dart';
 
-void showOrderedItemsDialog(BuildContext context, List<dynamic> orderedItems) {
+void showOrderedItemsDialog(
+  BuildContext context,
+  String orderID,
+  List<dynamic> orderedItems,
+) {
   double height = MediaQuery.of(context).size.height;
 
   showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Items"),
+          title: Text(
+            'Order ID: $orderID',
+            softWrap: true,
+            maxLines: 2,
+          ),
           insetPadding: EdgeInsets.zero,
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           content: SizedBox(
@@ -38,6 +46,10 @@ void showOrderedItemsDialog(BuildContext context, List<dynamic> orderedItems) {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
+                  style: const ButtonStyle(
+                    foregroundColor: MaterialStatePropertyAll(Colors.black),
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange),
+                  ),
                   child: const Text("Close")),
             ),
           ],

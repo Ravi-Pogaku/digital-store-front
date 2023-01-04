@@ -55,9 +55,7 @@ class _ProductPageState extends State<ProductPage> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: DefaultAppBar(
-        context,
-      ),
+      appBar: const DefaultAppBar(),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [

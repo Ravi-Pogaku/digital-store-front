@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/widgets/navigateToProductPage.dart';
 import 'package:zamazon/widgets/productImage.dart';
 
 // class needed for searchBar, responsible for building the searchBar and
@@ -80,34 +81,27 @@ class CustomSearchDelegate extends SearchDelegate {
         );
       },
       itemBuilder: (context, index) {
+        double height = MediaQuery.of(context).size.height;
+
         return (matches.isNotEmpty)
-            ? ListTile(
-                title: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: ProductImage(
-                    border: BorderRadius.circular(10),
+            ? NavigateToProductPage(
+                product: matches[index],
+                child: ListTile(
+                  title: ProductImage(
+                    imageHeight: height * 0.24,
+                    backgroundHeight: height * 0.25,
+                    backgroundBorder: BorderRadius.circular(10),
                     margin: const EdgeInsets.only(bottom: 10),
                     imageUrl: matches[index].imageUrl!,
                   ),
-                ),
-                subtitle: Text(
-                  matches[index].title!,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: textColor,
+                  subtitle: Text(
+                    matches[index].title!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: textColor,
+                    ),
                   ),
                 ),
-                onTap: () {
-                  // when a product is tapped, show that product's page
-                  Navigator.pushNamed(
-                    context,
-                    "/ProductPage",
-                    arguments: {
-                      'title': 'Product',
-                      'product': matches[index],
-                    },
-                  );
-                },
               )
             : nothingFoundFromSearch();
       },

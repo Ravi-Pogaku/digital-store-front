@@ -3,8 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/widgets/productImage.dart';
-
-import '../models/settings_BLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
 class BuildCheckOutItem extends StatelessWidget {
   const BuildCheckOutItem({

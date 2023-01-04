@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
-import '../models/settings_BLoC.dart';
-import '../models/shoppingCartWishListItem.dart';
-import '../models/shoppingCartWishListModel.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
   ConfirmPurchaseWidget({

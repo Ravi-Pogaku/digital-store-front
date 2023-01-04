@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +10,7 @@ import 'package:zamazon/controllers/SignIn-SignUpForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
+import 'package:zamazon/views/orderHistory.dart';
 import 'package:zamazon/views/viewAllCategoryProducts.dart';
 import 'package:zamazon/webscraping/scrapeProducts.dart';
 import 'package:zamazon/views/newUserInfoPage.dart';
@@ -102,6 +102,7 @@ class MyApp extends StatelessWidget {
               case '/CategoryPage':
                 return MaterialPageRoute(builder: (context) {
                   return ViewAllCategoryProducts(
+                    title: arguments['title'],
                     specificProducts: arguments['specificProducts'],
                   );
                 });
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(),
             '/OrderTrackMap': (context) => const OrderTrackMap(),
+            '/OrderHistory': (context) => const OrderHistory(),
           },
 
           // language delegates and supported languages

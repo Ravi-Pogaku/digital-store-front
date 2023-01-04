@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:zamazon/models/shoppingCartWishListItem.dart';
-import 'package:zamazon/models/shoppingCartWishListModel.dart';
-import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/widgets/genericSnackBar.dart';
-import 'package:zamazon/widgets/sizePickerDialog.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/wishListItem.dart';
 
 // Similar to shopping cart page, except users will only be able to
@@ -24,19 +20,23 @@ class WishListPage extends StatefulWidget {
 
 class _WishListPageState extends State<WishListPage> {
   final SCWLModel _scwlModel = SCWLModel();
+  List<Product> products = [];
+  var wishListStream = SCWLModel().getUserShoppingCartWishList('wishList');
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    products = Provider.of<List<Product>>(context);
+
     return StreamBuilder(
-        stream: SCWLModel().getUserShoppingCartWishList("wishList"),
+        stream: wishListStream,
         initialData: const [],
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          // if connectionstate == waiting (data still being retrieved)
+          // if data still being retrieved, show loading circle.
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
 
           // stream has successfully loaded but there are no items are in the
@@ -50,26 +50,29 @@ class _WishListPageState extends State<WishListPage> {
               style: const TextStyle(fontSize: 25),
             ));
           }
+
           // stream has successfully loaded and there are items present in
           // the user's wishlist.
           return Padding(
             padding: const EdgeInsets.all(10),
-            child: ListView.builder(
-                // removes default top padding
+            child: ListView.separated(
+                // removes default listview top padding
                 padding: const EdgeInsets.only(top: 0),
-                itemCount: snapshot.data.length + 1,
+                itemCount: snapshot.data.length,
+                separatorBuilder: (context, index) {
+                  return const Divider(thickness: 2);
+                },
                 itemBuilder: (context, index) {
-                  // add whitespace at the bottom of listview
-                  if (index == snapshot.data.length) {
-                    return const SizedBox(
-                      height: kBottomNavigationBarHeight,
-                    );
-                  }
+                  // required for WishListItem for navigator.push to ProductPage
+                  // when user taps on a WishListItem
+                  Product currentProduct = products.firstWhere(
+                    (product) => product.id == snapshot.data[index].productId,
+                  );
 
-                  ShoppingCartWishListItem scwlItem = snapshot.data[index];
                   return WishListItem(
                     scwlModel: _scwlModel,
-                    scwlItem: scwlItem,
+                    scwlItem: snapshot.data[index],
+                    product: currentProduct,
                   );
                 }),
           );

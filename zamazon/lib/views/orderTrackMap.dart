@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
 
 import '../models/userModel.dart';
 
@@ -21,19 +22,21 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
     return StreamBuilder(
         stream: UserModel().getUserInformation(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          // if stream still being retrieved, show loading circle
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             );
           }
+
           String address = '${snapshot.data!.address}';
           return FutureBuilder(
               future: getUserLatLng(address),
               builder: (context, snapshot) {
                 if (snapshot.hasData && !snapshot.hasError) {
                   return Scaffold(
-                    appBar: AppBar(
-                      title: const Text("Tracking Order"),
+                    appBar: const DefaultAppBar(
+                      title: Text("Tracking Order"),
                     ),
                     body: Stack(children: [
                       MapboxMap(
@@ -69,7 +72,7 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
                   );
                 }
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator.adaptive(),
                 );
               });
         });
@@ -115,7 +118,7 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
       "fills",
       "lines",
       LineLayerProperties(
-        lineColor: Colors.blue.toHexStringRGB(),
+        lineColor: Colors.orange.toHexStringRGB(),
         lineCap: "round",
         lineJoin: "round",
         lineWidth: 2,

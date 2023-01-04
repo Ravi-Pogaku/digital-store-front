@@ -11,6 +11,7 @@ class ProductImage extends StatelessWidget {
     this.backgroundHeight,
     this.backgroundWidth,
     this.border,
+    this.backgroundBorder,
     this.margin,
     required this.imageUrl,
   });
@@ -23,6 +24,7 @@ class ProductImage extends StatelessWidget {
   final double? backgroundHeight;
   final double? backgroundWidth;
   final BorderRadiusGeometry? border;
+  final BorderRadiusGeometry? backgroundBorder;
   final EdgeInsetsGeometry? margin;
   final String imageUrl;
 
@@ -32,14 +34,14 @@ class ProductImage extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       children: [
         Container(
-          // in case the background should be different dimensions than
+          // in case the background should be different settings than
           // the image on top of it.
           height: backgroundHeight ?? imageHeight,
           width: backgroundWidth ?? imageWidth,
           margin: margin,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: border,
+            borderRadius: backgroundBorder ?? border,
           ),
         ),
         Container(

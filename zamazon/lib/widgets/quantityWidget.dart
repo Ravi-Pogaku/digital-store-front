@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-import '../models/settings_BLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
 // creates the + and -  buttons to modify an item's quantity in your shopping
 // cart.
@@ -27,7 +27,7 @@ class QuantityWidget extends StatelessWidget {
                 scwlItem.quantity = scwlItem.quantity! - 1;
                 scwlItem.totalPrice =
                     scwlItem.pricePerUnit! * scwlItem.quantity!;
-                SCWLModel().updateCartWishList(scwlItem);
+                SCWLModel().updateCartWishListItem(scwlItem);
               }
             },
             style: OutlinedButton.styleFrom(
@@ -46,7 +46,7 @@ class QuantityWidget extends StatelessWidget {
                 scwlItem.quantity = scwlItem.quantity! + 1;
                 scwlItem.totalPrice =
                     scwlItem.pricePerUnit! * scwlItem.quantity!;
-                SCWLModel().updateCartWishList(scwlItem);
+                SCWLModel().updateCartWishListItem(scwlItem);
               }
             },
             style: OutlinedButton.styleFrom(

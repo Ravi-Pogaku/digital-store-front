@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// sliver app bar for nestedScrollView in homepage.dart.
+// required for cool hiding and reappearing appbar
+
 class MySliverAppBar extends StatelessWidget {
   const MySliverAppBar({super.key, required this.title, this.actions});
 
@@ -14,7 +17,7 @@ class MySliverAppBar extends StatelessWidget {
       foregroundColor: Colors.black,
       elevation: 0.0,
       title: title,
-      actions: (actions != null) ? actions : [],
+      actions: actions,
     );
   }
 }

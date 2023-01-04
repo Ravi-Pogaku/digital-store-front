@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // class used to provide current theme (light/dark mode) and language chosen
 // by the user to components that require it.
-// shared preferences is used to persist that info.
+// shared preferences is used to persist that info between sessions.
 
 class SettingsBLoC extends ChangeNotifier {
   ThemeMode? themeMode;

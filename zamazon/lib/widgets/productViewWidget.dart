@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/widgets/categoryHeader.dart';
+import 'package:zamazon/widgets/navigateToProductPage.dart';
 import 'package:zamazon/widgets/productImage.dart';
-import '../models/Product.dart';
-import '../models/settings_BLoC.dart';
+import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'priceWidget.dart';
 import 'ratingWidget.dart';
 
 // Carousel slider product display on homepage
 
-class ProductViewWidget extends StatelessWidget {
-  const ProductViewWidget({
+class CategoryProductCarousel extends StatelessWidget {
+  const CategoryProductCarousel({
     super.key,
     required this.productList,
     required this.category,
@@ -32,84 +34,42 @@ class ProductViewWidget extends StatelessWidget {
 
       return Column(
         children: [
-          categoryHeader(categoryName, specificProducts, context),
-          productListView(category, specificProducts, height),
+          CategoryHeader(
+              category: categoryName, specificProducts: specificProducts),
+          BuildProductCarousel(specificProducts: specificProducts),
         ],
       );
     } else {
       return SizedBox(
         height: height * 0.15,
         child: const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         ),
       );
     }
   }
+}
 
-  Widget categoryHeader(
-      String category, List<Product> specificProducts, BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16, bottom: 8),
-      decoration: const BoxDecoration(color: Colors.orangeAccent),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              category,
-              style: const TextStyle(
-                fontSize: 25,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  "/CategoryPage",
-                  arguments: {
-                    'title': 'Category: $category',
-                    'specificProducts': specificProducts,
-                  },
-                );
-              },
-              child: const Text(
-                'See All',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class BuildProductCarousel extends StatelessWidget {
+  const BuildProductCarousel({
+    super.key,
+    required this.specificProducts,
+  });
 
-  Widget productListView(
-      String category, List<Product> specificProducts, double height) {
+  final List<Product> specificProducts;
+
+  @override
+  Widget build(BuildContext context) {
     return CarouselSlider.builder(
       itemCount: specificProducts.length,
       options: CarouselOptions(
-        height: height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.42,
       ),
       itemBuilder: (context, itemIndex, pageViewIndex) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              "/ProductPage",
-              arguments: {
-                'title': 'Product',
-                'product': specificProducts[itemIndex],
-              },
-            );
-          },
+        double height = MediaQuery.of(context).size.height;
+
+        return NavigateToProductPage(
+          product: specificProducts[itemIndex],
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
@@ -119,22 +79,28 @@ class ProductViewWidget extends StatelessWidget {
                     : Colors.white),
             child: Column(
               children: [
-                Expanded(
+                Flexible(
+                  flex: 2,
                   child: ProductImage(
                     margin: const EdgeInsets.all(10),
-                    border: BorderRadius.circular(20),
+                    imageFit: BoxFit.contain,
+                    imageHeight: height * 0.18,
+                    backgroundHeight: height * 0.2,
+                    backgroundBorder: BorderRadius.circular(20),
                     imageUrl: specificProducts[itemIndex].imageUrl!,
                   ),
                 ),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Text(
-                    "${specificProducts[itemIndex].title}",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 25,
+                Expanded(
+                  child: Container(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Text(
+                      "${specificProducts[itemIndex].title}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: const TextStyle(
+                        fontSize: 22,
+                      ),
                     ),
                   ),
                 ),

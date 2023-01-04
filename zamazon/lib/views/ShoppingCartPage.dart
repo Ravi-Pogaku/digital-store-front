@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/widgets/proceedToCheckOut.dart';
-import '../models/shoppingCartWishListModel.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/shoppingCartItem.dart';
 
 //IN PROGRESS, users should be able to add/remove items to their shopping carts
@@ -17,27 +19,28 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-  // List<Product>? productList;
-
   final SCWLModel _scwlModel = SCWLModel();
+  List<Product> products = [];
+  var shoppingCartStream =
+      SCWLModel().getUserShoppingCartWishList("shoppingCart");
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    products = Provider.of<List<Product>>(context);
 
     return StreamBuilder(
-        stream: SCWLModel().getUserShoppingCartWishList("shoppingCart"),
+        stream: shoppingCartStream,
         initialData: const [],
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           // if data still loading, then show loading indicator
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
 
           // on error still show a loading indicator but also print the error.
           if (snapshot.hasError) {
             print('SHOPPING-CART-PAGE ERROR: ${snapshot.error.toString()}');
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
 
           return Scaffold(
@@ -47,18 +50,29 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 // shopping cart.
                 ? Padding(
                     padding: const EdgeInsets.all(10),
-                    child: ListView.builder(
+                    child: ListView.separated(
                         padding: const EdgeInsets.only(top: 0),
                         itemCount: snapshot.data.length + 1,
+                        separatorBuilder: (context, index) {
+                          return const Divider(thickness: 2);
+                        },
                         itemBuilder: (context, index) {
                           // add whitespace at the bottom of listview
                           if (index == snapshot.data.length) {
                             return const SizedBox(
-                              height: 110,
+                              height: kBottomNavigationBarHeight * 2,
                             );
                           }
 
+                          // required for ShoppingCartItem for navigator.push
+                          // to ProductPage  when user taps on a WishListItem
+                          Product currentProduct = products.firstWhere(
+                            (product) =>
+                                product.id == snapshot.data[index].productId,
+                          );
+
                           return ShoppingCartItem(
+                            product: currentProduct,
                             scwlModel: _scwlModel,
                             scwlItem: snapshot.data[index],
                           );

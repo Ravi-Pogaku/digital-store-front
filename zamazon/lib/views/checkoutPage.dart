@@ -29,14 +29,13 @@ class CheckOutPage extends StatelessWidget {
       builder: (context, snapshot) {
         // if data is loading, show loading circle
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         return Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: true,
           appBar: DefaultAppBar(
-            context,
             title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
           ),
           body: Padding(
