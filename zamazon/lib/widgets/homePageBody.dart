@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 import 'featuredItemWidget.dart';
-import 'productViewWidget.dart';
+import 'categoryProductCarousel.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key});

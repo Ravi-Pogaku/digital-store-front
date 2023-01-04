@@ -4,17 +4,11 @@ import 'package:zamazon/globals.dart';
 import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/views/deleteItemsButton.dart';
 import 'package:zamazon/widgets/bottomNavBar.dart';
-import 'package:provider/provider.dart';
-import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/widgets/customSearchDelegate.dart';
-import 'package:zamazon/widgets/featuredItemWidget.dart';
 import 'package:zamazon/widgets/homePageBody.dart';
-import 'package:zamazon/widgets/productViewWidget.dart';
 import 'package:zamazon/controllers/userProfilePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/views/WishListPage.dart';
 import 'package:zamazon/widgets/searchButton.dart';
-import 'dart:math';
 import 'package:zamazon/widgets/sliverAppBar.dart';
 
 // Homepage of our digital store front. Presented after successful sign in/ sign up
