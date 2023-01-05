@@ -53,7 +53,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
         Duration(minutes: minutes.toInt(), seconds: seconds.toInt()));
 
     _scwlModel.addToOrderHistory(checkedOutItems, userAddress, orderDate, deliveryDate);
-      
+
     // _notifications.sendNotificationLater(
     //   'Your order has been delivered!',
     //   notifBody,

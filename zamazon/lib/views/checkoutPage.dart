@@ -6,7 +6,6 @@ import 'package:zamazon/widgets/checkOutItem.dart';
 import 'package:zamazon/widgets/confirmPurchase.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
-import 'package:zamazon/views/orderTrackMap.dart';
 
 class CheckOutPage extends StatelessWidget {
   const CheckOutPage({
