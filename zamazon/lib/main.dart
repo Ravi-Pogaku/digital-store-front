@@ -122,6 +122,13 @@ class MyApp extends StatelessWidget {
                     numOfItems: arguments['numOfItems'],
                   );
                 });
+              case '/OrderTrackMap':
+                return MaterialPageRoute(builder: (context) {
+                  return OrderTrackMap(
+                    title: arguments['title'],
+                    deliveryAddress: arguments['deliveryAddress'],
+                  );
+                });
               default:
                 return MaterialPageRoute(
                     builder: (context) => const HomePage());
@@ -134,7 +141,6 @@ class MyApp extends StatelessWidget {
                 const SettingsPageWidget(title: 'Settings'),
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(),
-            '/OrderTrackMap': (context) => const OrderTrackMap(),
             '/OrderHistory': (context) => const OrderHistory(),
           },
 

@@ -98,8 +98,8 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
               });
             },
             style: ButtonStyle(
-                foregroundColor: const MaterialStatePropertyAll(Colors.black),
-                backgroundColor: const MaterialStatePropertyAll(Colors.orange),
+                foregroundColor: const MaterialStatePropertyAll(Colors.white),
+                backgroundColor: const MaterialStatePropertyAll(Colors.blue),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

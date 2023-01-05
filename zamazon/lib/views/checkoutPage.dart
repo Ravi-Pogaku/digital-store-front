@@ -57,6 +57,7 @@ class CheckOutPage extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: ConfirmPurchaseWidget(
+            userAddress: snapshot.data!.address!,
             checkedOutItems: checkOutItems,
             sumOfCart: sumOfCart,
             width: MediaQuery.of(context).size.width,

@@ -57,7 +57,8 @@ class BuildCheckOutItem extends StatelessWidget {
                   "\$${scwlItem.totalPrice}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                scwlItem.size != 0
+                // only displays size if item has sizes
+                scwlItem.sizeSelection!.length != 1
                     ? Text.rich(TextSpan(children: [
                         TextSpan(
                             text: FlutterI18n.translate(

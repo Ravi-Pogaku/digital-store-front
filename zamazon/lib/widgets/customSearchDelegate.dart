@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/navigateToProductPage.dart';
 import 'package:zamazon/widgets/productImage.dart';

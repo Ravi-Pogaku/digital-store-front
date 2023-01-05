@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   final ScrollController scrollController = ScrollController(
     keepScrollOffset: false,
   );
+
   final PageController pageController = PageController();
 
   void changePageAnimation() {

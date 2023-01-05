@@ -5,10 +5,15 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
 
-import '../models/userModel.dart';
-
 class OrderTrackMap extends StatefulWidget {
-  const OrderTrackMap({Key? key}) : super(key: key);
+  const OrderTrackMap({
+    super.key,
+    required this.title,
+    required this.deliveryAddress,
+  });
+
+  final String? title;
+  final String? deliveryAddress;
 
   @override
   State<OrderTrackMap> createState() => _OrderTrackMapState();
@@ -18,79 +23,63 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
   late MapboxMapController mapboxMapController;
 
   @override
+  void dispose() {
+    mapboxMapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: UserModel().getUserInformation(),
+    return FutureBuilder(
+        future: getUserLatLng(widget.deliveryAddress!),
         builder: (context, snapshot) {
-          // if stream still being retrieved, show loading circle
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
+          if (snapshot.hasData && !snapshot.hasError) {
+            return Scaffold(
+              appBar: DefaultAppBar(
+                title: Text(widget.title!),
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+              ),
+              body: Stack(children: [
+                MapboxMap(
+                  doubleClickZoomEnabled: true,
+                  accessToken: Constants.mapBoxAccessToken,
+                  initialCameraPosition:
+                      CameraPosition(target: snapshot.data!, zoom: 8),
+                  onMapCreated: (MapboxMapController controller) async {
+                    mapboxMapController = controller;
+                  },
+                  onStyleLoadedCallback: () async {
+                    // adding a symbol to the warehouse location
+                    await mapboxMapController.addSymbol(const SymbolOptions(
+                      geometry: Constants.warehouseLocation,
+                      iconSize: 0.1,
+                      iconImage: "assets/icons/warehouse.png",
+                    ));
+                    //adding markers to delivery location
+                    await mapboxMapController.addSymbol(
+                      SymbolOptions(
+                        geometry: snapshot.data,
+                        iconSize: 0.1,
+                        iconImage: "assets/icons/marker.png",
+                      ),
+                    );
+
+                    // creating the route line
+                    _addLine(false, snapshot.data!);
+                  },
+                  minMaxZoomPreference: const MinMaxZoomPreference(1, 15),
+                ),
+              ]),
             );
           }
-
-          String address = '${snapshot.data!.address}';
-          return FutureBuilder(
-              future: getUserLatLng(address),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && !snapshot.hasError) {
-                  return Scaffold(
-                    appBar: const DefaultAppBar(
-                      title: Text("Tracking Order"),
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                    ),
-                    body: Stack(children: [
-                      MapboxMap(
-                        accessToken: Constants.mapBoxAccessToken,
-                        initialCameraPosition: const CameraPosition(
-                            target: Constants.warehouseLocation),
-                        onMapCreated: (MapboxMapController controller) async {
-                          mapboxMapController = controller;
-                        },
-                        onStyleLoadedCallback: () async {
-                          // adding a symbol to the warehouse location
-                          await mapboxMapController
-                              .addSymbol(const SymbolOptions(
-                            geometry: Constants.warehouseLocation,
-                            iconSize: 0.1,
-                            iconImage: "assets/icons/warehouse.png",
-                          ));
-                          //adding markers to delivery location
-                          await mapboxMapController.addSymbol(
-                            SymbolOptions(
-                              geometry: snapshot.data,
-                              iconSize: 0.1,
-                              iconImage: "assets/icons/marker.png",
-                            ),
-                          );
-
-                          // there is no line to remove so false is passed
-                          _addLine(false, snapshot.data!);
-                        },
-                        minMaxZoomPreference: const MinMaxZoomPreference(1, 15),
-                      ),
-                    ]),
-                  );
-                }
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              });
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 
-  // gets user's delivery location using geocoding
-  Future<LatLng> getUserLatLng(String address) async {
-    final List<Location> locations = await locationFromAddress(address);
-
-    return LatLng(locations[0].latitude, locations[0].longitude);
-  }
-
   _addLine(bool removeLayer, LatLng userLocation) async {
-    mapboxMapController.animateCamera(
-        CameraUpdate.newCameraPosition(CameraPosition(target: userLocation)));
-
     // Add a route line between warehouse and user delivery location
     final response = await getRoute(userLocation);
     Map geometry = response['routes'][0]['geometry'];
@@ -107,12 +96,6 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
       ],
     };
 
-    // Remove route and source if it exists
-    if (removeLayer == true) {
-      await mapboxMapController.removeLayer("lines");
-      await mapboxMapController.removeSource("fills");
-    }
-
     // Add new source and route
     await mapboxMapController.addSource(
         "fills", GeojsonSourceProperties(data: fills));
@@ -120,13 +103,20 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
       "fills",
       "lines",
       LineLayerProperties(
-        lineColor: Colors.orange.toHexStringRGB(),
+        lineColor: Colors.blue.toHexStringRGB(),
         lineCap: "round",
         lineJoin: "round",
         lineWidth: 2,
       ),
     );
   }
+}
+
+// gets user's delivery location using geocoding
+Future<LatLng> getUserLatLng(String address) async {
+  final List<Location> locations = await locationFromAddress(address);
+
+  return LatLng(locations[0].latitude, locations[0].longitude);
 }
 
 String baseUrl = 'https://api.mapbox.com/directions/v5/mapbox';

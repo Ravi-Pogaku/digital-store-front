@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/Product.dart';
+import '../globals.dart';
 import 'userOrder.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 // class that interacts with the user's shopping cart and wishlist on firestore
 
@@ -84,7 +86,10 @@ class SCWLModel {
   }
 
   Future<void> addToOrderHistory(
-      List<ShoppingCartWishListItem> checkedOutItems) async {
+      List<ShoppingCartWishListItem> checkedOutItems,
+      String userAddress,
+      tz.TZDateTime orderDate,
+      tz.TZDateTime deliveryDate) async {
     List<Map> mappedSCWLItems = [];
 
     for (ShoppingCartWishListItem checkedOutItem in checkedOutItems) {
@@ -97,8 +102,10 @@ class SCWLModel {
         .collection("orders")
         .doc()
         .set({
-      "delivered": false,
-      "orderedOn": DateTime.now(),
+      "deliveryAddress": userAddress,
+      "warehouseAddress": Constants.warehouseAddress,
+      "deliveredOn": deliveryDate,
+      "orderedOn": orderDate,
       "purchasedProducts": FieldValue.arrayUnion(mappedSCWLItems),
     }, SetOptions(merge: true));
 
