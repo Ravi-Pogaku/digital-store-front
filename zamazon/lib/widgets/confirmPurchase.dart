@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
-import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
   ConfirmPurchaseWidget({
@@ -29,27 +30,36 @@ class ConfirmPurchaseWidget extends StatelessWidget {
   final SCWLModel _scwlModel = SCWLModel();
 
   void _sendDeliveryNotif(String notifBody) async {
-    _notifications.sendNotificationNow(
+    String timezone = await FlutterNativeTimezone.getLocalTimezone();
+
+    print(timezone);
+    print(tz.TZDateTime.now(tz.getLocation(timezone)));
+
+    _notifications.sendNotificationLater(
       'Your order has been delivered!',
       notifBody,
       'payloadpayloadpayload',
+      tz.TZDateTime.now(tz.getLocation(timezone)).add(
+        const Duration(seconds: 5),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    TextStyle regularTextStyle = const TextStyle(fontSize: 16);
+    tz.initializeTimeZones();
+
+    TextStyle regularTextStyle =
+        const TextStyle(fontSize: 16, color: Colors.white);
 
     _notifications.init();
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
       // height: MediaQuery.of(context).size.height/3,
-      decoration: BoxDecoration(
-          color: Provider.of<SettingsBLoC>(context).isDarkMode
-              ? Colors.grey[500]
-              : Colors.orange,
-          borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+          color: Colors.purple,
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           )),
@@ -115,13 +125,17 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             children: [
               Text(
                 FlutterI18n.translate(context, "ConfirmPurchase.total"),
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
               Text(
                 sumOfCart.toStringAsFixed(2),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                  color: Colors.white,
                 ),
               )
             ],

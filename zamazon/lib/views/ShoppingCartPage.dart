@@ -18,16 +18,26 @@ class ShoppingCartPage extends StatefulWidget {
   State<ShoppingCartPage> createState() => _ShoppingCartPageState();
 }
 
-class _ShoppingCartPageState extends State<ShoppingCartPage> {
+class _ShoppingCartPageState extends State<ShoppingCartPage>
+    with AutomaticKeepAliveClientMixin {
   final SCWLModel _scwlModel = SCWLModel();
   List<Product> products = [];
   var shoppingCartStream =
       SCWLModel().getUserShoppingCartWishList("shoppingCart");
 
   @override
-  Widget build(BuildContext context) {
-    products = Provider.of<List<Product>>(context);
+  bool get wantKeepAlive => true;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    products = Provider.of<List<Product>>(context, listen: false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder(
         stream: shoppingCartStream,
         initialData: const [],

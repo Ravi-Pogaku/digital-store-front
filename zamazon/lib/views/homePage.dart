@@ -1,14 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
-import 'package:zamazon/views/deleteItemsButton.dart';
 import 'package:zamazon/widgets/bottomNavBar.dart';
 import 'package:zamazon/widgets/homePageBody.dart';
 import 'package:zamazon/controllers/userProfilePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/views/WishListPage.dart';
-import 'package:zamazon/widgets/searchButton.dart';
 import 'package:zamazon/widgets/sliverAppBar.dart';
 
 // Homepage of our digital store front. Presented after successful sign in/ sign up
@@ -28,11 +30,25 @@ class _HomePageState extends State<HomePage> {
 
   int currentPageNum = 0;
 
+  final int randomCategory = Random().nextInt(6);
+
   // for jumping back to the top of the page on page changes
   final ScrollController scrollController = ScrollController(
     keepScrollOffset: false,
   );
   final PageController pageController = PageController();
+
+  void changePageAnimation() {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    // slide to top of page
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +73,20 @@ class _HomePageState extends State<HomePage> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             MySliverAppBar(
-              title: pageTitles.elementAt(currentPageNum),
-
-              // search button on hompage, buttons to empty shoppingcart
-              // and wishlist respectively.
-              actions: [
-                if (currentPageNum == 0)
-                  const SearchButton()
-                else if (currentPageNum == 2)
-                  const DeleteAllItemsButton(collName: 'shoppingCart')
-                else if (currentPageNum == 3)
-                  const DeleteAllItemsButton(collName: 'wishList')
-              ],
+              pageTitles: pageTitles,
             )
           ];
         },
         body: PageView(
           controller: pageController,
+          physics: const AlwaysScrollableScrollPhysics(),
           onPageChanged: (pageNum) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            // slide to top of page
-            if (scrollController.hasClients) {
-              scrollController.animateTo(
-                0.0,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.decelerate,
-              );
-            }
-            setState(() {
-              currentPageNum = pageNum;
-            });
+            Provider.of<BottomNavBarBLoC>(
+              context,
+              listen: false,
+            ).updatePage(pageNum);
+
+            changePageAnimation();
           },
           children: const [
             HomePageBody(),
@@ -99,17 +99,15 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavBar(
         pageController: pageController,
-        selectedId: currentPageNum,
       ),
     );
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     // I've heard undisposed controllers can cause memory leaks
     scrollController.dispose();
     pageController.dispose();
+    super.dispose();
   }
 }

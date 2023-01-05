@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:provider/provider.dart';
-import 'package:zamazon/widgets/ProductCarousel.dart';
+import 'package:zamazon/widgets/productCarousel.dart';
 import 'package:zamazon/widgets/categoryHeader.dart';
-import 'package:zamazon/widgets/navigateToProductPage.dart';
-import 'package:zamazon/widgets/productImage.dart';
 import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/models/settings_BLoC.dart';
-import 'priceWidget.dart';
-import 'ratingWidget.dart';
 
 // Carousel slider product display on homepage
 
@@ -27,16 +20,14 @@ class CategoryProductCarousel extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     // the specific products of the current category
     final specificProducts = productList
-        .where((product) => product.categories![0] == category)
+        .where((product) => product.categories![0] == category.toLowerCase())
         .toList();
 
     if (productList.isNotEmpty) {
-      String categoryName = category[0].toUpperCase() + category.substring(1);
-
       return Column(
         children: [
           CategoryHeader(
-            category: categoryName,
+            category: category,
             specificProducts: specificProducts,
           ),
           BuildProductCarousel(

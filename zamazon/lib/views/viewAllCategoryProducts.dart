@@ -48,27 +48,24 @@ class ViewAllCategoryProducts extends StatelessWidget {
               elevation: 10,
               child: Column(
                 children: [
-                  Flexible(
-                    flex: 2,
-                    child: ProductImage(
-                      margin: const EdgeInsets.all(10),
-                      backgroundBorder: BorderRadius.circular(20),
-                      imageHeight: height * 0.18,
-                      backgroundHeight: height * 0.22,
-                      imageFit: BoxFit.contain,
-                      imageUrl: specificProducts[index].imageUrl!,
-                    ),
+                  ProductImage(
+                    margin: const EdgeInsets.all(10),
+                    backgroundBorder: BorderRadius.circular(20),
+                    imageHeight: height * 0.16,
+                    imageWidth: width * 0.4,
+                    backgroundHeight: height * 0.2,
+                    backgroundWidth: width * 0.42,
+                    imageFit: BoxFit.contain,
+                    imageUrl: specificProducts[index].imageUrl!,
                   ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "${specificProducts[index].title}",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: const TextStyle(
-                          fontSize: 25,
-                        ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "${specificProducts[index].title}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: const TextStyle(
+                        fontSize: 25,
                       ),
                     ),
                   ),

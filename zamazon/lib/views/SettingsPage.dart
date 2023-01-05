@@ -16,7 +16,8 @@ class SettingsPageWidget extends StatefulWidget {
   State<SettingsPageWidget> createState() => _SettingsPageWidgetState();
 }
 
-class _SettingsPageWidgetState extends State<SettingsPageWidget> {
+class _SettingsPageWidgetState extends State<SettingsPageWidget>
+    with AutomaticKeepAliveClientMixin {
   String? currentLanguage;
   final _auth = Auth();
 
@@ -30,7 +31,11 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final settingsProvider = Provider.of<SettingsBLoC>(context);
     final containerTheme =
         settingsProvider.isDarkMode ? Colors.grey[900] : Colors.white;

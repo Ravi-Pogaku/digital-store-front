@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/addToShoppingCartButton.dart';
@@ -9,6 +10,8 @@ import 'package:zamazon/widgets/defaultAppBar.dart';
 import 'package:zamazon/widgets/productImage.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
 import 'package:zamazon/widgets/priceWidget.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/globals.dart';
 
 // When a product is tapped, user will be navigated to its respective
 // page. This class is responsible for creating that page. From here, user's can
@@ -54,8 +57,14 @@ class _ProductPageState extends State<ProductPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    int currentPageNum = Provider.of<BottomNavBarBLoC>(context).currentPageNum;
+    Color foregroundColor = (currentPageNum == 0) ? Colors.black : Colors.white;
+
     return Scaffold(
-      appBar: const DefaultAppBar(),
+      appBar: DefaultAppBar(
+        backgroundColor: pageBGColors[currentPageNum],
+        foregroundColor: foregroundColor,
+      ),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -217,7 +226,7 @@ class _ProductPageState extends State<ProductPage> {
                       fixedSize: Size(width, 50),
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.orangeAccent),
+                      backgroundColor: pageBGColors[currentPageNum]),
                   onPressed: () {
                     setState(() {
                       scrollController.animateTo(0.0,
@@ -227,9 +236,15 @@ class _ProductPageState extends State<ProductPage> {
                   },
                   child: Column(
                     children: [
-                      const Icon(Icons.keyboard_double_arrow_up),
-                      Text(FlutterI18n.translate(
-                          context, "ProductPage.back_to_top")),
+                      Icon(
+                        Icons.keyboard_double_arrow_up,
+                        color: foregroundColor,
+                      ),
+                      Text(
+                        FlutterI18n.translate(
+                            context, "ProductPage.back_to_top"),
+                        style: TextStyle(color: foregroundColor),
+                      ),
                     ],
                   ))
             ],

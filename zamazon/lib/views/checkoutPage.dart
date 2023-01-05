@@ -36,12 +36,19 @@ class CheckOutPage extends StatelessWidget {
           extendBody: true,
           extendBodyBehindAppBar: true,
           appBar: DefaultAppBar(
-            title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
+            title: Text(
+              FlutterI18n.translate(context, "CheckoutPage.appbar"),
+            ),
+            backgroundColor: Colors.purple,
+            foregroundColor: Colors.white,
           ),
           body: Padding(
             padding: const EdgeInsets.all(10),
-            child: ListView.builder(
+            child: ListView.separated(
               itemCount: checkOutItems.length,
+              separatorBuilder: (context, index) {
+                return const Divider(thickness: 2);
+              },
               itemBuilder: (context, index) {
                 return BuildCheckOutItem(
                   scwlItem: checkOutItems[index],

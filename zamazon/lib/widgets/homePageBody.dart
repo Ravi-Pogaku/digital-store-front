@@ -4,30 +4,28 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 import 'featuredItemWidget.dart';
 import 'categoryProductCarousel.dart';
+import 'package:zamazon/globals.dart';
 
-class HomePageBody extends StatelessWidget {
+class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key});
 
-  static const categories = [
-    'electronics',
-    'computer',
-    'kitchen',
-    'video games',
-    'clothes',
-    'cosmetics',
-    'game console',
-    'shoes',
-  ];
+  @override
+  State<HomePageBody> createState() => _HomePageBodyState();
+}
+
+class _HomePageBodyState extends State<HomePageBody>
+    with AutomaticKeepAliveClientMixin {
+  List<Product> products = [];
+  final int randomCategory = Random().nextInt(categories.length - 2);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    List<Product> products = Provider.of<List<Product>>(context);
-    int randomCategory = Random().nextInt(categories.length);
+    super.build(context);
 
-    // randomly take a slice of 3 categories from the category list.
-    while (randomCategory + 2 > 7) {
-      randomCategory = Random().nextInt(8);
-    }
+    products = Provider.of<List<Product>>(context);
 
     if (products.isEmpty) {
       return const Center(child: CircularProgressIndicator.adaptive());

@@ -37,6 +37,8 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
                   return Scaffold(
                     appBar: const DefaultAppBar(
                       title: Text("Tracking Order"),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                     ),
                     body: Stack(children: [
                       MapboxMap(

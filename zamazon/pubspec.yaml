@@ -53,6 +53,7 @@ dependencies:
   geolocator: ^9.0.2
   font_awesome_flutter: ^10.3.0
   shared_preferences: ^2.0.15
+  flutter_native_timezone: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

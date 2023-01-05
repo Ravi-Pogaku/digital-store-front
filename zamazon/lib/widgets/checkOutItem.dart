@@ -24,7 +24,7 @@ class BuildCheckOutItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: Provider.of<SettingsBLoC>(context).isDarkMode
             ? Colors.grey[900]
-            : Colors.orange[100],
+            : Colors.white,
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(

@@ -1,14 +1,34 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:flutter/material.dart';
 
 const zamazonLogo = 'https://imgur.com/nhjEvGz.png';
 
-final languages = {
+const languages = {
   'en': 'English',
   'fr': 'Français',
   'es': 'Español',
   'zh': '普通话',
   'ja': '日本語'
 };
+
+const pageBGColors = {
+  0: Colors.orange,
+  1: Colors.green,
+  2: Colors.purple,
+  3: Colors.red,
+  4: Colors.blue,
+};
+
+const categories = [
+  'Electronics',
+  'Computer',
+  'Kitchen',
+  'Video games',
+  'Clothes',
+  'Cosmetics',
+  'Game console',
+  'Shoes',
+];
 
 class Constants {
   static const String mapBoxAccessToken =

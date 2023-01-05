@@ -4,21 +4,15 @@ import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/navigateToProductPage.dart';
 import 'package:zamazon/widgets/productImage.dart';
+import 'package:zamazon/globals.dart';
 
 // class needed for searchBar, responsible for building the searchBar and
 // showing relevant search terms/products when a user makes a query.
 
 class CustomSearchDelegate extends SearchDelegate {
-  final searchTerms = const [
-    'Electronics',
-    'Computer',
-    'Kitchen',
-    'Video games',
-    'Clothes',
-    'Cosmetics',
-    'Game console',
-    'Shoes',
-  ];
+  final List<String> searchTerms;
+
+  CustomSearchDelegate({this.searchTerms = categories});
 
   // New actions built on the right of the search bar
   @override

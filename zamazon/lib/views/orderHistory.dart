@@ -25,6 +25,8 @@ class _OrderHistoryState extends State<OrderHistory> {
             return Scaffold(
               appBar: const DefaultAppBar(
                 title: Text('Order History'),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
               ),
               body: DataTable(
                 columnSpacing: 0,

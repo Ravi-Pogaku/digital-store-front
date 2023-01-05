@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/controllers/SignIn-SignUpForm.dart';
@@ -37,19 +38,25 @@ Future main() async {
   runApp(
     MultiProvider(
       providers: [
-        // PROVIDES LIST OF ALL PRODUCTS FROM FIRESTORE
+        // Provide a list of products from firestore
         StreamProvider<List<Product>>(
           create: (context) => ProductModel().getProducts(),
           initialData: const [],
         ),
 
-        // PROVIDES CURRENT THEME (LIGHT OR DARK MODE) AND LANGUAGE
+        // Provides current theme (light or dark mode) and language
         ChangeNotifierProvider<SettingsBLoC>(
-            create: (context) => SettingsBLoC(
-                  // initialize provider with saved values from previous session
-                  isDarkMode: prefs.getBool('isDarkMode'),
-                  languageCode: prefs.getString('languageCode'),
-                )),
+          create: (context) => SettingsBLoC(
+            // initialize provider with saved values from previous session
+            isDarkMode: prefs.getBool('isDarkMode'),
+            languageCode: prefs.getString('languageCode'),
+          ),
+        ),
+
+        // for improved performance when updating the bottomNavBar
+        ChangeNotifierProvider<BottomNavBarBLoC>(
+          create: (context) => BottomNavBarBLoC(),
+        ),
       ],
       child: const MyApp(),
     ),

@@ -7,16 +7,20 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   const DefaultAppBar({
     super.key,
     this.title,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 
   final Widget? title;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: Colors.orange,
-      foregroundColor: Colors.black,
+      backgroundColor: backgroundColor ?? Colors.orange,
+      foregroundColor: foregroundColor ?? Colors.black,
       elevation: 0,
       title: title,
     );
