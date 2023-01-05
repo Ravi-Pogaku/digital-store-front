@@ -85,20 +85,24 @@ class ShoppingCartItem extends StatelessWidget {
                     height: 20,
                   ),
 
-                  // Product size
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                        text: FlutterI18n.translate(
-                            context, "BuildCartItem.size"),
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    TextSpan(
-                      text: "${scwlItem.size}",
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                    )
-                  ]))
+                  // Product size. only displayed if size exists
+                  scwlItem.sizeSelection!.length != 1
+                      ? Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: FlutterI18n.translate(
+                                  context, "BuildCartItem.size"),
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                          TextSpan(
+                            text: "${scwlItem.size}",
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                          )
+                        ]))
+                      : Container(
+                          height: 0,
+                        ),
                 ],
               ),
             )

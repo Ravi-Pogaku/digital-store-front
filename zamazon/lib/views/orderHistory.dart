@@ -15,8 +15,6 @@ class OrderHistory extends StatefulWidget {
 class _OrderHistoryState extends State<OrderHistory> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.20;
-
     return StreamBuilder<List<UserOrder>>(
         initialData: const [],
         stream: SCWLModel().getUserOrderHistory(),
@@ -29,35 +27,36 @@ class _OrderHistoryState extends State<OrderHistory> {
                 columns: [
                   DataColumn(
                       label: SizedBox(
-                          width: width,
-                          child: const Text("OrderID"))),
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: const Text("ID"))),
                   DataColumn(
                       label: SizedBox(
-                          width: width,
+                          width: MediaQuery.of(context).size.width * 0.20,
                           child: const Text("Items"))),
                   DataColumn(
                       label: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.25,
-                          child: const Text("Date"))),
+                          child: const Text("Ordered On"))),
                   DataColumn(
                       label: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.30,
-                          child: const Text("Status"))),
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: const Text("Delivered On"))),
                 ],
                 rows: snapshot.data!
                     .map((UserOrder userOrder) => DataRow(cells: [
                           DataCell(SizedBox(
-                            width: width,
+                            width: MediaQuery.of(context).size.width * 0.15,
                             child: Text(
                               userOrder.docRef!.id.substring(0, 3),
                               overflow: TextOverflow.ellipsis,
                             ),
                           )),
                           DataCell(SizedBox(
-                            width: width,
+                            width: MediaQuery.of(context).size.width * 0.20,
                             child: GestureDetector(
                               onTap: () {
-                                showOrderedItemsDialog(context, userOrder.order!);
+                                showOrderedItemsDialog(
+                                    context, userOrder.purchasedProducts!);
                               },
                               child: const Text(
                                 "View All",
@@ -69,33 +68,27 @@ class _OrderHistoryState extends State<OrderHistory> {
                           )),
                           DataCell(SizedBox(
                             width: MediaQuery.of(context).size.width * 0.25,
-                            child: Text(
-                              userOrder.orderedOn!
-                                  .toDate()
-                                  .toString()
-                                  .substring(0, 10),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            child: createDateWidgetFromTimeStamp(
+                                userOrder.orderedOn!),
                           )),
                           DataCell(SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.30,
+                            width: MediaQuery.of(context).size.width * 0.35,
                             child: Row(
                               children: [
-                                // did not implement the actual delivered/en route feature by timing it
-                                Text(
-                                  userOrder.delivered!
-                                      ? "Delivered"
-                                      : "En Route",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                userOrder.delivered!
-                                    ? Container()
-                                    : IconButton(
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, "/OrderTrackMap");
-                                        },
-                                        icon: const Icon(Icons.map))
+                                createDateWidgetFromTimeStamp(
+                                    userOrder.deliveredOn!),
+                                IconButton(
+                                    splashRadius: 20,
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, "/OrderTrackMap",
+                                          arguments: {
+                                            'title': 'Tracking Order',
+                                            'deliveryAddress':
+                                                userOrder.deliveryAddress,
+                                          });
+                                    },
+                                    icon: const Icon(Icons.map))
                               ],
                             ),
                           )),
@@ -110,9 +103,10 @@ class _OrderHistoryState extends State<OrderHistory> {
         });
   }
 
-  String getDate(Timestamp timestamp) {
-    DateTime dateTime = DateTime.parse(timestamp.toDate().toString());
-    print(dateTime.toString());
-    return dateTime.toString();
+  Widget createDateWidgetFromTimeStamp(Timestamp date) {
+    return Text(
+      date.toDate().toString().substring(0, 10),
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

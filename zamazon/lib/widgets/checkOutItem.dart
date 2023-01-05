@@ -20,10 +20,10 @@ class BuildCheckOutItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
+        color: Provider.of<SettingsBLoC>(context).isDarkMode
             ? Colors.grey[900]
             : Colors.orange[100],
       ),
@@ -36,12 +36,11 @@ class BuildCheckOutItem extends StatelessWidget {
             imageHeight: height * 0.2,
             backgroundWidth: width * 0.42,
             backgroundHeight: height * 0.22,
-            margin: const EdgeInsets.all(10),
             border: BorderRadius.circular(20),
             imageFit: BoxFit.contain,
             imageUrl: scwlItem.imageUrl!,
           ),
-          // const SizedBox(width: 20),
+          SizedBox(width: width * 0.05),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,7 +57,8 @@ class BuildCheckOutItem extends StatelessWidget {
                   "\$${scwlItem.totalPrice}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                scwlItem.size != 0
+                // only displays size if item has sizes
+                scwlItem.sizeSelection!.length != 1
                     ? Text.rich(TextSpan(children: [
                         TextSpan(
                             text: FlutterI18n.translate(

@@ -65,29 +65,30 @@ class _HomePageState extends State<HomePage> {
 
   // default body for the homepage
   Widget homePageBody(List<Product> products) {
-    return ListView(
-      // removes listview's default top padding
-      padding: const EdgeInsets.only(top: 0),
-      children: [
-        //random featured item
-        FeaturedItemWidget(
-          productList: productList,
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        // removes listview's default top padding
+        children: [
+          //random featured item
+          FeaturedItemWidget(
+            productList: productList,
+          ),
 
-        //horizontal listview of products of different categories
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory + 1],
-        ),
-        ProductViewWidget(
-          productList: productList,
-          category: categories[randomCategory + 2],
-        ),
-      ],
+          //horizontal listview of products of different categories
+          ProductViewWidget(
+            productList: productList,
+            category: categories[randomCategory],
+          ),
+          ProductViewWidget(
+            productList: productList,
+            category: categories[randomCategory + 1],
+          ),
+          ProductViewWidget(
+            productList: productList,
+            category: categories[randomCategory + 2],
+          ),
+        ],
+      ),
     );
   }
 

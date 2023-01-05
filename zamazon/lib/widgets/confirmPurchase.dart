@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
@@ -7,6 +8,10 @@ import 'package:zamazon/widgets/genericSnackBar.dart';
 import '../models/settings_BLoC.dart';
 import '../models/shoppingCartWishListItem.dart';
 import '../models/shoppingCartWishListModel.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
+
+import '../views/orderTrackMap.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
   ConfirmPurchaseWidget({
@@ -16,6 +21,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
     required this.user,
     required this.numOfItems,
     required this.checkedOutItems,
+    required this.userAddress
   });
 
   final List<ShoppingCartWishListItem> checkedOutItems;
@@ -23,30 +29,52 @@ class ConfirmPurchaseWidget extends StatelessWidget {
   final double sumOfCart;
   final CusUser user;
   final int numOfItems;
+  final String userAddress;
 
   final _notifications = Notifications();
 
   final SCWLModel _scwlModel = SCWLModel();
 
   void _sendDeliveryNotif(String notifBody) async {
-    _notifications.sendNotificationNow(
-      'Your order has been delivered!',
-      notifBody,
-      'payloadpayloadpayload',
-    );
+
+    // getting duration of delivery from direction API
+    final response = await getRoute(await getUserLatLng(userAddress));
+    // we get duration in seconds so we change it to minutes
+    num duration = response['routes'][0]['duration'] / 60;
+    // we find the minutes and second of this duration
+    num minutes = (duration).toInt();
+    num seconds = ((duration - minutes) * 60).round();
+
+    final String currentTimeZone = await FlutterNativeTimezone
+        .getLocalTimezone();
+    tz.TZDateTime orderDate = tz.TZDateTime.now(
+        tz.getLocation(currentTimeZone));
+    tz.TZDateTime deliveryDate = orderDate.add(
+        Duration(minutes: minutes.toInt(), seconds: seconds.toInt()));
+
+    _scwlModel.addToOrderHistory(checkedOutItems, userAddress, orderDate, deliveryDate);
+      
+    // _notifications.sendNotificationLater(
+    //   'Your order has been delivered!',
+    //   notifBody,
+    //   '',
+    //   deliveryDate
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
     TextStyle regularTextStyle = const TextStyle(fontSize: 16);
-
+    tz.initializeTimeZones();
     _notifications.init();
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
-          color: Provider.of<SettingsBLoC>(context).themeMode == ThemeMode.dark
+          color: Provider
+              .of<SettingsBLoC>(context)
+              .isDarkMode
               ? Colors.grey[500]
               : Colors.orange,
           borderRadius: const BorderRadius.only(
@@ -141,8 +169,6 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                 fixedSize: Size(width - 100, 40),
               ),
               onPressed: () {
-                _scwlModel.addToOrderHistory(checkedOutItems);
-
                 // Pop to homepage
                 Navigator.popUntil(context, (route) => route.isFirst);
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/productImage.dart';
+
+import '../models/settings_BLoC.dart';
 
 // class needed for searchBar, responsible for building the searchBar and
 // showing relevant search terms/products when a user makes a query.
@@ -78,13 +81,18 @@ class CustomSearchDelegate extends SearchDelegate {
             ? ListTile(
                 title: SizedBox(
                   height: 200,
-                  child: Image.network(matches[index].imageUrl!),
+                  child: ProductImage(
+                    imageUrl: matches[index].imageUrl!,
+                    margin: const EdgeInsets.only(bottom: 10),
+                  ),
                 ),
                 subtitle: Text(
                   matches[index].title!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Provider.of<SettingsBLoC>(context).isDarkMode
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
                 onTap: () {
@@ -130,7 +138,12 @@ class CustomSearchDelegate extends SearchDelegate {
     matches = matches.toSet().toList();
 
     //after finding matches, build a listview of all matches
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) {
+        return const Divider(
+          thickness: 3,
+        );
+      },
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
