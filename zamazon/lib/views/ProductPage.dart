@@ -228,11 +228,9 @@ class _ProductPageState extends State<ProductPage> {
                           borderRadius: BorderRadius.zero),
                       backgroundColor: pageBGColors[currentPageNum]),
                   onPressed: () {
-                    setState(() {
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.decelerate);
-                    });
+                    scrollController.animateTo(0.0,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.decelerate);
                   },
                   child: Column(
                     children: [

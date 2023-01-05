@@ -71,7 +71,7 @@ class ShoppingCartItem extends StatelessWidget {
                     // Product name
                     Text(
                       "${scwlItem.title}",
-                      style: const TextStyle(fontSize: 17),
+                      style: const TextStyle(fontSize: 20),
                       softWrap: false,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
@@ -84,7 +84,8 @@ class ShoppingCartItem extends StatelessWidget {
                     // Product price
                     Text(
                       "\$${scwlItem.totalPrice!.toStringAsFixed(2)}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
                     ),
 
                     const SizedBox(
@@ -97,11 +98,11 @@ class ShoppingCartItem extends StatelessWidget {
                           text: FlutterI18n.translate(
                               context, "BuildCartItem.size"),
                           style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
+                              fontSize: 20, fontWeight: FontWeight.bold)),
                       TextSpan(
                         text: "${scwlItem.size}",
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 20,
                         ),
                       )
                     ]))

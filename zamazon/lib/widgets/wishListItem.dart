@@ -62,7 +62,7 @@ class WishListItem extends StatelessWidget {
                   // PRODUCT NAME
                   Text(
                     scwlItem.title!,
-                    style: const TextStyle(fontSize: 17),
+                    style: const TextStyle(fontSize: 20),
                     softWrap: true,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
@@ -75,7 +75,7 @@ class WishListItem extends StatelessWidget {
                     "\$${scwlItem.totalPrice!.toStringAsFixed(2)}",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                      fontSize: 20,
                     ),
                   ),
 

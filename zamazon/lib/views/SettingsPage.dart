@@ -36,15 +36,11 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final settingsProvider = Provider.of<SettingsBLoC>(context);
-    final containerTheme =
-        settingsProvider.isDarkMode ? Colors.grey[900] : Colors.white;
 
     currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
     return Container(
-      decoration: BoxDecoration(
-          color: containerTheme,
+      decoration: const BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20))),
       child: Column(
         children: [

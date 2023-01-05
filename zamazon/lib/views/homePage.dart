@@ -13,8 +13,7 @@ import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/views/WishListPage.dart';
 import 'package:zamazon/widgets/sliverAppBar.dart';
 
-// Homepage of our digital store front. Presented after successful sign in/ sign up
-//TODO make it so once the end of the list is hit, more products will be loaded.
+// Homepage of our digital store front. Presented after successful sign in
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
