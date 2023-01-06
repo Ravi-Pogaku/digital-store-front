@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../models/settings_BLoC.dart';
-
-class ProceedToCheckOutWidget extends StatefulWidget {
+class ProceedToCheckOutWidget extends StatelessWidget {
   const ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
       : super(key: key);
 
   final List<ShoppingCartWishListItem> checkOutItems;
 
   @override
-  State<ProceedToCheckOutWidget> createState() =>
-      _ProceedToCheckOutWidgetState();
-}
-
-class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
-  double cartSum = 0.0;
-  int numOfItems = 0;
-
-  @override
   Widget build(BuildContext context) {
-    _sumAndNumOfCart(widget.checkOutItems);
+    double cartSum = _sumOfCart(checkOutItems);
+    int numOfItems = _numOfItems(checkOutItems);
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       decoration: const BoxDecoration(
-          color: Colors.orange,
+          color: Colors.purple,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
@@ -38,23 +28,26 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              FlutterI18n.translate(context, "ProceedToCheckOut.total"),
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.black,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                FlutterI18n.translate(context, "ProceedToCheckOut.total"),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            Text(
-              '\$${cartSum.toStringAsFixed(2)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            )
-          ]),
+              Text(
+                '\$${cartSum.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -72,7 +65,7 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                   '/CheckOut',
                   arguments: {
                     'title': 'Checkout',
-                    'checkOutItems': widget.checkOutItems,
+                    'checkOutItems': checkOutItems,
                     'sumOfCart': cartSum,
                     'numOfItems': numOfItems,
                   },
@@ -86,13 +79,23 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
     );
   }
 
-  void _sumAndNumOfCart(List<ShoppingCartWishListItem> items) {
-    cartSum = 0;
-    numOfItems = 0;
+  double _sumOfCart(List<ShoppingCartWishListItem> items) {
+    double cartSum = 0;
 
     for (var item in items) {
       cartSum += item.totalPrice!;
-      numOfItems += item.quantity!;
     }
+
+    return cartSum;
+  }
+
+  int _numOfItems(List<ShoppingCartWishListItem> items) {
+    int count = 0;
+
+    for (var item in items) {
+      count += item.quantity!;
+    }
+
+    return count;
   }
 }

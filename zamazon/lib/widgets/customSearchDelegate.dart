@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/widgets/productImage.dart';
 
-import '../models/settings_BLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/widgets/navigateToProductPage.dart';
+import 'package:zamazon/widgets/productImage.dart';
+import 'package:zamazon/globals.dart';
 
 // class needed for searchBar, responsible for building the searchBar and
 // showing relevant search terms/products when a user makes a query.
 
 class CustomSearchDelegate extends SearchDelegate {
-  final searchTerms = const [
-    'Electronics',
-    'Computer',
-    'Kitchen',
-    'Video games',
-    'Clothes',
-    'Cosmetics',
-    'Game console',
-    'Shoes',
-  ];
+  final List<String> searchTerms;
+
+  CustomSearchDelegate({this.searchTerms = categories});
 
   // New actions built on the right of the search bar
   @override
@@ -67,6 +62,10 @@ class CustomSearchDelegate extends SearchDelegate {
     // remove duplicate items
     matches = matches.toSet().toList();
 
+    Color textColor = Provider.of<SettingsBLoC>(context).isDarkMode
+        ? Colors.white
+        : Colors.black;
+
     //after finding matches, build a listview of all matched products
     return ListView.separated(
       // if empty, then itemCount is 1 and its just listtile "no products found"
@@ -77,35 +76,27 @@ class CustomSearchDelegate extends SearchDelegate {
         );
       },
       itemBuilder: (context, index) {
+        double height = MediaQuery.of(context).size.height;
+
         return (matches.isNotEmpty)
-            ? ListTile(
-                title: SizedBox(
-                  height: 200,
-                  child: ProductImage(
-                    imageUrl: matches[index].imageUrl!,
+            ? NavigateToProductPage(
+                product: matches[index],
+                child: ListTile(
+                  title: ProductImage(
+                    imageHeight: height * 0.24,
+                    backgroundHeight: height * 0.25,
+                    backgroundBorder: BorderRadius.circular(10),
                     margin: const EdgeInsets.only(bottom: 10),
+                    imageUrl: matches[index].imageUrl!,
+                  ),
+                  subtitle: Text(
+                    matches[index].title!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: textColor,
+                    ),
                   ),
                 ),
-                subtitle: Text(
-                  matches[index].title!,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Provider.of<SettingsBLoC>(context).isDarkMode
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                ),
-                onTap: () {
-                  // when a product is tapped, show that product's page
-                  Navigator.pushNamed(
-                    context,
-                    "/ProductPage",
-                    arguments: {
-                      'title': 'Product',
-                      'product': matches[index],
-                    },
-                  );
-                },
               )
             : nothingFoundFromSearch();
       },
@@ -139,12 +130,12 @@ class CustomSearchDelegate extends SearchDelegate {
 
     //after finding matches, build a listview of all matches
     return ListView.separated(
+      itemCount: (matches.isNotEmpty) ? matches.length : 1,
       separatorBuilder: (context, index) {
         return const Divider(
           thickness: 3,
         );
       },
-      itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(

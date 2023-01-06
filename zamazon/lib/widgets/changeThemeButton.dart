@@ -29,7 +29,7 @@ class ChangeThemeButton extends StatelessWidget {
         inactiveThumbImage: Image.asset(
           'assets/icons/lightmode.png',
         ).image,
-        inactiveThumbColor: Colors.white,
+        inactiveThumbColor: Colors.transparent,
         inactiveTrackColor: Colors.grey,
       ),
     );

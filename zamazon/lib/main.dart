@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/controllers/SignIn-SignUpForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
+import 'package:zamazon/views/orderHistory.dart';
 import 'package:zamazon/views/viewAllCategoryProducts.dart';
 import 'package:zamazon/webscraping/scrapeProducts.dart';
 import 'package:zamazon/views/newUserInfoPage.dart';
@@ -37,19 +38,25 @@ Future main() async {
   runApp(
     MultiProvider(
       providers: [
-        // PROVIDES LIST OF ALL PRODUCTS FROM FIRESTORE
+        // Provide a list of products from firestore
         StreamProvider<List<Product>>(
           create: (context) => ProductModel().getProducts(),
           initialData: const [],
         ),
 
-        // PROVIDES CURRENT THEME (LIGHT OR DARK MODE) AND LANGUAGE
+        // Provides current theme (light or dark mode) and language
         ChangeNotifierProvider<SettingsBLoC>(
-            create: (context) => SettingsBLoC(
-                  // initialize provider with saved values from previous session
-                  isDarkMode: prefs.getBool('isDarkMode'),
-                  languageCode: prefs.getString('languageCode'),
-                )),
+          create: (context) => SettingsBLoC(
+            // initialize provider with saved values from previous session
+            isDarkMode: prefs.getBool('isDarkMode'),
+            languageCode: prefs.getString('languageCode'),
+          ),
+        ),
+
+        // for improved performance when updating the bottomNavBar
+        ChangeNotifierProvider<BottomNavBarBLoC>(
+          create: (context) => BottomNavBarBLoC(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -102,6 +109,7 @@ class MyApp extends StatelessWidget {
               case '/CategoryPage':
                 return MaterialPageRoute(builder: (context) {
                   return ViewAllCategoryProducts(
+                    title: arguments['title'],
                     specificProducts: arguments['specificProducts'],
                   );
                 });
@@ -133,7 +141,7 @@ class MyApp extends StatelessWidget {
                 const SettingsPageWidget(title: 'Settings'),
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(),
-            // '/OrderTrackMap': (context) => const OrderTrackMap(),
+            '/OrderHistory': (context) => const OrderHistory(),
           },
 
           // language delegates and supported languages

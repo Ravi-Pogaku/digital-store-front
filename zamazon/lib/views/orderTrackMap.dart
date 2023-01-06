@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
 
-class OrderTrackMap extends StatelessWidget {
-  OrderTrackMap({
+class OrderTrackMap extends StatefulWidget {
+  const OrderTrackMap({
     super.key,
     required this.title,
     required this.deliveryAddress,
@@ -14,17 +15,30 @@ class OrderTrackMap extends StatelessWidget {
   final String? title;
   final String? deliveryAddress;
 
+  @override
+  State<OrderTrackMap> createState() => _OrderTrackMapState();
+}
+
+class _OrderTrackMapState extends State<OrderTrackMap> {
   late MapboxMapController mapboxMapController;
+
+  @override
+  void dispose() {
+    mapboxMapController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getUserLatLng(deliveryAddress!),
+        future: getUserLatLng(widget.deliveryAddress!),
         builder: (context, snapshot) {
           if (snapshot.hasData && !snapshot.hasError) {
             return Scaffold(
-              appBar: AppBar(
-                title: Text(title!),
+              appBar: DefaultAppBar(
+                title: Text(widget.title!),
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
               ),
               body: Stack(children: [
                 MapboxMap(

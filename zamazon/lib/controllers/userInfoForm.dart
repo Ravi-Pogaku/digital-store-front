@@ -82,7 +82,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
               padding: const EdgeInsets.all(5),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrange,
+                      backgroundColor: Colors.lightGreen,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       fixedSize:
@@ -117,7 +117,13 @@ class _UserInfoFormState extends State<UserInfoForm> {
                       }
                     }
                   },
-                  child: Text(widget.buttonText)),
+                  child: Text(
+                    widget.buttonText,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  )),
             )
           ],
         ),

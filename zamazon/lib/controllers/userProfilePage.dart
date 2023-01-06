@@ -12,23 +12,30 @@ class UserProfilePage extends StatefulWidget {
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _UserProfilePageState extends State<UserProfilePage>
+    with AutomaticKeepAliveClientMixin {
+  var userInfoStream = UserModel().getUserInformation();
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder(
       // default values to avoid null errors
       initialData: CusUser(),
-      stream: UserModel().getUserInformation(),
+      stream: userInfoStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         // if data still being retrieved, show loading circle
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         // if error, show loading circle and print error
         if (snapshot.hasError) {
           print('USER-PROFILE-PAGE ERROR: ${snapshot.error.toString()}');
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         // data loaded successfully, this is the actual profile page.
@@ -58,11 +65,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         1.0,
                       ],
                       colors: [
-                        Colors.orange.shade100,
-                        Colors.orange.shade200,
-                        Colors.orange.shade300,
-                        Colors.orange.shade400,
-                        Colors.orange,
+                        Colors.green.shade100,
+                        Colors.green.shade200,
+                        Colors.green.shade300,
+                        Colors.green.shade400,
+                        Colors.green,
                       ],
                     ),
                     color: Colors.orange[900],

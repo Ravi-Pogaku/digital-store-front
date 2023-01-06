@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
     super.key,
-    required this.selectedId,
-    required this.onTap,
+    required this.pageController,
   });
 
-  final int selectedId;
-  final ValueChanged<int> onTap;
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +24,32 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: '',
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.green,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
           label: '',
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.purple,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
           label: '',
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.red,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: '',
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.blue,
         ),
       ],
-      currentIndex: selectedId,
-      onTap: onTap,
+      currentIndex: Provider.of<BottomNavBarBLoC>(context).currentPageNum,
+      onTap: (pageNum) {
+        pageController.animateToPage(
+          pageNum,
+          duration: const Duration(seconds: 1),
+          curve: Curves.ease,
+        );
+      },
       type: BottomNavigationBarType.shifting,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.white,

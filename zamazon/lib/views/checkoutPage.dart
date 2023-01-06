@@ -29,20 +29,26 @@ class CheckOutPage extends StatelessWidget {
       builder: (context, snapshot) {
         // if data is loading, show loading circle
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         return Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: true,
           appBar: DefaultAppBar(
-            context,
-            title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
+            title: Text(
+              FlutterI18n.translate(context, "CheckoutPage.appbar"),
+            ),
+            backgroundColor: Colors.purple,
+            foregroundColor: Colors.white,
           ),
           body: Padding(
             padding: const EdgeInsets.all(10),
-            child: ListView.builder(
+            child: ListView.separated(
               itemCount: checkOutItems.length,
+              separatorBuilder: (context, index) {
+                return const Divider(thickness: 2);
+              },
               itemBuilder: (context, index) {
                 return BuildCheckOutItem(
                   scwlItem: checkOutItems[index],

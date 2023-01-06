@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/globals.dart';
-// import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 
 class LanguageDropDownMenu extends StatelessWidget {

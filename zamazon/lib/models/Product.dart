@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// data class for each product in firestore.
+
 class Product {
   DocumentReference? docRef;
   String? id;

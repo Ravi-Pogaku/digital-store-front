@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/UserOrder.dart';
+import 'package:zamazon/models/userOrder.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-
-import '../widgets/orderedItemsDialog.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/orderedItemsDialog.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key}) : super(key: key);
@@ -13,26 +13,32 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
+  var orderHistoryStream = SCWLModel().getUserOrderHistory();
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return StreamBuilder<List<UserOrder>>(
         initialData: const [],
-        stream: SCWLModel().getUserOrderHistory(),
+        stream: orderHistoryStream,
         builder: (context, snapshot) {
           if (snapshot.hasData && !snapshot.hasError) {
             return Scaffold(
-              appBar: AppBar(title: const Text("Order History")),
+              appBar: const DefaultAppBar(
+                title: Text('Order History'),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
               body: DataTable(
                 columnSpacing: 0,
                 columns: [
                   DataColumn(
                       label: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          child: const Text("ID"))),
+                          width: width * 0.2, child: const Text("OrderID"))),
                   DataColumn(
                       label: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.20,
-                          child: const Text("Items"))),
+                          width: width * 0.2, child: const Text("Items"))),
                   DataColumn(
                       label: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.25,
@@ -45,18 +51,20 @@ class _OrderHistoryState extends State<OrderHistory> {
                 rows: snapshot.data!
                     .map((UserOrder userOrder) => DataRow(cells: [
                           DataCell(SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
+                            width: width * 0.2,
                             child: Text(
-                              userOrder.docRef!.id.substring(0, 3),
+                              userOrder.docRef!.id,
                               overflow: TextOverflow.ellipsis,
                             ),
                           )),
                           DataCell(SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.20,
+                            width: width * 0.2,
                             child: GestureDetector(
                               onTap: () {
                                 showOrderedItemsDialog(
-                                    context, userOrder.purchasedProducts!);
+                                    context,
+                                    userOrder.docRef!.id,
+                                    userOrder.purchasedProducts!);
                               },
                               child: const Text(
                                 "View All",
@@ -98,7 +106,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             );
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           );
         });
   }

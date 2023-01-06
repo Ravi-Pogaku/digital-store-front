@@ -3,8 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/widgets/productImage.dart';
-
-import '../models/settings_BLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 
 class BuildCheckOutItem extends StatelessWidget {
   const BuildCheckOutItem({
@@ -25,11 +24,10 @@ class BuildCheckOutItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: Provider.of<SettingsBLoC>(context).isDarkMode
             ? Colors.grey[900]
-            : Colors.orange[100],
+            : Colors.white,
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ProductImage(
             imageWidth: width * 0.4,
@@ -40,7 +38,9 @@ class BuildCheckOutItem extends StatelessWidget {
             imageFit: BoxFit.contain,
             imageUrl: scwlItem.imageUrl!,
           ),
-          SizedBox(width: width * 0.05),
+          SizedBox(
+            width: width * 0.05,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

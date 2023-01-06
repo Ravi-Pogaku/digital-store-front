@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
-import '../models/settings_BLoC.dart';
 import '../models/shoppingCartWishListItem.dart';
 import '../models/shoppingCartWishListModel.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
-
 import '../views/orderTrackMap.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
-  ConfirmPurchaseWidget({
-    super.key,
-    required this.width,
-    required this.sumOfCart,
-    required this.user,
-    required this.numOfItems,
-    required this.checkedOutItems,
-    required this.userAddress
-  });
+  ConfirmPurchaseWidget(
+      {super.key,
+      required this.width,
+      required this.sumOfCart,
+      required this.user,
+      required this.numOfItems,
+      required this.checkedOutItems,
+      required this.userAddress});
 
   final List<ShoppingCartWishListItem> checkedOutItems;
   final double width;
@@ -36,7 +32,6 @@ class ConfirmPurchaseWidget extends StatelessWidget {
   final SCWLModel _scwlModel = SCWLModel();
 
   void _sendDeliveryNotif(String notifBody) async {
-
     // getting duration of delivery from direction API
     final response = await getRoute(await getUserLatLng(userAddress));
     // we get duration in seconds so we change it to minutes
@@ -45,39 +40,37 @@ class ConfirmPurchaseWidget extends StatelessWidget {
     num minutes = (duration).toInt();
     num seconds = ((duration - minutes) * 60).round();
 
-    final String currentTimeZone = await FlutterNativeTimezone
-        .getLocalTimezone();
-    tz.TZDateTime orderDate = tz.TZDateTime.now(
-        tz.getLocation(currentTimeZone));
-    tz.TZDateTime deliveryDate = orderDate.add(
-        Duration(minutes: minutes.toInt(), seconds: seconds.toInt()));
+    final String currentTimeZone =
+        await FlutterNativeTimezone.getLocalTimezone();
+    tz.TZDateTime orderDate =
+        tz.TZDateTime.now(tz.getLocation(currentTimeZone));
+    tz.TZDateTime deliveryDate = orderDate
+        .add(Duration(minutes: minutes.toInt(), seconds: seconds.toInt()));
 
-    _scwlModel.addToOrderHistory(checkedOutItems, userAddress, orderDate, deliveryDate);
+    print('Order Date:   $orderDate');
+    print('Deliver Date: $deliveryDate');
 
-    // _notifications.sendNotificationLater(
-    //   'Your order has been delivered!',
-    //   notifBody,
-    //   '',
-    //   deliveryDate
-    // );
+    _scwlModel.addToOrderHistory(
+        checkedOutItems, userAddress, orderDate, deliveryDate);
+
+    _notifications.sendNotificationLater(
+        'Your order has been delivered!', notifBody, '', deliveryDate);
   }
 
   @override
   Widget build(BuildContext context) {
     TextStyle regularTextStyle = const TextStyle(fontSize: 16);
     tz.initializeTimeZones();
+
     _notifications.init();
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
       // height: MediaQuery.of(context).size.height/3,
-      decoration: BoxDecoration(
-          color: Provider
-              .of<SettingsBLoC>(context)
-              .isDarkMode
-              ? Colors.grey[500]
-              : Colors.orange,
-          borderRadius: const BorderRadius.only(
+
+      decoration: const BoxDecoration(
+          color: Colors.purple,
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           )),
@@ -143,13 +136,17 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             children: [
               Text(
                 FlutterI18n.translate(context, "ConfirmPurchase.total"),
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
               Text(
                 sumOfCart.toStringAsFixed(2),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                  color: Colors.white,
                 ),
               )
             ],
