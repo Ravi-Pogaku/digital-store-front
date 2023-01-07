@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
@@ -38,7 +39,7 @@ class FeaturedItemWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 25),
             child: Text(
-              "Limited Time Featured Item!",
+              FlutterI18n.translate(context, "FeaturedItem.message"),
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,

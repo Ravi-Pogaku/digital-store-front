@@ -25,18 +25,27 @@
     "name_empty": "Please enter a name",
     "name_hint": "Please enter a valid name"
   },
+  "FeaturedItem": {
+    "message": "Limited Time Featured Item!"
+  },
   "UserProfilePage": {
+    "registered": "User Registered, Welcome!",
+    "updated": "Information Updated!",
     "name": "Name",
+    "address": "Address",
     "save": "Save"
+  },
+  "EnterAddress": {
+    "no_request": "Start typing your address or use your current location by pressing the locator button.",
+    "no_response": "No results were found.",
+    "loading_text": "Fetching Data... Please wait."
   },
   "ShoppingCartPage": {
     "empty": "Your Shopping Cart is empty"
   },
-  "BuildCartItem": {
-    "size": "Size: "
-  },
-  "BuildCheckOutItem": {
-    "size": "Size: "
+  "BuildItem": {
+    "size": "Size: ",
+    "quantity": "Qty: "
   },
   "ProceedToCheckOut": {
     "total": "Total:",
@@ -80,10 +89,20 @@
     "settings": "Settings"
   },
   "SettingPage": {
-    "theme": "Dark Mode",
-    "legality": "User Agreement",
-    "notification": "Notification",
+    "appearance": "Appearance",
     "language": "Language",
+    "order_hist": "Order History",
     "logout": "Bye!"
+  },
+  "OrderHistory": {
+    "order_id": "Order ID",
+    "items": "Items",
+    "ordered_on": "Ordered On",
+    "delivered_on": "Delivered On",
+    "view_all": "View All",
+    "close": "Close"
+  },
+  "OrderMap": {
+    "map_title": "Tracking Order"
   }
 }

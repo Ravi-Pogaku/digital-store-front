@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -27,11 +28,6 @@ class _EnterAddressState extends State<EnterAddress> {
   bool isWaitingForLocation = false;
   bool addressChosen = false;
 
-  String noRequest =
-      'Start typing your address or use your current location by pressing locator button.';
-  String noResponse = 'No results found.';
-  String loadingText = 'Fetching Data... Please wait.';
-
   List responses = [];
 
   TextEditingController textController = TextEditingController();
@@ -48,6 +44,10 @@ class _EnterAddressState extends State<EnterAddress> {
   Widget build(BuildContext context) {
     Geolocator.isLocationServiceEnabled().then((value) => null);
     Geolocator.requestPermission().then((value) => null);
+
+    String noRequest = FlutterI18n.translate(context, "EnterAddress.no_request");
+    String noResponse = FlutterI18n.translate(context, "EnterAddress.no_response");
+    String loadingText = FlutterI18n.translate(context, "EnterAddress.loading_text");
 
     return Card(
       child: SingleChildScrollView(
@@ -137,7 +137,7 @@ class _EnterAddressState extends State<EnterAddress> {
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  labelText: "Address",
+                  labelText: FlutterI18n.translate(context, "UserProfilePage.address"),
                 ),
                 onChanged: _onChangeHandler,
                 validator: (value) {

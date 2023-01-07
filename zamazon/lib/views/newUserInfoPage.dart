@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/widgets/changeThemeButton.dart';
 
 // newly registered user must enter their name and address
 
@@ -15,20 +16,15 @@ class NewUserInfoPage extends StatefulWidget {
 class _NewUserInfoPageState extends State<NewUserInfoPage> {
   @override
   Widget build(BuildContext context) {
-    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
-        ? Colors.grey[900]
-        : Colors.white;
-
     return GestureDetector(
       onTap: () {
         // when user taps on screen, remove keyboard
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        body: Container(
+        body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: containerTheme,
           child: SingleChildScrollView(
             child: SafeArea(
               child: Container(

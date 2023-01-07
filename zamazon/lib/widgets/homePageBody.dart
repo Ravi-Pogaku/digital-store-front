@@ -52,6 +52,7 @@ class _HomePageBodyState extends State<HomePageBody>
             productList: products,
             category: categories[randomCategory + 2],
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );

@@ -29,7 +29,7 @@ class ViewAllCategoryProducts extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          childAspectRatio: 1 / 1.8,
+          childAspectRatio: 1 / 1.65,
         ),
         itemCount: specificProducts.length,
         itemBuilder: (BuildContext context, int index) {
@@ -58,14 +58,16 @@ class ViewAllCategoryProducts extends StatelessWidget {
                     imageFit: BoxFit.contain,
                     imageUrl: specificProducts[index].imageUrl!,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "${specificProducts[index].title}",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                      style: const TextStyle(
-                        fontSize: 25,
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "${specificProducts[index].title}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: const TextStyle(
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                   ),

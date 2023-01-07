@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/userOrder.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
@@ -25,8 +26,9 @@ class _OrderHistoryState extends State<OrderHistory> {
         builder: (context, snapshot) {
           if (snapshot.hasData && !snapshot.hasError) {
             return Scaffold(
-              appBar: const DefaultAppBar(
-                title: Text('Order History'),
+              appBar: DefaultAppBar(
+                title: Text(
+                    FlutterI18n.translate(context, "SettingPage.order_hist")),
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
               ),
@@ -35,23 +37,29 @@ class _OrderHistoryState extends State<OrderHistory> {
                 columns: [
                   DataColumn(
                       label: SizedBox(
-                          width: width * 0.2, child: const Text("OrderID"))),
+                          width: width * 0.2,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.order_id"),))),
                   DataColumn(
                       label: SizedBox(
-                          width: width * 0.2, child: const Text("Items"))),
+                          width: width * 0.2,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.items")))),
                   DataColumn(
                       label: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.25,
-                          child: const Text("Ordered On"))),
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.ordered_on")))),
                   DataColumn(
                       label: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.35,
-                          child: const Text("Delivered On"))),
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.delivered_on")))),
                 ],
                 rows: snapshot.data!
                     .map((UserOrder userOrder) => DataRow(cells: [
                           DataCell(SizedBox(
-                            width: width * 0.2,
+                            width: width * 0.12,
                             child: Text(
                               userOrder.docRef!.id,
                               overflow: TextOverflow.ellipsis,
@@ -66,9 +74,10 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     userOrder.docRef!.id,
                                     userOrder.purchasedProducts!);
                               },
-                              child: const Text(
-                                "View All",
-                                style: TextStyle(
+                              child: Text(
+                                FlutterI18n.translate(
+                                    context, "OrderHistory.view_all"),
+                                style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.blue),
                               ),

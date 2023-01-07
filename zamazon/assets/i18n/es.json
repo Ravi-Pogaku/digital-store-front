@@ -2,7 +2,7 @@
   "SignInForm": {
     "greeting": "¡Bienvenido de nuevo!",
     "email": "Correo electrónico",
-    "password": "Clave",
+    "password": "Contraseña",
     "sign_in": "Registrarse",
     "no_account": "Crea una cuenta",
     "snackbar_greeting": "Bienvenido de nuevo",
@@ -11,8 +11,8 @@
   "SignUpForm": {
     "greeting": "Encantado de conocerte!",
     "email": "Correo electrónico",
-    "password": "Clave",
-    "confirmPassword": "Confirm Password",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
     "sign_up": "Inscribirse",
     "yes_account": "¿Ya tienes una cuenta?",
     "snackbar_greeting": "¡Registrado exitosamente! ¡Bienvenidos!"
@@ -25,18 +25,27 @@
     "name_empty": "Por favor ingresa un nombre",
     "name_hint": "Por favor ingrese un nombre valido"
   },
+  "FeaturedItem": {
+    "message": "¡Artículo destacado por tiempo limitado!"
+  },
   "UserProfilePage": {
+    "registered": "Usuario registrado, bienvenido!",
+    "updated": "¡Información actualizada!",
     "name": "Nombre",
+    "address": "Dirección",
     "save": "Ahorrar"
+  },
+  "EnterAddress": {
+    "no_request": "Comience a escribir su dirección o use su ubicación actual presionando el botón del localizador.",
+    "no_response": "No se encontraron resultados.",
+    "loading_text": "Obteniendo datos... Por favor, espere."
   },
   "ShoppingCartPage": {
     "empty": "Su cesta está vacía"
   },
-  "BuildCartItem": {
-    "size": "Tamaño: "
-  },
-  "BuildCheckOutItem": {
-    "size": "Tamaño: "
+  "BuildItem": {
+    "size": "Tamaño: ",
+    "quantity": "Cant: "
   },
   "ProceedToCheckOut": {
     "total": "Total:",
@@ -80,10 +89,20 @@
     "settings": "Ajuste"
   },
   "SettingPage": {
-    "theme": "Modo oscuro",
-    "legality": "Acuerdo del Usuario",
-    "notification": "Notificación",
+    "appearance": "Apariencia",
     "language": "Idioma",
+    "order_hist": "Historial de pedidos",
     "logout": "¡Adiós!"
+  },
+  "OrderHistory": {
+    "order_id": "ID de \nPedido",
+    "items": "Elementos",
+    "ordered_on": "Fecha de \nOrden",
+    "delivered_on": "Fecha de \nEntrega",
+    "view_all": "Ver Todo",
+    "close": "Cerrar"
+  },
+  "OrderMap": {
+    "map_title": "Orden de Seguimiento"
   }
 }

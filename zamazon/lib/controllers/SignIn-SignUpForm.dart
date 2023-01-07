@@ -87,11 +87,6 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // either light or dark mode
-    final containerTheme = Provider.of<SettingsBLoC>(context).isDarkMode
-        ? Colors.grey[900]
-        : Colors.white;
-
     currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
     final height = MediaQuery.of(context).size.height;
@@ -109,9 +104,8 @@ class _SignInWidgetState extends State<SignInWidget> {
             child: Container(
               width: width * 0.9,
               margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  color: containerTheme,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

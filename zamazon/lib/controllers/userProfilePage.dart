@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
@@ -111,7 +112,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                 // form for setting username and address
                 UserInfoForm(
-                    buttonText: "Save",
+                    buttonText: FlutterI18n.translate(context, "UserProfilePage.save"),
                     initialName: snapshot.data.name,
                     initialAddress: snapshot.data.address)
               ],

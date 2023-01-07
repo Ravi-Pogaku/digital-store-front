@@ -62,7 +62,7 @@ class BuildCheckOutItem extends StatelessWidget {
                     ? Text.rich(TextSpan(children: [
                         TextSpan(
                             text: FlutterI18n.translate(
-                                context, "BuildCheckOutItem.size"),
+                                context, "BuildItem.size"),
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold)),
                         TextSpan(
@@ -78,9 +78,9 @@ class BuildCheckOutItem extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Qty: ',
-                        style: TextStyle(
+                      TextSpan(
+                        text: FlutterI18n.translate(context, "BuildItem.quantity"),
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       TextSpan(

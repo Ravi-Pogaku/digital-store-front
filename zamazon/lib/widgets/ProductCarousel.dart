@@ -21,7 +21,7 @@ class BuildProductCarousel extends StatelessWidget {
     return CarouselSlider.builder(
       itemCount: specificProducts.length,
       options: CarouselOptions(
-        height: MediaQuery.of(context).size.height * 0.42,
+        height: MediaQuery.of(context).size.height * 0.41,
       ),
       itemBuilder: (context, itemIndex, pageViewIndex) {
         double height = MediaQuery.of(context).size.height;
@@ -37,21 +37,17 @@ class BuildProductCarousel extends StatelessWidget {
                     : Colors.white),
             child: Column(
               children: [
-                Flexible(
-                  flex: 2,
-                  child: ProductImage(
-                    margin: const EdgeInsets.all(10),
-                    imageFit: BoxFit.contain,
-                    imageHeight: height * 0.18,
-                    backgroundHeight: height * 0.2,
-                    backgroundBorder: BorderRadius.circular(20),
-                    imageUrl: specificProducts[itemIndex].imageUrl!,
-                  ),
+                ProductImage(
+                  margin: const EdgeInsets.all(10),
+                  imageFit: BoxFit.contain,
+                  imageHeight: height * 0.18,
+                  backgroundHeight: height * 0.2,
+                  backgroundBorder: BorderRadius.circular(20),
+                  imageUrl: specificProducts[itemIndex].imageUrl!,
                 ),
                 Expanded(
                   child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       "${specificProducts[itemIndex].title}",
                       overflow: TextOverflow.ellipsis,

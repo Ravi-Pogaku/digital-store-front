@@ -36,25 +36,21 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final settingsProvider = Provider.of<SettingsBLoC>(context);
-    final containerTheme =
-        settingsProvider.isDarkMode ? Colors.grey[900] : Colors.white;
 
     currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
 
     return Container(
-      decoration: BoxDecoration(
-          color: containerTheme,
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         children: [
           marginContainer(
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Appearance:',
+              children: [
+                Text("${FlutterI18n.translate(context, "SettingPage.appearance")}:",
                     style: mainTextStyle, softWrap: true, maxLines: 2),
-                ChangeThemeButton(),
+                const ChangeThemeButton(),
               ],
             ),
           ),
@@ -82,8 +78,8 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
               onPressed: () {
                 Navigator.of(context).pushNamed('/OrderHistory');
               },
-              child: const Text(
-                'Order History',
+              child: Text(
+                FlutterI18n.translate(context, "SettingPage.order_hist"),
                 style: mainTextStyle,
               ),
             ),

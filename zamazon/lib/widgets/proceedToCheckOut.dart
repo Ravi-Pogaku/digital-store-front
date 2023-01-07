@@ -34,7 +34,7 @@ class ProceedToCheckOutWidget extends StatelessWidget {
               Text(
                 FlutterI18n.translate(context, "ProceedToCheckOut.total"),
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   color: Colors.white,
                 ),
               ),
@@ -42,7 +42,7 @@ class ProceedToCheckOutWidget extends StatelessWidget {
                 '\$${cartSum.toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 20,
                   color: Colors.white,
                 ),
               )
@@ -64,7 +64,6 @@ class ProceedToCheckOutWidget extends StatelessWidget {
                   context,
                   '/CheckOut',
                   arguments: {
-                    'title': 'Checkout',
                     'checkOutItems': checkOutItems,
                     'sumOfCart': cartSum,
                     'numOfItems': numOfItems,
@@ -73,7 +72,10 @@ class ProceedToCheckOutWidget extends StatelessWidget {
               },
               child: Text(
                   FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
-                  style: const TextStyle(color: Colors.white)))
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  )))
         ],
       ),
     );

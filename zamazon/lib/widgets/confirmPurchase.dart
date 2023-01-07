@@ -59,7 +59,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle regularTextStyle = const TextStyle(fontSize: 16);
+    TextStyle regularTextStyle =
+        const TextStyle(fontSize: 16, color: Colors.white);
     tz.initializeTimeZones();
 
     _notifications.init();

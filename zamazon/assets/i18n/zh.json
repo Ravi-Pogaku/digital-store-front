@@ -12,7 +12,7 @@
     "greeting": "很高兴见到你！",
     "email": "电子邮件",
     "password": "密码",
-    "confirmPassword": "Confirm Password",
+    "confirmPassword": "确认密码",
     "sign_up": "报名",
     "yes_account": "已有帐户？",
     "snackbar_greeting": "注册成功！欢迎！"
@@ -25,18 +25,27 @@
     "name_empty": "请输入姓名",
     "name_hint": "请输入有效的名字"
   },
+  "FeaturedItem": {
+    "message": "限时精选商品！"
+  },
   "UserProfilePage": {
+    "registered": "用户已注册，欢迎您！",
+    "updated": "信息更新！",
     "name": "姓名",
+    "address": "地址",
     "save": "保存"
+  },
+  "EnterAddress": {
+    "no_request": "按下定位器按钮开始输入您的地址或使用您的当前位置。",
+    "no_response": "没有找到任何结果。",
+    "loading_text": "正在获取数据...请稍候。"
   },
   "ShoppingCartPage": {
     "empty": "你的购物车是空的"
   },
-  "BuildCartItem": {
-    "size": "尺寸: "
-  },
-  "BuildCheckOutItem": {
-    "size": "尺寸: "
+  "BuildItem": {
+    "size": "尺寸: ",
+    "quantity": "数量: "
   },
   "ProceedToCheckOut": {
     "total": "总额:",
@@ -80,10 +89,20 @@
     "settings": "设置"
   },
   "SettingPage": {
-    "theme": "深色模式",
-    "legality": "用户协议",
-    "notification": "通知",
+    "appearance": "外貌",
     "language": "语",
+    "order_hist": "订单历史",
     "logout": "再见!"
+  },
+  "OrderHistory": {
+    "order_id": "订单编号",
+    "items": "项目",
+    "ordered_on": "订货日期",
+    "delivered_on": "交付日期",
+    "view_all": "查看全部",
+    "close": "关闭"
+  },
+  "OrderMap": {
+    "map_title": "追踪订单"
   }
 }

@@ -10,13 +10,11 @@ import 'package:zamazon/widgets/defaultAppBar.dart';
 class CheckOutPage extends StatelessWidget {
   const CheckOutPage({
     super.key,
-    this.title,
     required this.checkOutItems,
     required this.sumOfCart,
     required this.numOfItems,
   });
 
-  final String? title;
   final List<ShoppingCartWishListItem> checkOutItems;
   final double sumOfCart;
   final int numOfItems;
