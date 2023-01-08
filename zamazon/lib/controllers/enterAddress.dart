@@ -57,7 +57,7 @@ class _EnterAddressState extends State<EnterAddress> {
             isLoading
                 ? const LinearProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.blue))
-                : Container(),
+                : Container(height: 0,),
             isResponseEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(
@@ -70,7 +70,7 @@ class _EnterAddressState extends State<EnterAddress> {
                         )
                     )
             )
-                : Container(),
+                : Container(height: 0,),
             addressSearchResults(responses, textController),
           ],
         ),
@@ -81,6 +81,7 @@ class _EnterAddressState extends State<EnterAddress> {
   // shows all search results in a listview
   Widget addressSearchResults(List responses, TextEditingController textController) {
     return ListView.builder(
+      padding: const EdgeInsets.only(top: 0),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: responses.length,
@@ -189,37 +190,58 @@ class _EnterAddressState extends State<EnterAddress> {
 
     // using geolocation to retrieve user's current location
 
-    Geolocator.checkPermission().then(
-            (LocationPermission permission)
-       async {
-          print("Check Location Permission: $permission");
-          print(await Geolocator.getLocationAccuracy() );
-        }
-    );
+    String address = '';
 
-    Position userLocation = await Geolocator.getCurrentPosition();
+    LocationPermission permission = await Geolocator.checkPermission();
 
-    final List<Placemark> places = await placemarkFromCoordinates(
-        userLocation.latitude,
-        userLocation.longitude
-    );
+    // if the user denied the location service, the user is asked again
+    if(permission == LocationPermission.denied){
+      await Geolocator.requestPermission();
 
-    String address = '${places[0].street}, ${places[0].locality}, '
-        '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0].country}';
-    // TODO : add it to user's info
+    }
+    // if the user has permanently disabled location services, their settings
+    // app is automatically opened for them to change it
+    else if(permission == LocationPermission.deniedForever) {
+      await Geolocator.openLocationSettings();
 
+    }
+    // anything other option would be the user granting permission
+    else {
 
-    // no longer loading
-    setState(() {
-      isWaitingForLocation = false;
-      isLoading = false;
-      // replace text field with the user's address
-      textController.text = address;
-      // show results again in case user's address wasn't exact
-      _onChangeHandler(textController.text);
-      // send address back to userprofile in userProfilePage.dart
-      widget.onAddressSaved(address);
-    });
+      // we try getting the user's current location
+      try {
+
+        Position userLocation = await Geolocator.getCurrentPosition();
+
+        final List<Placemark> places = await placemarkFromCoordinates(
+            userLocation.latitude,
+            userLocation.longitude
+        );
+
+        address = '${places[0].street}, ${places[0].locality}, '
+            '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0]
+            .country}';
+
+      } on Exception catch (e) {
+        // even if there is an exception, we proceed since the user can
+        // either try the button again or type the address
+        print(e);
+      }
+    }
+
+      // regardless if the user has disabled location services or if there
+      // was an error in getting the user's current location, the button and
+      // the text form field are re-enabled for the user to try again
+
+      setState(() {
+        // no longer loading
+        isWaitingForLocation = false;
+        isLoading = false;
+        // replace text field with the user's address
+        textController.text = address;
+        // show results again in case user's address wasn't exact
+        _onChangeHandler(textController.text);
+      });
   }
 }
 
