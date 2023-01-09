@@ -29,9 +29,8 @@ class _WishListPageState extends State<WishListPage>
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     products = Provider.of<List<Product>>(context, listen: false);
+    super.initState();
   }
 
   @override

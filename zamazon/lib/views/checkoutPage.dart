@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:zamazon/controllers/userInfoForm.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/widgets/checkOutItem.dart';
@@ -30,6 +31,39 @@ class CheckOutPage extends StatelessWidget {
         // if data is loading, show loading circle
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator.adaptive());
+        }
+
+        if (snapshot.hasError) {
+          print('ERROR CHECKOUT: ${snapshot.error.toString()}');
+        }
+
+        // if a user skipped entering their information before trying to buy
+        // products, then ask them to input that information.
+        if (snapshot.data!.name!.isEmpty || snapshot.data!.address!.isEmpty) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                      child: Text(
+                        'You must input this information in order to purchase products.',
+                        style: TextStyle(fontSize: 25, color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    UserInfoForm(
+                      buttonText: 'Save',
+                      initialName: snapshot.data!.name!,
+                      initialAddress: snapshot.data!.address!,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
 
         return Scaffold(

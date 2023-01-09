@@ -151,6 +151,10 @@ class _EnterAddressState extends State<EnterAddress> {
                     )),
                 onChanged: _onChangeHandler,
                 validator: (value) {
+                  if (addressChosen == false &&
+                      widget.initialAddress == value) {
+                    addressChosen = true;
+                  }
                   return RegexValidation()
                       .validateAddress(value, addressChosen);
                 },

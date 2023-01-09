@@ -30,9 +30,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage>
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     products = Provider.of<List<Product>>(context, listen: false);
+    super.initState();
   }
 
   @override
