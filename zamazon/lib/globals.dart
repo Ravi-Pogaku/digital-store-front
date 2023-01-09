@@ -1,7 +1,8 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/material.dart';
 
-const zamazonLogo = 'https://imgur.com/nhjEvGz.png';
+const zamazonDarkLogo = 'https://imgur.com/nhjEvGz.png';
+const zamasonWhiteLogo = 'https://imgur.com/Bzv9vz3.png';
 
 const languages = {
   'en': 'English',
@@ -38,7 +39,8 @@ class Constants {
 
   static const warehouseLocation = LatLng(43.9464307188495, -78.8971513804269);
 
-  static const String warehouseAddress = "2000 Simcoe Street North, Oshawa, Ontario L1G 8C4, Canada";
+  static const String warehouseAddress =
+      "2000 Simcoe Street North, Oshawa, Ontario L1G 8C4, Canada";
 }
 
 // secret token map box

@@ -96,7 +96,7 @@ class ShoppingCartItem extends StatelessWidget {
                     Text.rich(TextSpan(children: [
                       TextSpan(
                           text: FlutterI18n.translate(
-                              context, "BuildCartItem.size"),
+                              context, "BuildItem.size"),
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       TextSpan(

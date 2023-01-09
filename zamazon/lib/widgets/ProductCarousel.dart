@@ -21,7 +21,7 @@ class BuildProductCarousel extends StatelessWidget {
     return CarouselSlider.builder(
       itemCount: specificProducts.length,
       options: CarouselOptions(
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.41,
       ),
       itemBuilder: (context, itemIndex, pageViewIndex) {
         double height = MediaQuery.of(context).size.height;

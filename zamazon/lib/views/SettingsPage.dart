@@ -48,10 +48,10 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
           marginContainer(
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Appearance:',
+              children: [
+                Text("${FlutterI18n.translate(context, "SettingPage.appearance")}:",
                     style: mainTextStyle, softWrap: true, maxLines: 2),
-                ChangeThemeButton(),
+                const ChangeThemeButton(),
               ],
             ),
           ),
@@ -79,8 +79,8 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
               onPressed: () {
                 Navigator.of(context).pushNamed('/OrderHistory');
               },
-              child: const Text(
-                'Order History',
+              child: Text(
+                FlutterI18n.translate(context, "SettingPage.order_hist"),
                 style: mainTextStyle,
               ),
             ),

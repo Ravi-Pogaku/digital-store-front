@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 import '../authentication/authFunctions.dart';
 import '../authentication/regexValidation.dart';
 import 'enterAddress.dart';
@@ -58,16 +60,18 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 padding: const EdgeInsets.all(20),
                 child: TextFormField(
                   initialValue: widget.initialName,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.person),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    labelText: "Name",
-                    errorStyle: TextStyle(
+                    labelText:
+                        FlutterI18n.translate(context, "UserProfilePage.name"),
+                    errorStyle: const TextStyle(
                       fontSize: 20,
                       color: Colors.red,
                     ),
+                    errorMaxLines: 3,
                   ),
                   onSaved: (value) {
                     _name = value;
@@ -99,12 +103,10 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
                       // if used for registration form
                       if (widget.buttonText == 'Confirm') {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                            "User Registered, Welcome!",
-                            style: TextStyle(fontSize: 20),
-                          )),
+                        showSnackBar(
+                          context,
+                          FlutterI18n.translate(
+                              context, "UserProfilePage.registered"),
                         );
 
                         Navigator.of(context)
@@ -112,12 +114,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
                         // else used for profile page
                       } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                                content: Text(
-                          "Information Updated!",
-                          style: TextStyle(fontSize: 20),
-                        )));
+                        showSnackBar(
+                          context,
+                          FlutterI18n.translate(
+                              context, "UserProfilePage.updated"),
+                        );
                       }
                     }
                   },

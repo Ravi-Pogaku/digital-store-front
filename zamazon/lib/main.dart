@@ -140,7 +140,6 @@ class MyApp extends StatelessWidget {
               case '/CheckOut':
                 return MaterialPageRoute(builder: (context) {
                   return CheckOutPage(
-                    title: arguments['title'],
                     checkOutItems: arguments['checkOutItems'],
                     sumOfCart: arguments['sumOfCart'],
                     numOfItems: arguments['numOfItems'],
@@ -149,7 +148,6 @@ class MyApp extends StatelessWidget {
               case '/OrderTrackMap':
                 return MaterialPageRoute(builder: (context) {
                   return OrderTrackMap(
-                    title: arguments['title'],
                     deliveryAddress: arguments['deliveryAddress'],
                   );
                 });

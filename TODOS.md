@@ -1,3 +1,2 @@
 # Misc
-- App icon
-- App splash screen
+- Add photos of app to README

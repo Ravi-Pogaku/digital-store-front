@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -29,11 +30,6 @@ class _EnterAddressState extends State<EnterAddress> {
   bool isWaitingForLocation = false;
   bool addressChosen = false;
 
-  String noRequest =
-      'Start typing your address or use your current location by pressing locator button.';
-  String noResponse = 'No results found.';
-  String loadingText = 'Fetching Data... Please wait.';
-
   List responses = [];
 
   TextEditingController textController = TextEditingController();
@@ -51,27 +47,39 @@ class _EnterAddressState extends State<EnterAddress> {
     Geolocator.isLocationServiceEnabled().then((value) => null);
     Geolocator.requestPermission().then((value) => null);
 
+    String noRequest =
+        FlutterI18n.translate(context, "EnterAddress.no_request");
+    String noResponse =
+        FlutterI18n.translate(context, "EnterAddress.no_response");
+    String loadingText =
+        FlutterI18n.translate(context, "EnterAddress.loading_text");
+
     return Card(
       child: SingleChildScrollView(
         child: Column(
           children: [
             locationField(),
-            if (isLoading)
-              const LinearProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
-            if (isResponseEmpty)
-              Padding(
-                  padding: const EdgeInsets.all(
-                    20,
+            isLoading
+                ? const LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue))
+                : Container(
+                    height: 0,
                   ),
-                  child: Center(
-                      child: isLoading
-                          ? Text(loadingText)
-                          : Text(
-                              hasResponded ? noResponse : noRequest,
-                              textAlign: TextAlign.center,
-                            ))),
+            isResponseEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(
+                      20,
+                    ),
+                    child: Center(
+                        child: isLoading
+                            ? Text(loadingText)
+                            : Text(
+                                hasResponded ? noResponse : noRequest,
+                                textAlign: TextAlign.center,
+                              )))
+                : Container(
+                    height: 0,
+                  ),
             addressSearchResults(responses, textController),
           ],
         ),
@@ -83,6 +91,7 @@ class _EnterAddressState extends State<EnterAddress> {
   Widget addressSearchResults(
       List responses, TextEditingController textController) {
     return ListView.builder(
+      padding: const EdgeInsets.only(top: 0),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: responses.length,
@@ -144,7 +153,8 @@ class _EnterAddressState extends State<EnterAddress> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    labelText: "Address",
+                    labelText: FlutterI18n.translate(
+                        context, "UserProfilePage.address"),
                     errorStyle: const TextStyle(
                       fontSize: 20,
                       color: Colors.red,
@@ -203,30 +213,48 @@ class _EnterAddressState extends State<EnterAddress> {
 
     // using geolocation to retrieve user's current location
 
-    Geolocator.checkPermission().then((LocationPermission permission) async {
-      print("Check Location Permission: $permission");
-      print(await Geolocator.getLocationAccuracy());
-    });
+    String address = '';
 
-    Position userLocation = await Geolocator.getCurrentPosition();
+    LocationPermission permission = await Geolocator.checkPermission();
+    // if the user denied the location service, the user is asked again
+    if (permission == LocationPermission.denied) {
+      await Geolocator.requestPermission();
+    }
+    // if the user has permanently disabled location services, their settings
+    // app is automatically opened for them to change it
+    else if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openLocationSettings();
+    }
+    // anything other option would be the user granting permission
+    else {
+      // we try getting the user's current location
+      try {
+        Position userLocation = await Geolocator.getCurrentPosition();
 
-    final List<Placemark> places = await placemarkFromCoordinates(
-        userLocation.latitude, userLocation.longitude);
+        final List<Placemark> places = await placemarkFromCoordinates(
+            userLocation.latitude, userLocation.longitude);
 
-    String address = '${places[0].street}, ${places[0].locality}, '
-        '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0].country}';
-    // TODO : add it to user's info
+        address = '${places[0].street}, ${places[0].locality}, '
+            '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0].country}';
+      } on Exception catch (e) {
+        // even if there is an exception, we proceed since the user can
+        // either try the button again or type the address
+        print(e);
+      }
+    }
 
-    // no longer loading
+    // regardless if the user has disabled location services or if there
+    // was an error in getting the user's current location, the button and
+    // the text form field are re-enabled for the user to try again
+
     setState(() {
+      // no longer loading
       isWaitingForLocation = false;
       isLoading = false;
       // replace text field with the user's address
       textController.text = address;
       // show results again in case user's address wasn't exact
       _onChangeHandler(textController.text);
-      // send address back to userprofile in userProfilePage.dart
-      widget.onAddressSaved(address);
     });
   }
 }

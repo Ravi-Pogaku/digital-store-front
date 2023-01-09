@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'checkOutItem.dart';
 
@@ -14,12 +15,12 @@ void showOrderedItemsDialog(
       builder: (context) {
         return AlertDialog(
           title: Text(
-            'Order ID: $orderID',
+            '${FlutterI18n.translate(context, "OrderHistory.order_id")}: $orderID',
             softWrap: true,
             maxLines: 2,
           ),
           insetPadding: EdgeInsets.zero,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          contentPadding: const EdgeInsets.all(10),
           content: SizedBox(
             height: (orderedItems.length < 3) ? height * 0.3 : height,
             width: MediaQuery.of(context).size.width,
@@ -48,9 +49,9 @@ void showOrderedItemsDialog(
                   },
                   style: const ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(Colors.black),
-                    backgroundColor: MaterialStatePropertyAll(Colors.orange),
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue),
                   ),
-                  child: const Text("Close")),
+                  child: Text(FlutterI18n.translate(context, "OrderHistory.close"))),
             ),
           ],
         );

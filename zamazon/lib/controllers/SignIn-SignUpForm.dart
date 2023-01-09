@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/widgets/changeThemeButton.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
@@ -121,7 +122,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ),
 
                   // LOGO IMAGE
-                  Image.network(zamazonLogo),
+                  Image.network(Provider.of<SettingsBLoC>(context).isDarkMode
+                      ? zamasonWhiteLogo
+                      : zamazonDarkLogo),
 
                   // GREETING TEXT
                   Padding(

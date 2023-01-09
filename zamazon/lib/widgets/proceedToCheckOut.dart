@@ -64,7 +64,6 @@ class ProceedToCheckOutWidget extends StatelessWidget {
                   context,
                   '/CheckOut',
                   arguments: {
-                    'title': 'Checkout',
                     'checkOutItems': checkOutItems,
                     'sumOfCart': cartSum,
                     'numOfItems': numOfItems,

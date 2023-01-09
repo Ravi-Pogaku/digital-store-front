@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:zamazon/globals.dart';
@@ -8,11 +9,9 @@ import 'package:zamazon/widgets/defaultAppBar.dart';
 class OrderTrackMap extends StatefulWidget {
   const OrderTrackMap({
     super.key,
-    required this.title,
     required this.deliveryAddress,
   });
 
-  final String? title;
   final String? deliveryAddress;
 
   @override
@@ -36,7 +35,7 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
           if (snapshot.hasData && !snapshot.hasError) {
             return Scaffold(
               appBar: DefaultAppBar(
-                title: Text(widget.title!),
+                title: Text(FlutterI18n.translate(context, "OrderMap.map_title")),
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
               ),

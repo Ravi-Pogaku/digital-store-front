@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
@@ -37,7 +38,17 @@ class QuantityWidget extends StatelessWidget {
             child: const Icon(Icons.remove)),
 
         // current quantity of product in your cart
-        Text("Qty: ${scwlItem.quantity}"),
+        Text.rich(TextSpan(
+          children: [
+            TextSpan(
+              text: FlutterI18n.translate(context, "BuildItem.quantity"),
+            ),
+            TextSpan(
+              text: "${scwlItem.quantity}"
+            )
+          ]
+        )),
+        // Text("Qty: ${scwlItem.quantity}"),
 
         // add button
         OutlinedButton(
