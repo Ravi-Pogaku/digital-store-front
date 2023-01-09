@@ -11,7 +11,9 @@ import '../authentication/regexValidation.dart';
 import '../globals.dart';
 
 class EnterAddress extends StatefulWidget {
-  const EnterAddress({Key? key, required this.onAddressSaved, required this.initialAddress}) : super(key: key);
+  const EnterAddress(
+      {Key? key, required this.onAddressSaved, required this.initialAddress})
+      : super(key: key);
 
   final String initialAddress;
   final ValueChanged<String> onAddressSaved;
@@ -54,23 +56,22 @@ class _EnterAddressState extends State<EnterAddress> {
         child: Column(
           children: [
             locationField(),
-            isLoading
-                ? const LinearProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue))
-                : Container(),
-            isResponseEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(
-                      20,
-                    ),
-                    child: Center(
-                        child: isLoading ? Text(loadingText) :
-                        Text(hasResponded ? noResponse : noRequest,
+            if (isLoading)
+              const LinearProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            if (isResponseEmpty)
+              Padding(
+                  padding: const EdgeInsets.all(
+                    20,
+                  ),
+                  child: Center(
+                      child: isLoading
+                          ? Text(loadingText)
+                          : Text(
+                              hasResponded ? noResponse : noRequest,
                               textAlign: TextAlign.center,
-                        )
-                    )
-            )
-                : Container(),
+                            ))),
             addressSearchResults(responses, textController),
           ],
         ),
@@ -79,7 +80,8 @@ class _EnterAddressState extends State<EnterAddress> {
   }
 
   // shows all search results in a listview
-  Widget addressSearchResults(List responses, TextEditingController textController) {
+  Widget addressSearchResults(
+      List responses, TextEditingController textController) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -110,7 +112,9 @@ class _EnterAddressState extends State<EnterAddress> {
               subtitle: Text(responses[index]['address'],
                   overflow: TextOverflow.ellipsis),
             ),
-            const Divider(height: 1,),
+            const Divider(
+              height: 1,
+            ),
           ],
         );
       },
@@ -119,8 +123,7 @@ class _EnterAddressState extends State<EnterAddress> {
 
   Widget locationField() {
     return Card(
-        clipBehavior: Clip.antiAlias, // TODO :test this
-        // margin: const EdgeInsets.all(0), // this may be useful
+        clipBehavior: Clip.antiAlias,
         child: Container(
             padding: const EdgeInsets.all(15),
             child: Padding(
@@ -129,19 +132,27 @@ class _EnterAddressState extends State<EnterAddress> {
                 enabled: isWaitingForLocation ? false : true,
                 controller: textController,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(FontAwesomeIcons.mapLocationDot, size: 20,),
-                  suffixIcon: IconButton(
-                      onPressed: isWaitingForLocation ? null :
-                          () => _useCurrentLocationButtonHandler(),
-                      icon: const Icon(Icons.my_location)),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  labelText: "Address",
-                ),
+                    prefixIcon: const Icon(
+                      FontAwesomeIcons.mapLocationDot,
+                      size: 20,
+                    ),
+                    suffixIcon: IconButton(
+                        onPressed: isWaitingForLocation
+                            ? null
+                            : () => _useCurrentLocationButtonHandler(),
+                        icon: const Icon(Icons.my_location)),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    labelText: "Address",
+                    errorStyle: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.red,
+                    )),
                 onChanged: _onChangeHandler,
                 validator: (value) {
-                  return RegexValidation().validateAddress(value, addressChosen);
+                  return RegexValidation()
+                      .validateAddress(value, addressChosen);
                 },
               ),
             )));
@@ -186,28 +197,21 @@ class _EnterAddressState extends State<EnterAddress> {
       isResponseEmpty = true;
     });
 
-
     // using geolocation to retrieve user's current location
 
-    Geolocator.checkPermission().then(
-            (LocationPermission permission)
-       async {
-          print("Check Location Permission: $permission");
-          print(await Geolocator.getLocationAccuracy() );
-        }
-    );
+    Geolocator.checkPermission().then((LocationPermission permission) async {
+      print("Check Location Permission: $permission");
+      print(await Geolocator.getLocationAccuracy());
+    });
 
     Position userLocation = await Geolocator.getCurrentPosition();
 
     final List<Placemark> places = await placemarkFromCoordinates(
-        userLocation.latitude,
-        userLocation.longitude
-    );
+        userLocation.latitude, userLocation.longitude);
 
     String address = '${places[0].street}, ${places[0].locality}, '
         '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0].country}';
     // TODO : add it to user's info
-
 
     // no longer loading
     setState(() {
@@ -257,7 +261,6 @@ Future requestSearchResults(String query) async {
     }
   }
 }
-
 
 Future<List> getSearchResults(String query) async {
   List parsedResponses = [];

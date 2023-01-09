@@ -64,6 +64,10 @@ class _UserInfoFormState extends State<UserInfoForm> {
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     labelText: "Name",
+                    errorStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.red,
+                    ),
                   ),
                   onSaved: (value) {
                     _name = value;

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
@@ -91,6 +92,8 @@ class _SignInWidgetState extends State<SignInWidget> {
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    FlutterNativeSplash.remove();
 
     return GestureDetector(
       // hide keyboard and cursor when screen is tapped

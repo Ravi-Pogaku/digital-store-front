@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
@@ -35,13 +36,16 @@ class _UserProfilePageState extends State<UserProfilePage>
         // if error, show loading circle and print error
         if (snapshot.hasError) {
           print('USER-PROFILE-PAGE ERROR: ${snapshot.error.toString()}');
+          // if user quit out of the add info page on sign up
+          // then initial a document with empty strings.
+          Auth().addUserInfo('', '');
           return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         // data loaded successfully, this is the actual profile page.
         return GestureDetector(
           onTap: () {
-            // when user taps on screen, remove keyboard
+            // when user taps on screen, remove keyboard and cursor
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
@@ -72,7 +76,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         Colors.green,
                       ],
                     ),
-                    color: Colors.orange[900],
+                    color: Colors.green[900],
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(12),
                       bottomRight: Radius.circular(12),
@@ -88,7 +92,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                         radius: 40,
                         backgroundColor: Colors.white,
                         child: Text(
-                          snapshot.data.name[0],
+                          (snapshot.data.name.isNotEmpty)
+                              ? snapshot.data.name[0].toUpperCase()
+                              : 'U',
                           style: const TextStyle(fontSize: 40),
                         ),
                       ),
@@ -99,7 +105,9 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                       // username
                       Text(
-                        snapshot.data.name,
+                        (snapshot.data.name.isNotEmpty)
+                            ? snapshot.data.name
+                            : 'User',
                         style: const TextStyle(
                           fontSize: 25,
                           color: Colors.black,
@@ -109,11 +117,25 @@ class _UserProfilePageState extends State<UserProfilePage>
                   ),
                 ),
 
+                if (snapshot.data.name.isEmpty || snapshot.data.address.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'You must input this information to purchase products.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+
                 // form for setting username and address
                 UserInfoForm(
                     buttonText: "Save",
-                    initialName: snapshot.data.name,
-                    initialAddress: snapshot.data.address)
+                    initialName: snapshot.data.name ?? '',
+                    initialAddress: snapshot.data.address ?? '')
               ],
             ),
           ),

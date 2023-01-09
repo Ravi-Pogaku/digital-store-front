@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
 import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
@@ -41,7 +42,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
 
     return Container(
       decoration: const BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         children: [
           marginContainer(
@@ -89,6 +90,11 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
           TextButton(
             onPressed: () {
               _auth.signOut().then((value) {
+                // homepage is the initial page. if someone logs out and back in
+                // the provider's page value is still the settings page (4).
+                // homepage is 0.
+                Provider.of<BottomNavBarBLoC>(context, listen: false)
+                    .updatePage(0);
                 showSnackBar(context,
                     FlutterI18n.translate(context, "SettingPage.logout"));
               });

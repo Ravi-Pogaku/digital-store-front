@@ -11,10 +11,6 @@ import 'package:zamazon/globals.dart';
 // showing relevant search terms/products when a user makes a query.
 
 class CustomSearchDelegate extends SearchDelegate {
-  final List<String> searchTerms;
-
-  CustomSearchDelegate({this.searchTerms = categories});
-
   // New actions built on the right of the search bar
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -109,7 +105,7 @@ class CustomSearchDelegate extends SearchDelegate {
     List<Product> products = Provider.of<List<Product>>(context);
     List<String> matches = [];
 
-    for (var term in searchTerms) {
+    for (var term in categories) {
       // shows matched categories, i.e. Computer, Electronics, etc.
       if (term.toLowerCase().contains(query.toLowerCase())) {
         matches.add(term);

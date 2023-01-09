@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
-import 'package:zamazon/models/settings_BLoC.dart';
-import 'package:zamazon/widgets/changeThemeButton.dart';
 
 // newly registered user must enter their name and address
 
@@ -31,8 +28,25 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
+                          },
+                          icon: const Icon(Icons.arrow_forward),
+                          label: const Text(
+                            'Skip for now',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const Text(
                         "Enter Your Name And Shipping Address",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30),
@@ -40,7 +54,7 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
                       ),
 
                       // form for setting name and address
-                      UserInfoForm(
+                      const UserInfoForm(
                         buttonText: 'Confirm',
                         initialName: '',
                         initialAddress: '',

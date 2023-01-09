@@ -57,6 +57,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   sizer: ^2.0.15
   responsive_framework: ^0.2.0
+  flutter_native_splash: ^2.2.16
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -73,6 +74,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  
+
+flutter_native_splash:
+  color: "#000000"
+  image: assets/splash_screen.png
+  ios: false
+  web: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -120,3 +128,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

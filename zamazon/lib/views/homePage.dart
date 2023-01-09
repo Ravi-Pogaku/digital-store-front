@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/models/bottomNavBarBLoC.dart';
@@ -23,13 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // loaded in build
-  List<Widget> pages = [];
-  List<Widget> pageTitles = [];
-
   int currentPageNum = 0;
-
-  final int randomCategory = Random().nextInt(6);
 
   // for jumping back to the top of the page on page changes
   final ScrollController scrollController = ScrollController(
@@ -52,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    pageTitles = [
+    List<Widget> pageTitles = [
       // app logo for homepage
       Image.network(
         zamazonLogo,
@@ -63,6 +58,8 @@ class _HomePageState extends State<HomePage> {
       Text(FlutterI18n.translate(context, "Appbar.wish_list")),
       Text(FlutterI18n.translate(context, "Appbar.settings")),
     ];
+
+    FlutterNativeSplash.remove();
 
     return Scaffold(
       // fixes image clipping on the wishlist page. false for other pages
