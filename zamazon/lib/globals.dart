@@ -1,9 +1,6 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/material.dart';
 
-const zamazonDarkLogo = 'https://imgur.com/nhjEvGz.png';
-const zamasonWhiteLogo = 'https://imgur.com/Bzv9vz3.png';
-
 const languages = {
   'en': 'English',
   'fr': 'Français',
@@ -12,7 +9,7 @@ const languages = {
   'ja': '日本語'
 };
 
-const pageBGColors = {
+const barBGColors = {
   0: Colors.orange,
   1: Colors.green,
   2: Colors.purple,

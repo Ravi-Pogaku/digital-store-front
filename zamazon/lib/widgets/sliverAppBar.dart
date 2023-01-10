@@ -24,7 +24,7 @@ class MySliverAppBar extends StatelessWidget {
 
     return SliverAppBar(
       centerTitle: true,
-      backgroundColor: pageBGColors[currentPageNum],
+      backgroundColor: barBGColors[currentPageNum],
       foregroundColor: (currentPageNum == 0) ? Colors.black : Colors.white,
       elevation: 0.0,
       title: pageTitles.elementAt(currentPageNum),

@@ -49,8 +49,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List<Widget> pageTitles = [
       // app logo for homepage
-      Image.network(
-        zamazonDarkLogo,
+      Image.asset(
+        'assets/zamazonDark.png',
         width: 125,
       ),
       Text(FlutterI18n.translate(context, "Appbar.profile")),

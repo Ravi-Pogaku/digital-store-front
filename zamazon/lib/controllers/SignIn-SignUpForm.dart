@@ -122,9 +122,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ),
 
                   // LOGO IMAGE
-                  Image.network(Provider.of<SettingsBLoC>(context).isDarkMode
-                      ? zamasonWhiteLogo
-                      : zamazonDarkLogo),
+                  Image.asset(Provider.of<SettingsBLoC>(context).isDarkMode
+                      ? 'assets/zamazonLight.png'
+                      : 'assets/zamazonDark.png'),
 
                   // GREETING TEXT
                   Padding(

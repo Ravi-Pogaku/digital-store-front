@@ -62,7 +62,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return Scaffold(
       appBar: DefaultAppBar(
-        backgroundColor: pageBGColors[currentPageNum],
+        backgroundColor: barBGColors[currentPageNum],
         foregroundColor: foregroundColor,
       ),
       body: CustomScrollView(
@@ -226,7 +226,7 @@ class _ProductPageState extends State<ProductPage> {
                       fixedSize: Size(width, 50),
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero),
-                      backgroundColor: pageBGColors[currentPageNum]),
+                      backgroundColor: barBGColors[currentPageNum]),
                   onPressed: () {
                     scrollController.animateTo(0.0,
                         duration: const Duration(milliseconds: 500),
