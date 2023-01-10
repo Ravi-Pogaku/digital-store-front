@@ -1,8 +1,8 @@
 # Mock Digital Store Front made with Flutter/Dart and Firebase.
 ## Creators: 
-- Gowtham Rajendra, GowthamRajendra (github username)
-- Ivan Wang, Ivan-WangJianBin
-- Ravi Pogaku, Ravi-Pogaku
+- Gowtham Rajendra, [Github](https://github.com/GowthamRajendra)
+- Ivan Wang, [Github](https://github.com/Ivan-WangJianBin)
+- Ravi Pogaku, [Github](https://github.com/Ravi-Pogaku)
 
 ## Table of Contents
 - [Sign In/Up](#sign-insign-up-screen-using-firebase-authentication)
