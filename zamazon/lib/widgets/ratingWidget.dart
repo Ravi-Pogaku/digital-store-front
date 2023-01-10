@@ -1,16 +1,17 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:zamazon/models/Product.dart';
 import 'package:flutter/material.dart';
 
-class RatingWidget extends StatelessWidget {
-  const RatingWidget({Key? key, required this.product}) : super(key: key);
+// creates the stars of a product based on a rating out of 5.
 
-  final Product product;
+class RatingWidget extends StatelessWidget {
+  const RatingWidget({Key? key, required this.rating}) : super(key: key);
+
+  final String rating;
 
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-        initialRating: double.parse(product.rating!),
+        initialRating: double.parse(rating),
         allowHalfRating: true,
         ignoreGestures: true,
         itemSize: 20,

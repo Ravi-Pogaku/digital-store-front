@@ -28,6 +28,7 @@ class ShoppingCartWishListItem {
     this.sizeSelection,
   });
 
+  // from firestore
   ShoppingCartWishListItem.fromMap(Map map, {required this.docRef}) {
     this.productId = map['productId'];
     this.title = map['title'];
@@ -39,6 +40,7 @@ class ShoppingCartWishListItem {
     this.sizeSelection = map['sizeSelection'];
   }
 
+  // to firestore
   Map<String, Object?> toMap() {
     return {
       'productId': this.productId,

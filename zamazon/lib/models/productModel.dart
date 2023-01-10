@@ -4,14 +4,12 @@ import 'package:zamazon/models/Product.dart';
 class ProductModel {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  //Returns a stream containing the list of all products in the cloud
+  //Returns a stream containing the list of all products in firestore
   Stream<List<Product>> getProducts() {
     return _db.collection('products').snapshots().map((snapshot) {
       //
-      //print(snapshot.docs.toList());
       return snapshot.docs.map((document) {
         //
-        //print(document.data());
         return Product.fromMap(document.data(), docRef: document.reference);
       }).toList();
     });

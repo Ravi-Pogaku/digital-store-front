@@ -1,60 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../models/themeBLoC.dart';
-
-class ProceedToCheckOutWidget extends StatefulWidget {
-  ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
+class ProceedToCheckOutWidget extends StatelessWidget {
+  const ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
       : super(key: key);
 
-  List<ShoppingCartWishListItem> checkOutItems;
+  final List<ShoppingCartWishListItem> checkOutItems;
 
-  @override
-  State<ProceedToCheckOutWidget> createState() =>
-      _ProceedToCheckOutWidgetState();
-}
-
-class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
   @override
   Widget build(BuildContext context) {
-    double cartSum = _sumOfCart(widget.checkOutItems);
-    int numOfItems = _numOfItems(widget.checkOutItems);
+    double cartSum = _sumOfCart(checkOutItems);
+    int numOfItems = _numOfItems(checkOutItems);
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
-      // height: MediaQuery.of(context).size.height/3,
       decoration: const BoxDecoration(
-          color: Colors.orange,
+          color: Colors.purple,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           )),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              FlutterI18n.translate(context, "ProceedToCheckOut.total"),
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.black,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                FlutterI18n.translate(context, "ProceedToCheckOut.total"),
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            Text(
-              '\$${cartSum.toStringAsFixed(2)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            )
-          ]),
+              Text(
+                '\$${cartSum.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -66,14 +59,12 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                 ),
                 fixedSize: Size(width - 100, 40),
               ),
-              // TODO : implement checkout button
               onPressed: () {
                 Navigator.pushNamed(
                   context,
                   '/CheckOut',
                   arguments: {
-                    'title': 'Checkout',
-                    'checkOutItems': widget.checkOutItems,
+                    'checkOutItems': checkOutItems,
                     'sumOfCart': cartSum,
                     'numOfItems': numOfItems,
                   },
@@ -81,29 +72,32 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
               },
               child: Text(
                   FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
-                  style: const TextStyle(color: Colors.white)))
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  )))
         ],
       ),
     );
   }
 
   double _sumOfCart(List<ShoppingCartWishListItem> items) {
-    double total = 0.0;
+    double cartSum = 0;
 
     for (var item in items) {
-      total += item.totalPrice!;
+      cartSum += item.totalPrice!;
     }
 
-    return total;
+    return cartSum;
   }
 
   int _numOfItems(List<ShoppingCartWishListItem> items) {
-    int total = 0;
+    int count = 0;
 
     for (var item in items) {
-      total += item.quantity!;
+      count += item.quantity!;
     }
 
-    return total;
+    return count;
   }
 }

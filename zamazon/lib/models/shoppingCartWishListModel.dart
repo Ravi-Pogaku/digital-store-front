@@ -3,8 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/Product.dart';
-import 'UserOrder.dart';
-import 'Product.dart';
+import '../globals.dart';
+import 'userOrder.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+// class that interacts with the user's shopping cart and wishlist on firestore
 
 class SCWLModel {
   final _db = FirebaseFirestore.instance;
@@ -12,6 +15,7 @@ class SCWLModel {
 
   Stream<List<ShoppingCartWishListItem>> getUserShoppingCartWishList(
       String collName) {
+    // collNames are either shoppingCart or wishList
     return _db
         .collection('users')
         .doc(_auth.currentUser!.uid)
@@ -26,13 +30,7 @@ class SCWLModel {
   }
 
   Future<void> addToCartWishList(Product product, String collName,
-      {int size = 0}) async {
-    // String? docId;
-    //
-    // if(collName == "wishList"){
-    //   docId = product.id;
-    // }
-
+      {int size = 1}) async {
     ShoppingCartWishListItem scwlItem = ShoppingCartWishListItem(
       title: product.title,
       imageUrl: product.imageUrl,
@@ -44,7 +42,7 @@ class SCWLModel {
       sizeSelection: product.sizeSelection,
     );
 
-    var collRef = await _db
+    var collRef = _db
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .collection(collName);
@@ -88,7 +86,10 @@ class SCWLModel {
   }
 
   Future<void> addToOrderHistory(
-      List<ShoppingCartWishListItem> checkedOutItems) async {
+      List<ShoppingCartWishListItem> checkedOutItems,
+      String userAddress,
+      tz.TZDateTime orderDate,
+      tz.TZDateTime deliveryDate) async {
     List<Map> mappedSCWLItems = [];
 
     for (ShoppingCartWishListItem checkedOutItem in checkedOutItems) {
@@ -101,9 +102,11 @@ class SCWLModel {
         .collection("orders")
         .doc()
         .set({
-      "delivered": false,
-      "orderedOn": DateTime.now(),
-      "order": FieldValue.arrayUnion(mappedSCWLItems),
+      "deliveryAddress": userAddress,
+      "warehouseAddress": Constants.warehouseAddress,
+      "deliveredOn": deliveryDate,
+      "orderedOn": orderDate,
+      "purchasedProducts": FieldValue.arrayUnion(mappedSCWLItems),
     }, SetOptions(merge: true));
 
     await _db
@@ -111,19 +114,34 @@ class SCWLModel {
         .doc(_auth.currentUser!.uid)
         .collection("shoppingCart")
         .get()
-        .then((value) => {
-              value.docs.forEach((doc) {
-                doc.reference.delete();
-              })
-            });
+        .then((value) {
+      for (var document in value.docs) {
+        document.reference.delete();
+      }
+    });
   }
 
-  Future<void> updateCartWishList(ShoppingCartWishListItem scwlItem) async {
+  Future<void> updateCartWishListItem(ShoppingCartWishListItem scwlItem) async {
     await scwlItem.docRef!.update(scwlItem.toMap());
   }
 
-  Future<void> deleteCartWishList(ShoppingCartWishListItem scwlItem) async {
+  // delet
+  Future<void> deleteCartWishListItem(ShoppingCartWishListItem scwlItem) async {
     await scwlItem.docRef!.delete();
+  }
+
+  // empty the user's shoppingCart or wishList
+  Future<void> deleteAllCartWishList(String collName) async {
+    await _db
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection(collName)
+        .get()
+        .then((value) {
+      for (var document in value.docs) {
+        document.reference.delete();
+      }
+    });
   }
 
   Future<Product> getProduct(String productId) async {

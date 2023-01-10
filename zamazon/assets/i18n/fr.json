@@ -12,6 +12,7 @@
     "greeting": "Ravi de vous rencontrer!",
     "email": "E-mail",
     "password": "Mot de passe",
+    "confirmPassword": "Confirmez le mot de passe",
     "sign_up": "S'inscrire",
     "yes_account": "Vous avez déjà un compte?",
     "snackbar_greeting": "Enregistré avec succès! Accueillir!"
@@ -24,18 +25,27 @@
     "name_empty": "Veuillez entrer un nom",
     "name_hint": "Merci d'entrer un nom valide"
   },
+  "FeaturedItem": {
+    "message": "Article en vedette à durée limitée!"
+  },
   "UserProfilePage": {
+    "registered": "Utilisateur enregistré, bienvenue!",
+    "updated": "Informations mises à jour!",
     "name": "Nom",
+    "address" : "Adresse",
     "save": "Sauver"
+  },
+  "EnterAddress": {
+    "no_request": "Commencez à saisir votre adresse ou utilisez votre emplacement actuel en appuyant sur le bouton de localisation.",
+    "no_response": "Aucun resultat n'a été trouvé.",
+    "loading_text": "Récupération des données... veuillez patienter."
   },
   "ShoppingCartPage": {
     "empty": "Votre panier est vide"
   },
-  "BuildCartItem": {
-    "size": "Taille: "
-  },
-  "BuildCheckOutItem": {
-    "size": "Taille: "
+  "BuildItem": {
+    "size": "Taille: ",
+    "quantity": "Qté: "
   },
   "ProceedToCheckOut": {
     "total": "Total:",
@@ -77,18 +87,21 @@
     "wish_list": "Liste de souhaits",
     "settings": "Paramètre"
   },
-  "Bottom_NavBar": {
-    "home_page": "Page d'accueil",
-    "profile_page": "Page de profil",
-    "shopping_cart": "Panier",
-    "wish_list": "Liste de souhaits",
-    "settings": "Paramètre"
-  },
   "SettingPage": {
-    "theme": "Mode sombre",
-    "legality": "Accord de l'utilisateur",
-    "notification": "Notification",
+    "appearance": "Apparence",
     "language": "Langue",
+    "order_hist": "Historique des commandes",
     "logout": "Au revoir!"
+  },
+  "OrderHistory": {
+    "order_id": "Numéro de \nCommande",
+    "items": "Articles",
+    "ordered_on": "Date de \nCommande",
+    "delivered_on": "Date de \nLivraison",
+    "view_all": "Voir Tout",
+    "close": "Fermer"
+  },
+  "OrderMap": {
+    "map_title": "Suivi de commande"
   }
 }

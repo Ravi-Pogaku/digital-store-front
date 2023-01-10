@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/globals.dart';
-import 'package:zamazon/models/themeBLoC.dart';
+import 'package:zamazon/models/bottomNavBarBLoC.dart';
+import 'package:zamazon/models/settings_BLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/languageDropDownMenu.dart';
 import '../widgets/changeThemeButton.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
-import 'package:zamazon/views/orderHistory.dart';
 
 class SettingsPageWidget extends StatefulWidget {
   const SettingsPageWidget({Key? key, this.title}) : super(key: key);
@@ -18,124 +17,99 @@ class SettingsPageWidget extends StatefulWidget {
   State<SettingsPageWidget> createState() => _SettingsPageWidgetState();
 }
 
-class _SettingsPageWidgetState extends State<SettingsPageWidget> {
+class _SettingsPageWidgetState extends State<SettingsPageWidget>
+    with AutomaticKeepAliveClientMixin {
   String? currentLanguage;
   final _auth = Auth();
 
-  static const double mainFontSize = 20;
+  static const TextStyle mainTextStyle = TextStyle(fontSize: 20);
 
-  // needed in changeThemeButton.dart to fix a problem
-  void refreshFromChild() {
-    setState(() {});
-  }
-
-  // callback? (dunno if this is the correct term)
-  // used in languageDropDownMenu.dart
-  void changeLanguage(String newLanguage) {
-    setState(() {
-      currentLanguage = newLanguage;
-    });
+  Widget marginContainer(Widget child) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: child,
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final containerTheme =
-        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
-            ? Colors.grey[900]
-            : Colors.white;
+  bool get wantKeepAlive => true;
 
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.75,
-        // margin: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: containerTheme,
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(FlutterI18n.translate(context, "SettingPage.theme"),
-                      style: const TextStyle(fontSize: mainFontSize),
-                      softWrap: true,
-                      maxLines: 2),
-                  ChangeThemeButtonWidget(
-                    refreshParent: refreshFromChild,
-                  ),
-                ],
-              ),
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    currentLanguage = FlutterI18n.currentLocale(context)?.languageCode;
+
+    return Container(
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Column(
+        children: [
+          marginContainer(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${FlutterI18n.translate(context, "SettingPage.appearance")}:",
+                    style: mainTextStyle, softWrap: true, maxLines: 2),
+                const ChangeThemeButton(),
+              ],
             ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Text(
-                  FlutterI18n.translate(context, "SettingPage.notification"),
-                  style: const TextStyle(fontSize: mainFontSize),
-                  softWrap: true,
-                  maxLines: 2),
+          ),
+
+          // Language row
+          marginContainer(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    '${FlutterI18n.translate(context, "SettingPage.language")}:',
+                    style: mainTextStyle,
+                    softWrap: true,
+                    maxLines: 2),
+                LanguageDropDownMenu(
+                  currentLanguage: currentLanguage,
+                ),
+              ],
             ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Text(
-                  FlutterI18n.translate(context, "SettingPage.legality"),
-                  style: const TextStyle(fontSize: mainFontSize),
-                  softWrap: true,
-                  maxLines: 2),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      FlutterI18n.translate(
-                        context,
-                        "SettingPage.language",
-                      ),
-                      style: const TextStyle(fontSize: mainFontSize),
-                      softWrap: true,
-                      maxLines: 2),
-                  LanguageDropDownMenu(
-                    currentLanguage: currentLanguage,
-                    changeLanguage: changeLanguage,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Order History",
-                          style: TextStyle(fontSize: mainFontSize)),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const OrderHistory()));
-                          },
-                          icon: const Icon(Icons.arrow_forward)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          ),
+
+          // Order history button
+          marginContainer(
             TextButton(
               onPressed: () {
-                _auth.signOut().then((value) {
-                  showSnackBar(context,
-                      FlutterI18n.translate(context, "SettingPage.logout"));
-                });
+                Navigator.of(context).pushNamed('/OrderHistory');
               },
-              style: ButtonStyle(
-                  foregroundColor: const MaterialStatePropertyAll(Colors.black),
-                  backgroundColor:
-                      const MaterialStatePropertyAll(Colors.orange),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ))),
-              child: const Icon(Icons.logout),
+              child: Text(
+                FlutterI18n.translate(context, "SettingPage.order_hist"),
+                style: mainTextStyle,
+              ),
             ),
-          ],
-        ),
+          ),
+
+          // Log out button
+          TextButton(
+            onPressed: () {
+              _auth.signOut().then((value) {
+                // homepage is the initial page. if someone logs out and back in
+                // the provider's page value is still the settings page (4).
+                // homepage is 0.
+                Provider.of<BottomNavBarBLoC>(context, listen: false)
+                    .updatePage(0);
+                showSnackBar(context,
+                    FlutterI18n.translate(context, "SettingPage.logout"));
+              });
+            },
+            style: ButtonStyle(
+                foregroundColor: const MaterialStatePropertyAll(Colors.white),
+                backgroundColor: const MaterialStatePropertyAll(Colors.blue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                )),
+            child: const Icon(Icons.logout),
+          ),
+        ],
       ),
     );
   }

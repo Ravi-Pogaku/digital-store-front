@@ -1,17 +1,18 @@
 {
   "SignInForm": {
-    "greeting": "Welcome Back!",
+    "greeting": "Welcome back!",
     "email": "Email",
     "password": "Password",
     "sign_in": "Sign In",
     "no_account": "Create an Account",
-    "snackbar_greeting": "Welcome Back",
+    "snackbar_greeting": "Welcome back!",
     "snackbar_incorrect": "Incorrect Email or Password!"
   },
   "SignUpForm": {
     "greeting": "Nice to meet you!",
     "email": "Email",
     "password": "Password",
+    "confirmPassword": "Confirm Password",
     "sign_up": "Sign Up",
     "yes_account": "Already have an Account?",
     "snackbar_greeting": "Successfully Registered! Welcome!"
@@ -24,18 +25,27 @@
     "name_empty": "Please enter a name",
     "name_hint": "Please enter a valid name"
   },
+  "FeaturedItem": {
+    "message": "Limited Time Featured Item!"
+  },
   "UserProfilePage": {
+    "registered": "User Registered, Welcome!",
+    "updated": "Information Updated!",
     "name": "Name",
+    "address": "Address",
     "save": "Save"
+  },
+  "EnterAddress": {
+    "no_request": "Start typing your address or use your current location by pressing the locator button.",
+    "no_response": "No results were found.",
+    "loading_text": "Fetching Data... Please wait."
   },
   "ShoppingCartPage": {
     "empty": "Your Shopping Cart is empty"
   },
-  "BuildCartItem": {
-    "size": "Size: "
-  },
-  "BuildCheckOutItem": {
-    "size": "Size: "
+  "BuildItem": {
+    "size": "Size: ",
+    "quantity": "Qty: "
   },
   "ProceedToCheckOut": {
     "total": "Total:",
@@ -76,20 +86,23 @@
     "profile": "Profile",
     "shopping_cart": "Shopping Cart",
     "wish_list": "Wish List",
-    "settings": "Setting"
-  },
-  "Bottom_NavBar": {
-    "home_page": "Home Page",
-    "profile_page": "Profile Page",
-    "shopping_cart": "Shopping Cart",
-    "wish_list": "Wish List",
     "settings": "Settings"
   },
   "SettingPage": {
-    "theme": "Dark Mode",
-    "legality": "User Agreement",
-    "notification": "Notification",
+    "appearance": "Appearance",
     "language": "Language",
+    "order_hist": "Order History",
     "logout": "Bye!"
+  },
+  "OrderHistory": {
+    "order_id": "Order ID",
+    "items": "Items",
+    "ordered_on": "Ordered On",
+    "delivered_on": "Delivered On",
+    "view_all": "View All",
+    "close": "Close"
+  },
+  "OrderMap": {
+    "map_title": "Tracking Order"
   }
 }

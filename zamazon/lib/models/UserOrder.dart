@@ -2,30 +2,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserOrder {
   DocumentReference? docRef;
-  bool? delivered;
+  Timestamp? deliveredOn;
   Timestamp? orderedOn;
-  List? order;
+  List? purchasedProducts;
+  String? deliveryAddress;
+  String? warehouseAddress;
 
-
-  UserOrder({this.delivered, this.orderedOn, this.order});
+  UserOrder({this.deliveredOn, this.orderedOn, this.purchasedProducts});
 
   UserOrder.fromMap(Map map, {required this.docRef}) {
     // print(map);
-    this.delivered = map['delivered'];
+    this.deliveredOn = map['deliveredOn'];
     this.orderedOn = map['orderedOn'];
-    this.order = map['order'];
+    this.purchasedProducts = map['purchasedProducts'];
+    this.deliveryAddress = map['deliveryAddress'];
+    this.warehouseAddress = map['warehouseAddress'];
   }
 
   Map<String, Object?> toMap() {
     return {
-      'delivered': this.delivered,
+      'deliveredOn': this.deliveredOn,
       'orderedOn': this.orderedOn,
-      'order': this.order,
+      'purchasedProducts': this.purchasedProducts,
+      'warehouseAddress': this.warehouseAddress,
+      'deliveryAddress': this.deliveryAddress,
     };
   }
 
   @override
   String toString() {
-    return 'Order{delivered: $delivered, orderedOn: $orderedOn, order: $order}';
+    return 'UserOrder{docRef: $docRef, deliveredOn: $deliveredOn, '
+        'orderedOn: $orderedOn, purchasedProducts: $purchasedProducts, '
+        'deliveryAddress: $deliveryAddress, '
+        'warehouseAddress: $warehouseAddress}';
   }
 }

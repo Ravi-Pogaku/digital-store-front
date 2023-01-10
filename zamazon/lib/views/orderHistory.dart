@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/UserOrder.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:zamazon/models/userOrder.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/orderedItemsDialog.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key}) : super(key: key);
@@ -12,63 +14,116 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
+  var orderHistoryStream = SCWLModel().getUserOrderHistory();
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return StreamBuilder<List<UserOrder>>(
         initialData: const [],
-        stream: SCWLModel().getUserOrderHistory(),
+        stream: orderHistoryStream,
         builder: (context, snapshot) {
-          return Scaffold(
-            appBar: AppBar(title: const Text("Order History")),
-            body: Container(
-              padding: const EdgeInsets.only(top: 10),
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text("OrderID")),
-                  DataColumn(label: Text("Date")),
-                  DataColumn(label: Text("Status")),
+          if (snapshot.hasData && !snapshot.hasError) {
+            return Scaffold(
+              appBar: DefaultAppBar(
+                title: Text(
+                    FlutterI18n.translate(context, "SettingPage.order_hist")),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              body: DataTable(
+                columnSpacing: 0,
+                columns: [
+                  DataColumn(
+                      label: SizedBox(
+                          width: width * 0.2,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.order_id"),))),
+                  DataColumn(
+                      label: SizedBox(
+                          width: width * 0.2,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.items")))),
+                  DataColumn(
+                      label: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.ordered_on")))),
+                  DataColumn(
+                      label: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: Text(FlutterI18n.translate(
+                              context, "OrderHistory.delivered_on")))),
                 ],
                 rows: snapshot.data!
                     .map((UserOrder userOrder) => DataRow(cells: [
-                          DataCell(Text(
-                            userOrder.docRef!.id.substring(0, 3),
-                            overflow: TextOverflow.ellipsis,
+                          DataCell(SizedBox(
+                            width: width * 0.12,
+                            child: Text(
+                              userOrder.docRef!.id,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           )),
-                          DataCell(Text(
-                            userOrder.orderedOn!
-                                .toDate()
-                                .toString()
-                                .substring(0, 10),
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          DataCell(Row(
-                            children: [
-                              // did not implement the actual delivered/en route feature by timing it
-                              Text(
-                                userOrder.delivered! ? "Delivered" : "En Route",
-                                overflow: TextOverflow.ellipsis,
+                          DataCell(SizedBox(
+                            width: width * 0.2,
+                            child: GestureDetector(
+                              onTap: () {
+                                showOrderedItemsDialog(
+                                    context,
+                                    userOrder.docRef!.id,
+                                    userOrder.purchasedProducts!);
+                              },
+                              child: Text(
+                                FlutterI18n.translate(
+                                    context, "OrderHistory.view_all"),
+                                style: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue),
                               ),
-                              userOrder.delivered!
-                                  ? Container()
-                                  : IconButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, "/OrderTrackMap");
-                                      },
-                                      icon: const Icon(Icons.map))
-                            ],
+                            ),
+                          )),
+                          DataCell(SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            child: createDateWidgetFromTimeStamp(
+                                userOrder.orderedOn!),
+                          )),
+                          DataCell(SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: Row(
+                              children: [
+                                createDateWidgetFromTimeStamp(
+                                    userOrder.deliveredOn!),
+                                IconButton(
+                                    splashRadius: 20,
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, "/OrderTrackMap",
+                                          arguments: {
+                                            'title': 'Tracking Order',
+                                            'deliveryAddress':
+                                                userOrder.deliveryAddress,
+                                          });
+                                    },
+                                    icon: const Icon(Icons.map))
+                              ],
+                            ),
                           )),
                         ]))
                     .toList(),
               ),
-            ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
           );
         });
   }
 
-  String getDate(Timestamp timestamp) {
-    DateTime dateTime = DateTime.parse(timestamp.toDate().toString());
-    print(dateTime.toString());
-    return dateTime.toString();
+  Widget createDateWidgetFromTimeStamp(Timestamp date) {
+    return Text(
+      date.toDate().toString().substring(0, 10),
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

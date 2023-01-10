@@ -2,22 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 
+import 'package:zamazon/models/settings_BLoC.dart';
+import 'package:zamazon/widgets/navigateToProductPage.dart';
+import 'package:zamazon/widgets/productImage.dart';
+import 'package:zamazon/globals.dart';
+
 // class needed for searchBar, responsible for building the searchBar and
 // showing relevant search terms/products when a user makes a query.
 
 class CustomSearchDelegate extends SearchDelegate {
-  final searchTerms = const [
-    'Electronics',
-    'Computer',
-    'Kitchen',
-    'Video games',
-    'Clothes',
-    'Cosmetics',
-    'Game console',
-    'Shoes',
-  ];
-
-  // New actions built on the right of search bar
+  // New actions built on the right of the search bar
   @override
   List<Widget>? buildActions(BuildContext context) {
     // x-button for clearing the search bar
@@ -31,7 +25,7 @@ class CustomSearchDelegate extends SearchDelegate {
     ];
   }
 
-  // Builds thing before the search bar
+  // new actions built on the left of the search bar
   @override
   Widget? buildLeading(BuildContext context) {
     // back button to stop searching
@@ -64,6 +58,10 @@ class CustomSearchDelegate extends SearchDelegate {
     // remove duplicate items
     matches = matches.toSet().toList();
 
+    Color textColor = Provider.of<SettingsBLoC>(context).isDarkMode
+        ? Colors.white
+        : Colors.black;
+
     //after finding matches, build a listview of all matched products
     return ListView.separated(
       // if empty, then itemCount is 1 and its just listtile "no products found"
@@ -74,37 +72,29 @@ class CustomSearchDelegate extends SearchDelegate {
         );
       },
       itemBuilder: (context, index) {
+        double height = MediaQuery.of(context).size.height;
+
         return (matches.isNotEmpty)
-            ? ListTile(
-                title: SizedBox(
-                  height: 200,
-                  child: Image.network(matches[index].imageUrl!),
-                ),
-                subtitle: Text(
-                  matches[index].title!,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
+            ? NavigateToProductPage(
+                product: matches[index],
+                child: ListTile(
+                  title: ProductImage(
+                    imageHeight: height * 0.24,
+                    backgroundHeight: height * 0.25,
+                    backgroundBorder: BorderRadius.circular(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    imageUrl: matches[index].imageUrl!,
+                  ),
+                  subtitle: Text(
+                    matches[index].title!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: textColor,
+                    ),
                   ),
                 ),
-                onTap: () {
-                  // when a product is tapped, show that product's page
-                  Navigator.pushNamed(
-                    context,
-                    "/ProductPage",
-                    arguments: {
-                      'title': 'Product',
-                      'product': matches[index],
-                    },
-                  );
-                },
               )
-            : const ListTile(
-                title: Text(
-                  "No Terms/Products Found",
-                  style: TextStyle(fontSize: 20),
-                ),
-              );
+            : nothingFoundFromSearch();
       },
     );
   }
@@ -114,7 +104,9 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     List<Product> products = Provider.of<List<Product>>(context);
     List<String> matches = [];
-    for (var term in searchTerms) {
+
+    for (var term in categories) {
+      // shows matched categories, i.e. Computer, Electronics, etc.
       if (term.toLowerCase().contains(query.toLowerCase())) {
         matches.add(term);
       }
@@ -122,17 +114,24 @@ class CustomSearchDelegate extends SearchDelegate {
 
     if (query.isNotEmpty) {
       for (var product in products) {
+        // shows matched products, i.e. Metroid Dread Switch Game
         if (product.title!.toLowerCase().contains(query.toLowerCase())) {
           matches.add(product.title!);
         }
       }
     }
 
+    // remove duplicate items
     matches = matches.toSet().toList();
 
     //after finding matches, build a listview of all matches
-    return ListView.builder(
+    return ListView.separated(
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
+      separatorBuilder: (context, index) {
+        return const Divider(
+          thickness: 3,
+        );
+      },
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(
@@ -141,20 +140,21 @@ class CustomSearchDelegate extends SearchDelegate {
                   style: const TextStyle(fontSize: 20),
                 ),
                 onTap: () {
-                  // when item is tapped, close the search bar and return user's
-                  // choice which is then used to push route to the selected
-                  //product's page
                   query = matches[index];
                   showResults(context);
                 },
               )
-            : const ListTile(
-                title: Text(
-                  "No Terms/Products Found",
-                  style: TextStyle(fontSize: 20),
-                ),
-              );
+            : nothingFoundFromSearch();
       },
+    );
+  }
+
+  ListTile nothingFoundFromSearch() {
+    return const ListTile(
+      title: Text(
+        "No Terms/Products Found",
+        style: TextStyle(fontSize: 20),
+      ),
     );
   }
 }

@@ -1,0 +1,108 @@
+{
+  "SignInForm": {
+    "greeting": "お帰りなさい！",
+    "email": "Eメール",
+    "password": "パスワード",
+    "sign_in": "ログイン",
+    "no_account": "アカウントを作成する",
+    "snackbar_greeting": "お帰りなさい",
+    "snackbar_incorrect": "メールアドレスまたはパスワードが間違っています！"
+  },
+  "SignUpForm": {
+    "greeting": "お会いできて嬉しいです！",
+    "email": "Eメール",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを認証する",
+    "sign_up": "サインアップ",
+    "yes_account": "すでにアカウントをお持ちですか？",
+    "snackbar_greeting": "正常に登録されました!いらっしゃいませ！"
+  },
+  "RegexValidation": {
+    "email_empty": "メールアドレスを入力してください",
+    "email_hint": "メールの例: abc@gmail.com",
+    "password_empty": "パスワードを入力して下さい",
+    "password_hint": "少なくとも6文字,大文字1つ,小文字1つ,数字1つ",
+    "name_empty": "名前を入力してください",
+    "name_hint": "Please enter a valid name"
+  },
+  "FeaturedItem": {
+    "message": "期間限定注目アイテム！"
+  },
+  "UserProfilePage": {
+    "registered": "ユーザー登録しました。ようこそ！",
+    "updated": "情報が更新されました！",
+    "name": "名前",
+    "address": "住所",
+    "save": "保存"
+  },
+  "EnterAddress": {
+    "no_request": "住所の入力を開始するか、ロケータ ボタンを押して現在地を使用します。",
+    "no_response": "結果が見つかりませんでした。",
+    "loading_text": "データを取得しています... お待ちください。"
+  },
+  "ShoppingCartPage": {
+    "empty": "ショッピングカートは空です"
+  },
+  "BuildItem": {
+    "size": "サイズ: ",
+    "quantity": "数量: "
+  },
+  "ProceedToCheckOut": {
+    "total": "合計:",
+    "proceed": "チェックアウトに進む"
+  },
+  "CheckoutPage": {
+    "appbar": "チェックアウト"
+  },
+  "ConfirmPurchase": {
+    "name": "名前:",
+    "address": "住所:",
+    "postal_code": "郵便番号:",
+    "total": "合計",
+    "confirm": "確認",
+    "deliver": "配達のために注文してください！"
+  },
+  "WishListPage": {
+    "empty": "あなたのウィッシュリストは空です",
+    "add_to_cart": "カートに追加",
+    "added_to_cart": "カートに追加しました"
+  },
+  "ProductPage": {
+    "brand": "Brand:",
+    "add_to_cart": "カートに追加",
+    "added_to_cart": "カートに追加しました",
+    "added_to_wishlist": "ウィッシュリストに追加",
+    "detail": "詳細",
+    "description": "説明",
+    "feature": "特徴",
+    "back_to_top": "トップに戻る"
+  },
+  "SizePickerDialog":{
+    "size_picker": "サイズを選ぶ",
+    "cancel": "キャンセル",
+    "confirm": "確認"
+  },
+  "Appbar": {
+    "profile": "プロフィール",
+    "shopping_cart": "ショッピングカート",
+    "wish_list": "ウィッシュリスト",
+    "settings": "設定"
+  },
+  "SettingPage": {
+    "appearance": "外観",
+    "language": "言語",
+    "order_hist": "注文履歴",
+    "logout": "さよなら！"
+  },
+  "OrderHistory": {
+    "order_id": "注文番号",
+    "items": "アイテム",
+    "ordered_on": "注文日",
+    "delivered_on": "配信日",
+    "view_all": "すべて見る",
+    "close": "閉じる"
+  },
+  "OrderMap": {
+    "map_title": "追跡注文"
+  }
+}
